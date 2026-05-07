@@ -86,7 +86,7 @@ export default function ModuloSitioWeb({ pricingNuevo, tieneWebPropia, slug }: P
           ⏳ La vista previa estará disponible en las próximas horas
         </p>
         <p className="text-xs text-center text-gray-400 mt-1">
-          Sin suscripción · pago único · entrega en 7 días
+          Sin suscripción · pago único · entrega en horas
         </p>
       </div>
     </div>
