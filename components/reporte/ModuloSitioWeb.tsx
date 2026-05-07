@@ -82,7 +82,10 @@ export default function ModuloSitioWeb({ pricingNuevo, tieneWebPropia, slug }: P
           <ExternalLink className="w-4 h-4 text-gray-400" />
           Ver cómo quedaría mi sitio web
         </a>
-        <p className="text-xs text-center text-gray-400 mt-2">
+        <p className="text-xs text-center text-amber-600 font-medium mt-2">
+          ⏳ La vista previa estará disponible en las próximas horas
+        </p>
+        <p className="text-xs text-center text-gray-400 mt-1">
           Sin suscripción · pago único · entrega en 7 días
         </p>
       </div>
