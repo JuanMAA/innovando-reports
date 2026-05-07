@@ -191,16 +191,18 @@ export default function BrowserMockup({ src, title, businessSlug }: Props) {
           </div>
         </div>
 
-        {/* iframe wrapper with loading overlay */}
+        {/* iframe wrapper with fade loading overlay */}
         <div className="relative flex-1">
-          {loading && (
-            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-white gap-3">
-              <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
-              <p className="text-sm text-gray-400 font-medium">
-                Cargando estilo {STYLE_OPTIONS.find(o => o.value === style)?.label}…
-              </p>
-            </div>
-          )}
+          {/* Overlay: visible while loading, fades out on load */}
+          <div
+            className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-white transition-opacity duration-500 pointer-events-none"
+            style={{ opacity: loading ? 1 : 0 }}
+          >
+            <Loader2 className="w-7 h-7 animate-spin text-gray-300" />
+            <p className="text-xs text-gray-400 font-medium tracking-wide">
+              Cargando {STYLE_OPTIONS.find(o => o.value === style)?.label}…
+            </p>
+          </div>
           <iframe
             ref={iframeRef}
             src={buildSrc(style)}
