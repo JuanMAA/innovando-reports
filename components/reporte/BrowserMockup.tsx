@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef } from 'react'
 import { RefreshCw, Lock, Monitor, Smartphone, ChevronDown, Loader2 } from 'lucide-react'
 
 interface Props {
@@ -9,100 +9,112 @@ interface Props {
   businessSlug: string
 }
 
-const DOMAIN_OPTIONS = [
+const DOMAIN_SUFFIXES = [
   { label: 'innovando.cl', suffix: '.innovando.cl', badge: 'Gratis' },
-  { label: 'innpage.net', suffix: '.innpage.net', badge: 'Gratis' },
-  { label: 'dominio propio', suffix: '.cl', badge: 'Personalizado' },
+  { label: 'innpage.net',  suffix: '.innpage.net',  badge: 'Gratis' },
+  { label: '.cl',          suffix: '.cl',           badge: 'Personalizado' },
 ]
 
 const STYLE_OPTIONS = [
-  { value: 'classic',     label: 'Clásico',    emoji: '🏠' },
-  { value: 'airbnb',      label: 'Airbnb',     emoji: '🌿' },
-  { value: 'masonry',     label: 'Masonry',    emoji: '🖼️' },
-  { value: 'tripadvisor', label: 'TripAdvisor',emoji: '🌍' },
-  { value: 'linktree',    label: 'Linktree',   emoji: '🔗' },
+  { value: 'classic',     label: 'Clásico',     emoji: '🏠' },
+  { value: 'airbnb',      label: 'Airbnb',      emoji: '🌿' },
+  { value: 'masonry',     label: 'Masonry',      emoji: '🖼️' },
+  { value: 'tripadvisor', label: 'TripAdvisor',  emoji: '🌍' },
+  { value: 'linktree',    label: 'Linktree',     emoji: '🔗' },
 ] as const
 
 type StyleValue = typeof STYLE_OPTIONS[number]['value']
 
 export default function BrowserMockup({ src, title, businessSlug }: Props) {
+  const defaultBase = businessSlug.replace(/-/g, '')
+
   const [view, setView]             = useState<'desktop' | 'mobile'>('desktop')
-  const [domain, setDomain]         = useState(0)
-  const [domainOpen, setDomainOpen] = useState(false)
+  const [suffixIdx, setSuffixIdx]   = useState(0)
+  const [suffixOpen, setSuffixOpen] = useState(false)
+  const [domainBase, setDomainBase] = useState(defaultBase)
   const [style, setStyle]           = useState<StyleValue>('classic')
+  const [iframeKey, setIframeKey]   = useState(0)   // increment → force iframe remount
   const [loading, setLoading]       = useState(true)
 
-  const iframeRef = useRef<HTMLIFrameElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
-  const base = businessSlug.replace(/-/g, '')
-  const displayUrl = `${base}${DOMAIN_OPTIONS[domain].suffix}`
+  const displayUrl = `${domainBase || defaultBase}${DOMAIN_SUFFIXES[suffixIdx].suffix}`
+  const iframeSrc  = `${src}${src.includes('?') ? '&' : '?'}style=${style}`
 
-  const buildSrc = useCallback(
-    (s: StyleValue) => `${src}${src.includes('?') ? '&' : '?'}style=${s}`,
-    [src]
-  )
-
-  const handleStyleChange = (newStyle: StyleValue) => {
+  const changeStyle = (newStyle: StyleValue) => {
     if (newStyle === style) return
     setStyle(newStyle)
     setLoading(true)
-    // Directly navigate the iframe — more reliable than changing key
-    if (iframeRef.current) {
-      iframeRef.current.src = buildSrc(newStyle)
-    }
+    setIframeKey(k => k + 1)
   }
 
   const handleRefresh = () => {
     setLoading(true)
-    if (iframeRef.current) {
-      iframeRef.current.src = buildSrc(style)
-    }
+    setIframeKey(k => k + 1)
+  }
+
+  const handleDomainInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // allow lowercase letters, numbers and hyphens only
+    setDomainBase(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))
   }
 
   return (
     <div className="flex flex-col w-full" style={{ height: 'calc(100vh - 120px)' }}>
 
-      {/* Row 1: domain selector + desktop/mobile toggle */}
+      {/* Row 1: domain editor + desktop/mobile toggle */}
       <div className="flex items-center justify-between gap-4 mb-2 px-1">
 
-        {/* Domain selector */}
-        <div className="relative">
-          <button
-            onClick={() => setDomainOpen(!domainOpen)}
-            className="inline-flex items-center gap-2 bg-white border border-gray-300 rounded-xl px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors shadow-sm"
-          >
-            <span className="text-gray-400 text-xs">Dominio:</span>
-            <span className="font-semibold text-gray-900">{DOMAIN_OPTIONS[domain].label}</span>
-            <span className={`text-xs font-semibold px-1.5 py-0.5 rounded-full ${
-              DOMAIN_OPTIONS[domain].badge === 'Gratis'
-                ? 'bg-green-100 text-green-700'
-                : 'bg-blue-100 text-blue-700'
-            }`}>
-              {DOMAIN_OPTIONS[domain].badge}
-            </span>
-            <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
-          </button>
+        {/* Domain editor: [input] . [suffix dropdown] */}
+        <div className="flex items-center gap-0 bg-white border border-gray-300 rounded-xl shadow-sm overflow-hidden">
+          <span className="pl-3 text-xs text-gray-400 font-semibold shrink-0">Dominio:</span>
+          <input
+            ref={inputRef}
+            value={domainBase}
+            onChange={handleDomainInput}
+            placeholder={defaultBase}
+            className="w-28 px-2 py-2 text-sm font-semibold text-gray-900 bg-transparent outline-none placeholder:text-gray-300"
+            spellCheck={false}
+          />
+          {/* Suffix selector */}
+          <div className="relative border-l border-gray-200">
+            <button
+              onClick={() => setSuffixOpen(!suffixOpen)}
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+            >
+              <span className="font-medium">{DOMAIN_SUFFIXES[suffixIdx].label}</span>
+              <span className={`text-xs font-semibold px-1.5 py-0.5 rounded-full ${
+                DOMAIN_SUFFIXES[suffixIdx].badge === 'Gratis'
+                  ? 'bg-green-100 text-green-700'
+                  : 'bg-blue-100 text-blue-700'
+              }`}>
+                {DOMAIN_SUFFIXES[suffixIdx].badge}
+              </span>
+              <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
+            </button>
 
-          {domainOpen && (
-            <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-lg z-10 min-w-[220px] overflow-hidden">
-              {DOMAIN_OPTIONS.map((opt, i) => (
-                <button
-                  key={i}
-                  onClick={() => { setDomain(i); setDomainOpen(false) }}
-                  className={`w-full flex items-center justify-between px-4 py-2.5 text-sm hover:bg-gray-50 transition-colors ${i === domain ? 'bg-gray-50' : ''}`}
-                >
-                  <span className="font-medium text-gray-800">{base}{opt.suffix}</span>
-                  <span className={`text-xs font-semibold px-1.5 py-0.5 rounded-full ${
-                    opt.badge === 'Gratis'
-                      ? 'bg-green-100 text-green-700'
-                      : 'bg-blue-100 text-blue-700'
-                  }`}>
-                    {opt.badge}
-                  </span>
-                </button>
-              ))}
-            </div>
-          )}
+            {suffixOpen && (
+              <div className="absolute top-full right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-lg z-20 min-w-[210px] overflow-hidden">
+                {DOMAIN_SUFFIXES.map((opt, i) => (
+                  <button
+                    key={i}
+                    onClick={() => { setSuffixIdx(i); setSuffixOpen(false) }}
+                    className={`w-full flex items-center justify-between px-4 py-2.5 text-sm hover:bg-gray-50 transition-colors ${i === suffixIdx ? 'bg-gray-50' : ''}`}
+                  >
+                    <span className="font-medium text-gray-800">
+                      {domainBase || defaultBase}{opt.suffix}
+                    </span>
+                    <span className={`text-xs font-semibold px-1.5 py-0.5 rounded-full ${
+                      opt.badge === 'Gratis'
+                        ? 'bg-green-100 text-green-700'
+                        : 'bg-blue-100 text-blue-700'
+                    }`}>
+                      {opt.badge}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* View toggle */}
@@ -136,7 +148,7 @@ export default function BrowserMockup({ src, title, businessSlug }: Props) {
           return (
             <button
               key={opt.value}
-              onClick={() => handleStyleChange(opt.value)}
+              onClick={() => changeStyle(opt.value)}
               className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all shrink-0 border ${
                 isSelected
                   ? 'bg-gray-900 text-white border-gray-900 shadow-md ring-2 ring-gray-900 ring-offset-1'
@@ -193,9 +205,8 @@ export default function BrowserMockup({ src, title, businessSlug }: Props) {
 
         {/* iframe wrapper with fade loading overlay */}
         <div className="relative flex-1">
-          {/* Overlay: visible while loading, fades out on load */}
           <div
-            className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-white transition-opacity duration-500 pointer-events-none"
+            className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-white pointer-events-none transition-opacity duration-500"
             style={{ opacity: loading ? 1 : 0 }}
           >
             <Loader2 className="w-7 h-7 animate-spin text-gray-300" />
@@ -204,8 +215,8 @@ export default function BrowserMockup({ src, title, businessSlug }: Props) {
             </p>
           </div>
           <iframe
-            ref={iframeRef}
-            src={buildSrc(style)}
+            key={iframeKey}
+            src={iframeSrc}
             className="absolute inset-0 w-full h-full border-0"
             title={title}
             onLoad={() => setLoading(false)}
