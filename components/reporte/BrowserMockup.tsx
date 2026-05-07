@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { RefreshCw, Lock, Monitor, Smartphone, ChevronDown } from 'lucide-react'
+import { useState, useRef, useCallback } from 'react'
+import { RefreshCw, Lock, Monitor, Smartphone, ChevronDown, Loader2 } from 'lucide-react'
 
 interface Props {
   src: string
@@ -16,26 +16,48 @@ const DOMAIN_OPTIONS = [
 ]
 
 const STYLE_OPTIONS = [
-  { value: 'classic',      label: 'Clásico',      emoji: '🏠' },
-  { value: 'airbnb',       label: 'Airbnb',        emoji: '🌿' },
-  { value: 'masonry',      label: 'Masonry',       emoji: '🖼️' },
-  { value: 'tripadvisor',  label: 'TripAdvisor',   emoji: '🌍' },
-  { value: 'linktree',     label: 'Linktree',      emoji: '🔗' },
+  { value: 'classic',     label: 'Clásico',    emoji: '🏠' },
+  { value: 'airbnb',      label: 'Airbnb',     emoji: '🌿' },
+  { value: 'masonry',     label: 'Masonry',    emoji: '🖼️' },
+  { value: 'tripadvisor', label: 'TripAdvisor',emoji: '🌍' },
+  { value: 'linktree',    label: 'Linktree',   emoji: '🔗' },
 ] as const
 
 type StyleValue = typeof STYLE_OPTIONS[number]['value']
 
 export default function BrowserMockup({ src, title, businessSlug }: Props) {
-  const [view, setView]           = useState<'desktop' | 'mobile'>('desktop')
-  const [domain, setDomain]       = useState(0)
+  const [view, setView]             = useState<'desktop' | 'mobile'>('desktop')
+  const [domain, setDomain]         = useState(0)
   const [domainOpen, setDomainOpen] = useState(false)
-  const [style, setStyle]         = useState<StyleValue>('classic')
+  const [style, setStyle]           = useState<StyleValue>('classic')
+  const [loading, setLoading]       = useState(true)
+
+  const iframeRef = useRef<HTMLIFrameElement>(null)
 
   const base = businessSlug.replace(/-/g, '')
   const displayUrl = `${base}${DOMAIN_OPTIONS[domain].suffix}`
 
-  // Append style param to iframe src
-  const iframeSrc = `${src}${src.includes('?') ? '&' : '?'}style=${style}`
+  const buildSrc = useCallback(
+    (s: StyleValue) => `${src}${src.includes('?') ? '&' : '?'}style=${s}`,
+    [src]
+  )
+
+  const handleStyleChange = (newStyle: StyleValue) => {
+    if (newStyle === style) return
+    setStyle(newStyle)
+    setLoading(true)
+    // Directly navigate the iframe — more reliable than changing key
+    if (iframeRef.current) {
+      iframeRef.current.src = buildSrc(newStyle)
+    }
+  }
+
+  const handleRefresh = () => {
+    setLoading(true)
+    if (iframeRef.current) {
+      iframeRef.current.src = buildSrc(style)
+    }
+  }
 
   return (
     <div className="flex flex-col w-full" style={{ height: 'calc(100vh - 120px)' }}>
@@ -109,20 +131,26 @@ export default function BrowserMockup({ src, title, businessSlug }: Props) {
       {/* Row 2: Style selector chips */}
       <div className="flex items-center gap-1.5 mb-3 px-1 overflow-x-auto pb-0.5">
         <span className="text-xs font-semibold text-gray-400 shrink-0 mr-1">Estilo:</span>
-        {STYLE_OPTIONS.map((opt) => (
-          <button
-            key={opt.value}
-            onClick={() => setStyle(opt.value)}
-            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all shrink-0 ${
-              style === opt.value
-                ? 'bg-gray-900 text-white shadow-sm'
-                : 'bg-white text-gray-600 border border-gray-300 hover:border-gray-400 hover:text-gray-900'
-            }`}
-          >
-            <span>{opt.emoji}</span>
-            {opt.label}
-          </button>
-        ))}
+        {STYLE_OPTIONS.map((opt) => {
+          const isSelected = style === opt.value
+          return (
+            <button
+              key={opt.value}
+              onClick={() => handleStyleChange(opt.value)}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all shrink-0 border ${
+                isSelected
+                  ? 'bg-gray-900 text-white border-gray-900 shadow-md ring-2 ring-gray-900 ring-offset-1'
+                  : 'bg-white text-gray-600 border-gray-300 hover:border-gray-500 hover:text-gray-900'
+              }`}
+            >
+              <span>{opt.emoji}</span>
+              {opt.label}
+              {isSelected && loading && (
+                <Loader2 className="w-3 h-3 animate-spin ml-0.5" />
+              )}
+            </button>
+          )
+        })}
       </div>
 
       {/* Browser window */}
@@ -149,8 +177,11 @@ export default function BrowserMockup({ src, title, businessSlug }: Props) {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </button>
-              <button className="w-7 h-7 rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-300 transition-colors">
-                <RefreshCw className="w-3.5 h-3.5" />
+              <button
+                onClick={handleRefresh}
+                className="w-7 h-7 rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-300 transition-colors"
+              >
+                <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
               </button>
             </div>
             <div className="flex-1 flex items-center gap-2 bg-white rounded-lg px-3 py-1.5 border border-gray-300 shadow-sm min-w-0">
@@ -160,13 +191,24 @@ export default function BrowserMockup({ src, title, businessSlug }: Props) {
           </div>
         </div>
 
-        {/* iframe */}
-        <iframe
-          key={iframeSrc}
-          src={iframeSrc}
-          className="flex-1 w-full border-0"
-          title={title}
-        />
+        {/* iframe wrapper with loading overlay */}
+        <div className="relative flex-1">
+          {loading && (
+            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-white gap-3">
+              <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+              <p className="text-sm text-gray-400 font-medium">
+                Cargando estilo {STYLE_OPTIONS.find(o => o.value === style)?.label}…
+              </p>
+            </div>
+          )}
+          <iframe
+            ref={iframeRef}
+            src={buildSrc(style)}
+            className="absolute inset-0 w-full h-full border-0"
+            title={title}
+            onLoad={() => setLoading(false)}
+          />
+        </div>
       </div>
     </div>
   )
