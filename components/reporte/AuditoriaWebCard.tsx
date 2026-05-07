@@ -1,13 +1,11 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { AlertTriangle, CheckCircle2, XCircle, Globe } from 'lucide-react'
-import { Business, CountryPricing } from '@/types'
+import { AlertTriangle, CheckCircle2, Globe } from 'lucide-react'
+import { Business } from '@/types'
 
 interface Props {
   business: Business
-  pricingOptimizar?: CountryPricing | null
-  pricingNuevo?: CountryPricing | null
 }
 
 const METRICS = [
@@ -39,30 +37,10 @@ function metricColor(score: number) {
   return { bar: 'bg-red-400', text: 'text-red-600' }
 }
 
-function Check({ text }: { text: string }) {
-  return (
-    <li className="flex items-start gap-2">
-      <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 shrink-0" />
-      <span className="text-base text-gray-700">{text}</span>
-    </li>
-  )
-}
-
-function Cross({ text }: { text: string }) {
-  return (
-    <li className="flex items-start gap-2">
-      <XCircle className="w-4 h-4 text-red-400 mt-0.5 shrink-0" />
-      <span className="text-base text-gray-700">{text}</span>
-    </li>
-  )
-}
-
-export default function AuditoriaWebCard({ business, pricingOptimizar, pricingNuevo }: Props) {
+export default function AuditoriaWebCard({ business }: Props) {
   const perf = business.lh_performance
-  const action = business.lh_action
   const lcpSeconds = business.lh_lcp_ms ? (business.lh_lcp_ms / 1000).toFixed(1) : null
   const lcpOk = business.lh_lcp_ms ? business.lh_lcp_ms < 3000 : null
-  const needsCTA = !business.website || action === 'reemplazar' || action === 'optimizar'
 
   const hostname = business.website
     ? (() => { try { return new URL(business.website.startsWith('http') ? business.website : `https://${business.website}`).hostname } catch { return business.website } })()
@@ -98,8 +76,8 @@ export default function AuditoriaWebCard({ business, pricingOptimizar, pricingNu
       </div>
 
       {/* Métricas */}
-      {perf != null && (
-        <div className="flex flex-col gap-4 mb-5 px-6 pt-5">
+      {perf != null ? (
+        <div className="flex flex-col gap-4 px-6 py-5">
           {METRICS.map((metric, i) => {
             const score = business[metric.key as keyof Business] as number | null
             if (score == null) return null
@@ -128,87 +106,20 @@ export default function AuditoriaWebCard({ business, pricingOptimizar, pricingNu
               </motion.div>
             )
           })}
+
+          {lcpSeconds && !lcpOk && (
+            <div className="flex items-start gap-2.5 rounded-xl bg-red-50 border border-red-100 p-3.5 mt-1">
+              <AlertTriangle className="w-4 h-4 text-red-500 mt-0.5 shrink-0" />
+              <p className="text-sm text-red-800 leading-relaxed">
+                Tu sitio tarda <strong>{lcpSeconds}s</strong> en cargar en móvil.
+                El 53% de los usuarios abandona sitios que tardan más de 3 segundos.
+              </p>
+            </div>
+          )}
         </div>
-      )}
-
-      {/* Alerta LCP */}
-      {lcpSeconds && !lcpOk && (
-        <div className="flex items-start gap-2.5 rounded-xl bg-red-50 border border-red-100 p-3.5 mb-5 mx-6">
-          <AlertTriangle className="w-4 h-4 text-red-500 mt-0.5 shrink-0" />
-          <p className="text-sm text-red-800 leading-relaxed">
-            Tu sitio tarda <strong>{lcpSeconds}s</strong> en cargar en móvil.
-            El 53% de los usuarios abandona sitios que tardan más de 3 segundos.
-          </p>
-        </div>
-      )}
-
-      {/* CTA — solo si es necesario */}
-      {needsCTA && (
-        <div className={`rounded-xl p-4 mx-6 mb-6 ${
-          !business.website ? 'bg-red-50 border border-red-100' :
-          action === 'reemplazar' ? 'bg-red-50 border border-red-100' :
-          'bg-amber-50 border border-amber-100'
-        }`}>
-          <p className={`text-sm font-bold mb-3 ${
-            !business.website || action === 'reemplazar' ? 'text-red-800' : 'text-amber-800'
-          }`}>
-            {!business.website
-              ? 'No tienes presencia propia en internet'
-              : action === 'reemplazar'
-              ? 'Tu sitio tiene problemas críticos'
-              : 'Tu sitio tiene problemas de velocidad y SEO'}
-          </p>
-
-          <ul className="flex flex-col gap-1.5 mb-4">
-            {!business.website ? (
-              <>
-                <Cross text="No apareces en búsquedas de Google" />
-                <Cross text="Los viajeros no pueden encontrarte online" />
-                <Cross text="Dependes 100% de las plataformas" />
-              </>
-            ) : action === 'reemplazar' ? (
-              <>
-                <Check text="Carga en menos de 2 segundos" />
-                <Check text="Optimizado para Google y ChatGPT" />
-                <Check text="Formulario de reservas directas" />
-              </>
-            ) : (
-              <>
-                <Check text="Velocidad a menos de 3s" />
-                <Check text="SEO para aparecer en Google" />
-                <Check text="100% mobile-friendly" />
-              </>
-            )}
-          </ul>
-
-          <div className="flex flex-col gap-2">
-            <a
-              href="https://innovando.cl/contacto"
-              className="inline-flex items-center justify-center rounded-xl bg-gray-900 px-5 py-3 text-sm font-semibold text-white hover:bg-gray-800 transition-colors w-full"
-            >
-              {!business.website
-                ? pricingNuevo ? `Crear mi sitio — ${pricingNuevo.price_display}` : 'Crear mi sitio web'
-                : action === 'reemplazar'
-                ? pricingNuevo ? `Reemplazar mi sitio — ${pricingNuevo.price_display}` : 'Reemplazar mi sitio'
-                : pricingOptimizar ? `Optimizar mi sitio — ${pricingOptimizar.price_display}` : 'Optimizar mi sitio'}
-            </a>
-            {action === 'reemplazar' && pricingOptimizar && (
-              <a
-                href="https://innovando.cl/contacto"
-                className="inline-flex items-center justify-center rounded-xl border border-gray-200 px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors w-full"
-              >
-                Solo optimizar — {pricingOptimizar.price_display}
-              </a>
-            )}
-            {action === 'optimizar' && (
-              <a
-                href="https://innovando.cl/contacto"
-                className="inline-flex items-center justify-center rounded-xl border border-gray-200 px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors w-full"
-              >
-                {pricingNuevo ? `Crear sitio nuevo — ${pricingNuevo.price_display}` : 'Crear sitio nuevo'}
-              </a>
-            )}
-          </div>
+      ) : (
+        <div className="px-6 py-8 text-center">
+          <p className="text-sm text-gray-400">No se encontraron datos de auditoría para este sitio.</p>
         </div>
       )}
     </div>

@@ -97,14 +97,11 @@ export default async function ReportePage({ params }: PageProps) {
 
         {/* Auditoría + Módulo sitio web */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 items-start">
-          <AuditoriaWebCard
-            business={business}
-            pricingOptimizar={pricingOptimizar}
-            pricingNuevo={pricingNuevo}
-          />
+          <AuditoriaWebCard business={business} />
           <ModuloSitioWeb
             business={business}
             pricingNuevo={pricingNuevo}
+            pricingOptimizar={pricingOptimizar}
             tieneWebPropia={!!business.website}
             slug={slug}
           />
