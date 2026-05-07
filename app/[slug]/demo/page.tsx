@@ -60,7 +60,7 @@ export default async function DemoPage({ params }: PageProps) {
       </div>
 
       {/* Browser mockup with toggle */}
-      <div className="flex-1 p-4 sm:p-6 flex flex-col items-center">
+      <div className="flex-1 p-3 sm:p-4 flex flex-col items-center w-full">
         <BrowserMockup
           src={iframeSrc}
           title={`Vista previa — ${business.name}`}

@@ -45,7 +45,7 @@ export default function BrowserMockup({ src, title, displayUrl }: Props) {
         className={`flex flex-col rounded-2xl shadow-2xl overflow-hidden border border-gray-300 bg-white transition-all duration-300 ${
           view === 'mobile' ? 'w-[390px]' : 'w-full'
         }`}
-        style={{ height: 'calc(100vh - 180px)' }}
+        style={{ height: 'calc(100vh - 160px)', minWidth: view === 'desktop' ? '100%' : undefined }}
       >
         {/* Browser chrome */}
         <div className="bg-gray-200 border-b border-gray-300 px-4 py-3 shrink-0">
