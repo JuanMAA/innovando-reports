@@ -117,8 +117,8 @@ export default function BrowserMockup({ src, title, businessSlug }: Props) {
           </div>
         </div>
 
-        {/* View toggle */}
-        <div className="flex items-center gap-1 bg-gray-200 rounded-xl p-1 shadow-inner">
+        {/* View toggle — hidden on mobile screens */}
+        <div className="hidden sm:flex items-center gap-1 bg-gray-200 rounded-xl p-1 shadow-inner">
           <button
             onClick={() => setView('desktop')}
             className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
