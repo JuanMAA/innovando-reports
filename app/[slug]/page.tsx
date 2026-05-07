@@ -109,6 +109,7 @@ export default async function ReportePage({ params }: PageProps) {
             pricingNuevo={pricingNuevo}
           />
           <ModuloSitioWeb
+            business={business}
             pricingNuevo={pricingNuevo}
             tieneWebPropia={!!business.website}
             slug={slug}

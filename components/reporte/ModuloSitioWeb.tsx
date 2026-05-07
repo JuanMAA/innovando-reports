@@ -1,7 +1,8 @@
-import { Globe, Languages, Accessibility, RefreshCw, ChevronRight, ExternalLink } from 'lucide-react'
-import { CountryPricing } from '@/types'
+import { Globe, Languages, Accessibility, RefreshCw, ChevronRight, ExternalLink, AlertTriangle, XCircle, Zap } from 'lucide-react'
+import { Business, CountryPricing } from '@/types'
 
 interface Props {
+  business: Business
   pricingNuevo?: CountryPricing | null
   tieneWebPropia: boolean
   slug: string
@@ -25,7 +26,104 @@ const FEATURES = [
   },
 ]
 
-export default function ModuloSitioWeb({ pricingNuevo, tieneWebPropia, slug }: Props) {
+function ScorePill({ label, score }: { label: string; score: number }) {
+  const color =
+    score >= 70 ? 'bg-green-50 text-green-700 border-green-200' :
+    score >= 50 ? 'bg-amber-50 text-amber-700 border-amber-200' :
+                  'bg-red-50 text-red-700 border-red-200'
+  return (
+    <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border ${color}`}>
+      {label}
+      <span className="font-black">{score}/100</span>
+    </span>
+  )
+}
+
+function DiagnosticoSection({ business, tieneWebPropia }: { business: Business; tieneWebPropia: boolean }) {
+  const perf = business.lh_performance
+  const seo  = business.lh_seo
+  const action = business.lh_action
+
+  // Sin sitio web
+  if (!tieneWebPropia) {
+    return (
+      <div className="mx-6 my-4 rounded-xl bg-red-50 border border-red-100 p-4">
+        <div className="flex items-start gap-2.5">
+          <XCircle className="w-4 h-4 text-red-500 mt-0.5 shrink-0" />
+          <div>
+            <p className="text-sm font-bold text-red-800 mb-1">
+              Te lo ofrecemos porque no tienes presencia propia
+            </p>
+            <ul className="space-y-1">
+              {[
+                'No apareces en búsquedas de Google',
+                'Los clientes no pueden encontrarte sin plataformas',
+                'Pagas comisiones en cada reserva',
+              ].map(t => (
+                <li key={t} className="text-xs text-red-700 flex items-center gap-1.5">
+                  <span className="w-1 h-1 rounded-full bg-red-400 shrink-0" />
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Sitio con problemas graves
+  if (action === 'reemplazar' || (perf !== null && perf !== undefined && perf < 30)) {
+    return (
+      <div className="mx-6 my-4 rounded-xl bg-red-50 border border-red-100 p-4">
+        <div className="flex items-start gap-2.5">
+          <AlertTriangle className="w-4 h-4 text-red-500 mt-0.5 shrink-0" />
+          <div className="w-full">
+            <p className="text-sm font-bold text-red-800 mb-2">
+              Te lo ofrecemos porque tu sitio tiene problemas críticos
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {perf != null && <ScorePill label="Velocidad" score={perf} />}
+              {seo  != null && <ScorePill label="SEO"       score={seo}  />}
+            </div>
+            {perf != null && perf < 30 && (
+              <p className="text-xs text-red-600 mt-2 leading-relaxed">
+                Un sitio con velocidad {perf}/100 pierde hasta el 70% de visitantes antes de cargar.
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Sitio con problemas de velocidad / SEO
+  if (action === 'optimizar' || (perf !== null && perf !== undefined && perf < 70)) {
+    return (
+      <div className="mx-6 my-4 rounded-xl bg-amber-50 border border-amber-100 p-4">
+        <div className="flex items-start gap-2.5">
+          <Zap className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" />
+          <div className="w-full">
+            <p className="text-sm font-bold text-amber-800 mb-2">
+              Te lo ofrecemos porque tu sitio tiene problemas de velocidad y SEO
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {perf != null && <ScorePill label="Velocidad" score={perf} />}
+              {seo  != null && <ScorePill label="SEO"       score={seo}  />}
+            </div>
+            <p className="text-xs text-amber-700 mt-2 leading-relaxed">
+              Google penaliza sitios lentos: apareces más abajo en búsquedas y pierdes clientes frente a competidores.
+            </p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  return null
+}
+
+export default function ModuloSitioWeb({ business, pricingNuevo, tieneWebPropia, slug }: Props) {
   return (
     <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden">
       {/* Header */}
@@ -47,12 +145,15 @@ export default function ModuloSitioWeb({ pricingNuevo, tieneWebPropia, slug }: P
         </div>
       </div>
 
+      {/* Diagnóstico contextual */}
+      <DiagnosticoSection business={business} tieneWebPropia={tieneWebPropia} />
+
       {/* Features */}
-      <div className="divide-y divide-gray-100">
+      <div className="divide-y divide-gray-100 border-t border-gray-100">
         {FEATURES.map(({ icon: Icon, titulo, detalle }) => (
           <div key={titulo} className="flex items-start gap-4 px-6 py-4">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gray-100 shrink-0 mt-0.5">
-              <Icon className="w-4.5 h-4.5 text-gray-600" />
+              <Icon className="w-4 h-4 text-gray-600" />
             </div>
             <div>
               <p className="text-base font-semibold text-gray-900">{titulo}</p>
