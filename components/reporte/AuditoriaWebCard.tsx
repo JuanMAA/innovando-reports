@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { AlertTriangle, CheckCircle2, XCircle } from 'lucide-react'
+import { AlertTriangle, CheckCircle2, XCircle, Globe } from 'lucide-react'
 import { Business, CountryPricing } from '@/types'
 
 interface Props {
@@ -69,30 +69,37 @@ export default function AuditoriaWebCard({ business, pricingOptimizar, pricingNu
     : null
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-6">
-      {/* Header */}
-      <div className="flex items-start justify-between mb-5">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">
-            Auditoría del sitio web
-          </p>
-          <p className="text-lg font-semibold text-gray-800 mt-1">
-            {hostname ?? 'Sin sitio web propio'}
-          </p>
-        </div>
-        {lcpSeconds && (
-          <div className={`flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full shrink-0 ${
-            lcpOk ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
-          }`}>
-            {lcpOk ? <CheckCircle2 className="w-3.5 h-3.5" /> : <AlertTriangle className="w-3.5 h-3.5" />}
-            {lcpSeconds}s carga
+    <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden">
+      {/* Header oscuro */}
+      <div className="bg-gray-900 px-6 py-5">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 shrink-0">
+              <Globe className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">
+                Auditoría del sitio web
+              </p>
+              <p className="text-lg font-bold text-white leading-tight">
+                {hostname ?? 'Sin sitio web propio'}
+              </p>
+            </div>
           </div>
-        )}
+          {lcpSeconds && (
+            <div className={`flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full shrink-0 ${
+              lcpOk ? 'bg-green-500/20 text-green-300' : 'bg-red-500/20 text-red-300'
+            }`}>
+              {lcpOk ? <CheckCircle2 className="w-3.5 h-3.5" /> : <AlertTriangle className="w-3.5 h-3.5" />}
+              {lcpSeconds}s carga
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Métricas */}
       {perf != null && (
-        <div className="flex flex-col gap-4 mb-5">
+        <div className="flex flex-col gap-4 mb-5 px-6 pt-5">
           {METRICS.map((metric, i) => {
             const score = business[metric.key as keyof Business] as number | null
             if (score == null) return null
@@ -126,7 +133,7 @@ export default function AuditoriaWebCard({ business, pricingOptimizar, pricingNu
 
       {/* Alerta LCP */}
       {lcpSeconds && !lcpOk && (
-        <div className="flex items-start gap-2.5 rounded-xl bg-red-50 border border-red-100 p-3.5 mb-5">
+        <div className="flex items-start gap-2.5 rounded-xl bg-red-50 border border-red-100 p-3.5 mb-5 mx-6">
           <AlertTriangle className="w-4 h-4 text-red-500 mt-0.5 shrink-0" />
           <p className="text-sm text-red-800 leading-relaxed">
             Tu sitio tarda <strong>{lcpSeconds}s</strong> en cargar en móvil.
@@ -137,7 +144,7 @@ export default function AuditoriaWebCard({ business, pricingOptimizar, pricingNu
 
       {/* CTA — solo si es necesario */}
       {needsCTA && (
-        <div className={`rounded-xl p-4 ${
+        <div className={`rounded-xl p-4 mx-6 mb-6 ${
           !business.website ? 'bg-red-50 border border-red-100' :
           action === 'reemplazar' ? 'bg-red-50 border border-red-100' :
           'bg-amber-50 border border-amber-100'
