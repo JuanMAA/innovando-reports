@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { Business } from '@/types'
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight, RefreshCw, Lock } from 'lucide-react'
 
 export const revalidate = 0
 
@@ -24,9 +24,13 @@ export default async function DemoPage({ params }: PageProps) {
   const webUrl = process.env.NEXT_PUBLIC_WEB_URL ?? 'http://localhost:3002'
   const iframeSrc = `${webUrl}/?id=${business.id}`
 
+  // Fake display URL
+  const displayUrl = `${business.slug.replace(/-/g, '')}.innovando.cl`
+
   return (
-    <div className="flex flex-col h-screen">
-      {/* Banner */}
+    <div className="min-h-screen bg-gray-100 flex flex-col">
+
+      {/* Innovando banner */}
       <div className="bg-gray-900 border-b border-gray-700 shrink-0">
         <div className="mx-auto max-w-6xl px-4 py-2.5 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -56,12 +60,54 @@ export default async function DemoPage({ params }: PageProps) {
         </div>
       </div>
 
-      {/* Microfrontend iframe */}
-      <iframe
-        src={iframeSrc}
-        className="flex-1 w-full border-0"
-        title={`Vista previa — ${business.name}`}
-      />
+      {/* Browser mockup */}
+      <div className="flex-1 p-4 sm:p-6 flex flex-col">
+        <div className="flex-1 rounded-2xl shadow-2xl overflow-hidden border border-gray-300 flex flex-col bg-white">
+
+          {/* Browser chrome */}
+          <div className="bg-gray-200 border-b border-gray-300 px-4 py-3 shrink-0">
+            {/* Traffic lights + nav */}
+            <div className="flex items-center gap-3">
+              {/* Dots */}
+              <div className="flex items-center gap-1.5 shrink-0">
+                <div className="w-3 h-3 rounded-full bg-red-400" />
+                <div className="w-3 h-3 rounded-full bg-amber-400" />
+                <div className="w-3 h-3 rounded-full bg-green-400" />
+              </div>
+
+              {/* Nav buttons */}
+              <div className="flex items-center gap-1 shrink-0">
+                <button className="w-7 h-7 rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-300 transition-colors">
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <button className="w-7 h-7 rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-300 transition-colors">
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+                <button className="w-7 h-7 rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-300 transition-colors">
+                  <RefreshCw className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
+              {/* Address bar */}
+              <div className="flex-1 flex items-center gap-2 bg-white rounded-lg px-3 py-1.5 border border-gray-300 shadow-sm">
+                <Lock className="w-3 h-3 text-green-500 shrink-0" />
+                <span className="text-sm text-gray-700 truncate">{displayUrl}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* iframe */}
+          <iframe
+            src={iframeSrc}
+            className="flex-1 w-full border-0"
+            title={`Vista previa — ${business.name}`}
+          />
+        </div>
+      </div>
     </div>
   )
 }
