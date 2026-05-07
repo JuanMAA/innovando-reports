@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { Business, Report, CountryPricing } from '@/types'
 import NotaGeneral from '@/components/reporte/NotaGeneral'
-import ScoreGauge from '@/components/reporte/ScoreGauge'
 import ModulosBars from '@/components/reporte/ModulosBars'
 import AuditoriaWebCard from '@/components/reporte/AuditoriaWebCard'
 import ModuloSitioWeb from '@/components/reporte/ModuloSitioWeb'
@@ -84,13 +83,8 @@ export default async function ReportePage({ params }: PageProps) {
       <main className="mx-auto max-w-6xl px-6 py-8">
         {/* Top grid: gauge + nota | modulos */}
         <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-6 mb-6">
-          {/* Left: score + nota */}
-          <div className="flex flex-col gap-5">
-            <div className="bg-white rounded-2xl border border-gray-200 p-6 flex flex-col items-center">
-              <ScoreGauge score={report.score_total} />
-            </div>
-            <NotaGeneral report={report} businessName={business.name} />
-          </div>
+          {/* Left: diagnóstico + valoración fusionados */}
+          <NotaGeneral report={report} businessName={business.name} />
 
           {/* Right: módulos */}
           <div className="bg-white rounded-2xl border border-gray-200 p-6">
