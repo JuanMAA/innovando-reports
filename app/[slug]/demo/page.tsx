@@ -24,7 +24,6 @@ export default async function DemoPage({ params }: PageProps) {
 
   const webUrl = process.env.NEXT_PUBLIC_WEB_URL ?? 'http://localhost:3002'
   const iframeSrc = `${webUrl}/?id=${business.id}`
-  const displayUrl = `${business.slug.replace(/-/g, '')}.innovando.cl`
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
@@ -64,7 +63,7 @@ export default async function DemoPage({ params }: PageProps) {
         <BrowserMockup
           src={iframeSrc}
           title={`Vista previa — ${business.name}`}
-          displayUrl={displayUrl}
+          businessSlug={business.slug}
         />
       </div>
     </div>
