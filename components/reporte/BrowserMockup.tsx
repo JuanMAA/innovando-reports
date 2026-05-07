@@ -15,19 +15,33 @@ const DOMAIN_OPTIONS = [
   { label: 'dominio propio', suffix: '.cl', badge: 'Personalizado' },
 ]
 
+const STYLE_OPTIONS = [
+  { value: 'classic',      label: 'Clásico',      emoji: '🏠' },
+  { value: 'airbnb',       label: 'Airbnb',        emoji: '🌿' },
+  { value: 'masonry',      label: 'Masonry',       emoji: '🖼️' },
+  { value: 'tripadvisor',  label: 'TripAdvisor',   emoji: '🌍' },
+  { value: 'linktree',     label: 'Linktree',      emoji: '🔗' },
+] as const
+
+type StyleValue = typeof STYLE_OPTIONS[number]['value']
+
 export default function BrowserMockup({ src, title, businessSlug }: Props) {
-  const [view, setView] = useState<'desktop' | 'mobile'>('desktop')
-  const [domain, setDomain] = useState(0)
+  const [view, setView]           = useState<'desktop' | 'mobile'>('desktop')
+  const [domain, setDomain]       = useState(0)
   const [domainOpen, setDomainOpen] = useState(false)
+  const [style, setStyle]         = useState<StyleValue>('classic')
 
   const base = businessSlug.replace(/-/g, '')
   const displayUrl = `${base}${DOMAIN_OPTIONS[domain].suffix}`
 
+  // Append style param to iframe src
+  const iframeSrc = `${src}${src.includes('?') ? '&' : '?'}style=${style}`
+
   return (
     <div className="flex flex-col w-full" style={{ height: 'calc(100vh - 120px)' }}>
 
-      {/* Controls row */}
-      <div className="flex items-center justify-between gap-4 mb-3 px-1">
+      {/* Row 1: domain selector + desktop/mobile toggle */}
+      <div className="flex items-center justify-between gap-4 mb-2 px-1">
 
         {/* Domain selector */}
         <div className="relative">
@@ -92,6 +106,25 @@ export default function BrowserMockup({ src, title, businessSlug }: Props) {
         </div>
       </div>
 
+      {/* Row 2: Style selector chips */}
+      <div className="flex items-center gap-1.5 mb-3 px-1 overflow-x-auto pb-0.5">
+        <span className="text-xs font-semibold text-gray-400 shrink-0 mr-1">Estilo:</span>
+        {STYLE_OPTIONS.map((opt) => (
+          <button
+            key={opt.value}
+            onClick={() => setStyle(opt.value)}
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all shrink-0 ${
+              style === opt.value
+                ? 'bg-gray-900 text-white shadow-sm'
+                : 'bg-white text-gray-600 border border-gray-300 hover:border-gray-400 hover:text-gray-900'
+            }`}
+          >
+            <span>{opt.emoji}</span>
+            {opt.label}
+          </button>
+        ))}
+      </div>
+
       {/* Browser window */}
       <div className={`flex flex-col flex-1 rounded-2xl shadow-2xl overflow-hidden border border-gray-300 bg-white transition-all duration-300 mx-auto ${
         view === 'mobile' ? 'w-[390px]' : 'w-full'
@@ -129,7 +162,8 @@ export default function BrowserMockup({ src, title, businessSlug }: Props) {
 
         {/* iframe */}
         <iframe
-          src={src}
+          key={iframeSrc}
+          src={iframeSrc}
           className="flex-1 w-full border-0"
           title={title}
         />
