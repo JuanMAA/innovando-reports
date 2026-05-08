@@ -63,7 +63,10 @@ export default function BrowserMockup({ src, title, businessSlug }: Props) {
     <div className="flex flex-col w-full" style={{ height: 'calc(100vh - 120px)' }}>
 
       {/* Controls: domain + style (stacked on mobile, row on desktop) */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 mb-3 px-1 sm:justify-between">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 mb-3 px-1">
+
+        {/* Left group: domain + style */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 flex-1">
 
         {/* Domain editor */}
         <div className="relative flex items-center bg-white border border-gray-300 rounded-xl shadow-sm w-full sm:w-auto">
@@ -116,7 +119,7 @@ export default function BrowserMockup({ src, title, businessSlug }: Props) {
         </div>
 
         {/* Style selector — custom dropdown with fixed "estilo:" label */}
-        <div className="relative flex items-center bg-white border border-gray-300 rounded-xl shadow-sm w-full sm:flex-1 sm:max-w-sm">
+        <div className="relative flex items-center bg-white border border-gray-300 rounded-xl shadow-sm w-full sm:w-72">
           <span className="pl-3 text-xs text-gray-400 font-semibold shrink-0 select-none">estilo:</span>
           <button
             onClick={() => setStyleOpen(o => !o)}
@@ -150,10 +153,11 @@ export default function BrowserMockup({ src, title, businessSlug }: Props) {
               </div>
             </>
           )}
-        </div>
+        </div>{/* end style selector */}
+        </div>{/* end left group */}
 
-        {/* View toggle — hidden on mobile */}
-        <div className="hidden sm:flex items-center gap-1 bg-gray-200 rounded-xl p-1 shadow-inner shrink-0">
+        {/* View toggle — hidden on mobile, pinned right */}
+        <div className="hidden sm:flex items-center gap-1 bg-gray-200 rounded-xl p-1 shadow-inner shrink-0 ml-auto">
           <button
             onClick={() => setView('desktop')}
             className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
