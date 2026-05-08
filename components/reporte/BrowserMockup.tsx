@@ -64,22 +64,23 @@ export default function BrowserMockup({ src, title, businessSlug }: Props) {
       {/* Row 1: domain editor + desktop/mobile toggle */}
       <div className="flex items-center justify-between gap-4 mb-2 px-1">
 
-        {/* Domain editor: [input] . [suffix dropdown] */}
-        <div className="flex items-center gap-0 bg-white border border-gray-300 rounded-xl shadow-sm overflow-hidden">
-          <span className="pl-3 text-xs text-gray-400 font-semibold shrink-0">Dominio:</span>
+        {/* Domain editor */}
+        <div className="relative flex items-center bg-white border border-gray-300 rounded-xl shadow-sm">
+          <span className="pl-3 text-xs text-gray-400 font-semibold shrink-0 select-none">dominio:</span>
           <input
             ref={inputRef}
             value={domainBase}
             onChange={handleDomainInput}
             placeholder={defaultBase}
-            className="w-28 px-2 py-2 text-sm font-semibold text-gray-900 bg-transparent outline-none placeholder:text-gray-300"
+            className="w-32 px-2 py-2.5 text-sm font-semibold text-gray-900 bg-transparent outline-none placeholder:text-gray-300 cursor-text"
             spellCheck={false}
+            autoComplete="off"
           />
           {/* Suffix selector */}
-          <div className="relative border-l border-gray-200">
+          <div className="relative border-l border-gray-200 shrink-0">
             <button
-              onClick={() => setSuffixOpen(!suffixOpen)}
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+              onClick={() => setSuffixOpen(o => !o)}
+              className="inline-flex items-center gap-1.5 px-3 py-2.5 text-sm text-gray-600 hover:bg-gray-50 rounded-r-xl transition-colors"
             >
               <span className="font-medium">{DOMAIN_SUFFIXES[suffixIdx].label}</span>
               <span className={`text-xs font-semibold px-1.5 py-0.5 rounded-full ${
@@ -93,26 +94,29 @@ export default function BrowserMockup({ src, title, businessSlug }: Props) {
             </button>
 
             {suffixOpen && (
-              <div className="absolute top-full right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-lg z-20 min-w-[210px] overflow-hidden">
-                {DOMAIN_SUFFIXES.map((opt, i) => (
-                  <button
-                    key={i}
-                    onClick={() => { setSuffixIdx(i); setSuffixOpen(false) }}
-                    className={`w-full flex items-center justify-between px-4 py-2.5 text-sm hover:bg-gray-50 transition-colors ${i === suffixIdx ? 'bg-gray-50' : ''}`}
-                  >
-                    <span className="font-medium text-gray-800">
-                      {domainBase || defaultBase}{opt.suffix}
-                    </span>
-                    <span className={`text-xs font-semibold px-1.5 py-0.5 rounded-full ${
-                      opt.badge === 'Gratis'
-                        ? 'bg-green-100 text-green-700'
-                        : 'bg-blue-100 text-blue-700'
-                    }`}>
-                      {opt.badge}
-                    </span>
-                  </button>
-                ))}
-              </div>
+              <>
+                <div className="fixed inset-0 z-10" onClick={() => setSuffixOpen(false)} />
+                <div className="absolute top-full right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-lg z-20 min-w-[220px]">
+                  {DOMAIN_SUFFIXES.map((opt, i) => (
+                    <button
+                      key={i}
+                      onClick={() => { setSuffixIdx(i); setSuffixOpen(false) }}
+                      className={`w-full flex items-center justify-between px-4 py-2.5 text-sm hover:bg-gray-50 transition-colors first:rounded-t-xl last:rounded-b-xl ${i === suffixIdx ? 'bg-gray-50' : ''}`}
+                    >
+                      <span className="font-medium text-gray-800">
+                        {domainBase || defaultBase}{opt.suffix}
+                      </span>
+                      <span className={`text-xs font-semibold px-1.5 py-0.5 rounded-full ${
+                        opt.badge === 'Gratis'
+                          ? 'bg-green-100 text-green-700'
+                          : 'bg-blue-100 text-blue-700'
+                      }`}>
+                        {opt.badge}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </>
             )}
           </div>
         </div>
