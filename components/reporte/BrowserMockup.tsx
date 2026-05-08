@@ -63,7 +63,7 @@ export default function BrowserMockup({ src, title, businessSlug }: Props) {
     <div className="flex flex-col w-full" style={{ height: 'calc(100vh - 120px)' }}>
 
       {/* Controls: domain + style (stacked on mobile, row on desktop) */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 mb-3 px-1">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 mb-3 px-1 sm:justify-between">
 
         {/* Domain editor */}
         <div className="relative flex items-center bg-white border border-gray-300 rounded-xl shadow-sm w-full sm:w-auto">
