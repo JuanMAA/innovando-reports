@@ -31,6 +31,7 @@ export default function BrowserMockup({ src, title, businessSlug }: Props) {
   const [view, setView]             = useState<'desktop' | 'mobile'>('desktop')
   const [suffixIdx, setSuffixIdx]   = useState(0)
   const [suffixOpen, setSuffixOpen] = useState(false)
+  const [styleOpen,  setStyleOpen]  = useState(false)
   const [domainBase, setDomainBase] = useState(defaultBase)
   const [style, setStyle]           = useState<StyleValue>('classic')
   const [iframeKey, setIframeKey]   = useState(0)   // increment → force iframe remount
@@ -61,18 +62,18 @@ export default function BrowserMockup({ src, title, businessSlug }: Props) {
   return (
     <div className="flex flex-col w-full" style={{ height: 'calc(100vh - 120px)' }}>
 
-      {/* Row 1: domain editor + desktop/mobile toggle */}
-      <div className="flex items-center justify-between gap-4 mb-2 px-1">
+      {/* Controls: domain + style (stacked on mobile, row on desktop) */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 mb-3 px-1">
 
         {/* Domain editor */}
-        <div className="relative flex items-center bg-white border border-gray-300 rounded-xl shadow-sm">
+        <div className="relative flex items-center bg-white border border-gray-300 rounded-xl shadow-sm w-full sm:w-auto">
           <span className="pl-3 text-xs text-gray-400 font-semibold shrink-0 select-none">dominio:</span>
           <input
             ref={inputRef}
             value={domainBase}
             onChange={handleDomainInput}
             placeholder={defaultBase}
-            className="w-32 px-2 py-2.5 text-sm font-semibold text-gray-900 bg-transparent outline-none placeholder:text-gray-300 cursor-text"
+            className="flex-1 sm:w-32 min-w-0 px-2 py-2.5 text-sm font-semibold text-gray-900 bg-transparent outline-none placeholder:text-gray-300 cursor-text"
             spellCheck={false}
             autoComplete="off"
           />
@@ -92,7 +93,6 @@ export default function BrowserMockup({ src, title, businessSlug }: Props) {
               </span>
               <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
             </button>
-
             {suffixOpen && (
               <>
                 <div className="fixed inset-0 z-10" onClick={() => setSuffixOpen(false)} />
@@ -103,16 +103,10 @@ export default function BrowserMockup({ src, title, businessSlug }: Props) {
                       onClick={() => { setSuffixIdx(i); setSuffixOpen(false) }}
                       className={`w-full flex items-center justify-between px-4 py-2.5 text-sm hover:bg-gray-50 transition-colors first:rounded-t-xl last:rounded-b-xl ${i === suffixIdx ? 'bg-gray-50' : ''}`}
                     >
-                      <span className="font-medium text-gray-800">
-                        {domainBase || defaultBase}{opt.suffix}
-                      </span>
+                      <span className="font-medium text-gray-800">{domainBase || defaultBase}{opt.suffix}</span>
                       <span className={`text-xs font-semibold px-1.5 py-0.5 rounded-full ${
-                        opt.badge === 'Gratis'
-                          ? 'bg-green-100 text-green-700'
-                          : 'bg-blue-100 text-blue-700'
-                      }`}>
-                        {opt.badge}
-                      </span>
+                        opt.badge === 'Gratis' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'
+                      }`}>{opt.badge}</span>
                     </button>
                   ))}
                 </div>
@@ -121,8 +115,45 @@ export default function BrowserMockup({ src, title, businessSlug }: Props) {
           </div>
         </div>
 
-        {/* View toggle — hidden on mobile screens */}
-        <div className="hidden sm:flex items-center gap-1 bg-gray-200 rounded-xl p-1 shadow-inner">
+        {/* Style selector — custom dropdown with fixed "estilo:" label */}
+        <div className="relative flex items-center bg-white border border-gray-300 rounded-xl shadow-sm w-full sm:flex-1 sm:max-w-sm">
+          <span className="pl-3 text-xs text-gray-400 font-semibold shrink-0 select-none">estilo:</span>
+          <button
+            onClick={() => setStyleOpen(o => !o)}
+            className="flex-1 flex items-center justify-between gap-2 px-2 py-2.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 rounded-r-xl transition-colors min-w-0"
+          >
+            <span className="truncate">
+              {STYLE_OPTIONS.find(o => o.value === style)?.emoji}{' '}
+              {STYLE_OPTIONS.find(o => o.value === style)?.label}
+            </span>
+            {loading
+              ? <Loader2 className="w-3.5 h-3.5 animate-spin text-gray-400 shrink-0" />
+              : <ChevronDown className="w-3.5 h-3.5 text-gray-400 shrink-0" />}
+          </button>
+          {styleOpen && (
+            <>
+              <div className="fixed inset-0 z-10" onClick={() => setStyleOpen(false)} />
+              <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-lg z-20 w-full min-w-[260px]">
+                {STYLE_OPTIONS.map((opt) => (
+                  <button
+                    key={opt.value}
+                    onClick={() => { changeStyle(opt.value); setStyleOpen(false) }}
+                    className={`w-full flex items-start gap-3 px-4 py-3 text-sm hover:bg-gray-50 transition-colors first:rounded-t-xl last:rounded-b-xl text-left ${opt.value === style ? 'bg-gray-50' : ''}`}
+                  >
+                    <span className="text-base shrink-0">{opt.emoji}</span>
+                    <span>
+                      <span className="font-semibold text-gray-900 block">{opt.label}</span>
+                      <span className="text-xs text-gray-400">{opt.desc}</span>
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* View toggle — hidden on mobile */}
+        <div className="hidden sm:flex items-center gap-1 bg-gray-200 rounded-xl p-1 shadow-inner shrink-0">
           <button
             onClick={() => setView('desktop')}
             className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
@@ -141,29 +172,6 @@ export default function BrowserMockup({ src, title, businessSlug }: Props) {
             <Smartphone className="w-4 h-4" />
             Móvil
           </button>
-        </div>
-      </div>
-
-      {/* Row 2: Style selector */}
-      <div className="flex items-center gap-2 mb-3 px-1">
-        <span className="text-xs font-semibold text-gray-400 shrink-0">Estilo:</span>
-        <div className="relative flex-1 max-w-xs">
-          <select
-            value={style}
-            onChange={(e) => changeStyle(e.target.value as StyleValue)}
-            className="w-full appearance-none bg-white border border-gray-300 rounded-xl px-3 py-2 pr-8 text-sm font-semibold text-gray-900 shadow-sm hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent cursor-pointer"
-          >
-            {STYLE_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.emoji} {opt.label} — {opt.desc}
-              </option>
-            ))}
-          </select>
-          <div className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-1">
-            {loading
-              ? <Loader2 className="w-3.5 h-3.5 animate-spin text-gray-400" />
-              : <ChevronDown className="w-3.5 h-3.5 text-gray-400" />}
-          </div>
         </div>
       </div>
 
