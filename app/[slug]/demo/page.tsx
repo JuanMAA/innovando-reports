@@ -22,8 +22,9 @@ export default async function DemoPage({ params }: PageProps) {
 
   if (!business) notFound()
 
-  const webUrl = process.env.NEXT_PUBLIC_WEB_URL ?? 'http://localhost:3002'
-  const iframeSrc = `${webUrl}/?id=${business.id}`
+  const webUrl    = process.env.NEXT_PUBLIC_WEB_URL ?? 'http://localhost:3002'
+  const bypass    = process.env.WEB_BYPASS_SECRET   // set in Vercel Dashboard → innovando-web → Settings → Deployment Protection → Protection Bypass for Automation
+  const iframeSrc = `${webUrl}/?id=${business.id}${bypass ? `&x-vercel-protection-bypass=${bypass}` : ''}`
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
