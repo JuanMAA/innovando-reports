@@ -10,10 +10,21 @@ interface Props {
 }
 
 const INCLUIDO = [
-  'Análisis de los 6 módulos',
-  'Recomendaciones accionables',
-  'Diagnóstico de redes y plataformas',
-  'Entrega en horas',
+  { label: 'Puntuación en 6 módulos',           detail: 'Google Maps, web, reputación, redes, IA y plataformas' },
+  { label: 'Recomendaciones por módulo',         detail: 'Acciones concretas para mejorar cada área' },
+  { label: 'Desglose por red social',            detail: 'Instagram, Facebook, TikTok, YouTube y TripAdvisor' },
+  { label: 'Plataformas de reserva',             detail: 'Booking, Airbnb, Expedia, Despegar y TripAdvisor' },
+  { label: 'Comparación con la competencia',     detail: 'Benchmarking vs negocios similares en tu ciudad' },
+  { label: 'Descargable en PDF',                 detail: 'Comparte o imprime tu reporte cuando quieras' },
+]
+
+// Solo los más cortos para la barra colapsada (caben en una línea)
+const INCLUIDO_SHORT = [
+  '6 módulos analizados',
+  'Redes sociales',
+  'Plataformas de reserva',
+  'Comparación competitiva',
+  'Descargable en PDF',
 ]
 
 export default function StickyTeaser({ slug, pricing }: Props) {
@@ -21,8 +32,8 @@ export default function StickyTeaser({ slug, pricing }: Props) {
 
   useEffect(() => {
     const onScroll = () => {
-      const scrolled  = window.scrollY + window.innerHeight
-      const total     = document.documentElement.scrollHeight
+      const scrolled = window.scrollY + window.innerHeight
+      const total    = document.documentElement.scrollHeight
       setAtBottom(scrolled >= total - 120)
     }
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -33,16 +44,20 @@ export default function StickyTeaser({ slug, pricing }: Props) {
   /* ── EXPANDED — al llegar al fondo ─────────────────────────── */
   if (atBottom) {
     return (
-      <div className="fixed bottom-0 left-0 right-0 z-30 transition-all duration-500"
-        style={{ background: 'linear-gradient(135deg,#111827 0%,#1f2937 60%,#111827 100%)' }}>
-
-        {/* Franja superior de features */}
-        <div className="border-b border-white/10 px-4 sm:px-6 py-3">
-          <div className="mx-auto max-w-5xl flex flex-wrap gap-x-6 gap-y-1.5 justify-center">
+      <div
+        className="fixed bottom-0 left-0 right-0 z-30 transition-all duration-500"
+        style={{ background: 'linear-gradient(135deg,#111827 0%,#1f2937 60%,#111827 100%)' }}
+      >
+        {/* Grid de features */}
+        <div className="border-b border-white/10 px-4 sm:px-6 py-4">
+          <div className="mx-auto max-w-5xl grid grid-cols-2 sm:grid-cols-3 gap-x-8 gap-y-2">
             {INCLUIDO.map((item) => (
-              <div key={item} className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                <span className="text-xs text-white/70 font-medium">{item}</span>
+              <div key={item.label} className="flex items-start gap-2">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-xs font-semibold text-white/85 leading-tight">{item.label}</p>
+                  <p className="text-xs text-white/40 leading-tight hidden sm:block">{item.detail}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -51,7 +66,6 @@ export default function StickyTeaser({ slug, pricing }: Props) {
         {/* CTA principal */}
         <div className="px-4 sm:px-6 py-4 sm:py-5">
           <div className="mx-auto max-w-5xl flex flex-col sm:flex-row items-center justify-between gap-4">
-
             <div className="text-center sm:text-left">
               <div className="flex items-center gap-2 justify-center sm:justify-start mb-1">
                 <Zap className="w-4 h-4 text-amber-400 shrink-0" />
@@ -78,11 +92,10 @@ export default function StickyTeaser({ slug, pricing }: Props) {
                 href={`/pago/${slug}`}
                 className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3.5 text-base font-black text-gray-900 hover:bg-gray-100 active:scale-95 transition-all shadow-lg"
               >
-                {pricing ? `Ver reporte — ${pricing.price_display}` : 'Ver reporte'}
+                {pricing ? `Ver reporte — ${pricing.price_display}` : 'Ver reporte completo'}
                 <ChevronRight className="w-5 h-5" />
               </a>
             </div>
-
           </div>
         </div>
       </div>
@@ -93,10 +106,10 @@ export default function StickyTeaser({ slug, pricing }: Props) {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-30 bg-white border-t border-gray-200 shadow-[0_-4px_24px_rgba(0,0,0,0.08)] transition-all duration-500">
 
-      {/* Items row — solo sm+ */}
+      {/* Items row — sm+ */}
       <div className="hidden sm:block border-b border-gray-100 px-6 py-2">
-        <div className="mx-auto max-w-5xl flex flex-wrap gap-x-6 gap-y-1 justify-center">
-          {INCLUIDO.map((item) => (
+        <div className="mx-auto max-w-5xl flex flex-wrap gap-x-5 gap-y-1 justify-center">
+          {INCLUIDO_SHORT.map((item) => (
             <div key={item} className="flex items-center gap-1.5">
               <CheckCircle2 className="w-3.5 h-3.5 text-green-500 shrink-0" />
               <span className="text-xs text-gray-500">{item}</span>
@@ -108,13 +121,12 @@ export default function StickyTeaser({ slug, pricing }: Props) {
       {/* CTA row */}
       <div className="px-4 sm:px-6 py-3">
         <div className="mx-auto max-w-5xl flex items-center justify-between gap-4">
-
           <div className="min-w-0">
             <p className="text-sm sm:text-base font-bold text-gray-900 leading-snug">
               Descubre qué te está costando clientes
             </p>
             <p className="text-xs text-gray-400 mt-0.5 hidden sm:block">
-              Sin suscripción · acceso único · entrega en horas
+              6 módulos · redes · plataformas · benchmark · PDF · sin suscripción
             </p>
           </div>
 
@@ -133,7 +145,6 @@ export default function StickyTeaser({ slug, pricing }: Props) {
               <ChevronRight className="w-4 h-4" />
             </a>
           </div>
-
         </div>
       </div>
     </div>
