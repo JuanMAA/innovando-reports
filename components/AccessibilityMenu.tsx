@@ -26,13 +26,17 @@ const DEFAULTS: Prefs = {
 
 function applyPrefs(p: Prefs) {
   const html = document.documentElement
+
+  // Dark mode → clase Tailwind (activa dark: variants en todos los componentes)
+  html.classList.toggle('dark', p.darkMode)
+
+  // Resto de efectos visuales → CSS filter (independiente del dark mode)
   const filters: string[] = []
-  if (p.darkMode)     filters.push('invert(1) hue-rotate(180deg)')
   if (p.invertColors) filters.push('invert(1)')
   if (p.grayscale)    filters.push('grayscale(1)')
   if (p.highContrast) filters.push('contrast(1.5) saturate(1.1)')
-  html.style.filter   = filters.join(' ')
-  html.dataset.darkMode      = p.darkMode      ? '1' : '0'
+  html.style.filter = filters.join(' ')
+
   html.dataset.highlightLinks = p.highlightLinks ? '1' : '0'
   html.style.fontSize = (['100%', '112%', '130%'] as const)[p.fontSize]
 }
@@ -219,10 +223,6 @@ export default function AccessibilityMenu() {
 
       {/* Global CSS overrides */}
       <style>{`
-        html[data-dark-mode="1"] img,
-        html[data-dark-mode="1"] video {
-          filter: invert(1) hue-rotate(180deg);
-        }
         html[data-highlight-links="1"] a {
           text-decoration: underline !important;
           text-decoration-thickness: 2px !important;

@@ -116,6 +116,42 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* ── Dark mode global overrides ──────────────────────────── */
+/*
+   Tailwind utility classes usan valores literales (bg-white = #fff),
+   no CSS variables, así que los sobreescribimos con mayor especificidad
+   usando .dark como prefijo (.dark .bg-white = 0-2-0 vs .bg-white = 0-1-0).
+*/
+.dark {
+  /* Fondos de cards y contenedores blancos */
+  & .bg-white        { background-color: #111827; } /* gray-900 */
+  & .bg-gray-50      { background-color: #030712; } /* gray-950 */
+  & .bg-gray-100     { background-color: #1f2937; } /* gray-800 */
+  & .bg-gray-200     { background-color: #374151; } /* gray-700 */
+
+  /* Bordes */
+  & .border-gray-100 { border-color: #1f2937; }     /* gray-800 */
+  & .border-gray-200 { border-color: #374151; }     /* gray-700 */
+  & .divide-gray-200 > * + * { border-color: #374151; }
+
+  /* Textos */
+  & .text-gray-900   { color: #f9fafb; }            /* gray-50  */
+  & .text-gray-800   { color: #f3f4f6; }            /* gray-100 */
+  & .text-gray-700   { color: #d1d5db; }            /* gray-300 */
+  & .text-gray-600   { color: #9ca3af; }            /* gray-400 */
+  & .text-gray-500   { color: #6b7280; }            /* gray-500 */
+  & .text-gray-400   { color: #4b5563; }            /* gray-600 */
+
+  /* Hover states comunes en cards */
+  & .hover\:bg-gray-50:hover  { background-color: #1f2937; }
+  & .hover\:bg-gray-100:hover { background-color: #374151; }
+
+  /* Inputs, selects */
+  & .bg-white.rounded-lg,
+  & .bg-white.rounded-xl,
+  & .bg-white.rounded-2xl { background-color: #111827; }
+}
+
 /* ── Teaser progress bar ──────────────────────────────────── */
 @keyframes teaser-progress {
   from { transform: scaleX(0); }
