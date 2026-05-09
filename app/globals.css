@@ -116,19 +116,15 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-/* ── Marquee ──────────────────────────────────────────────── */
-@keyframes marquee {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+/* ── Teaser progress bar ──────────────────────────────────── */
+@keyframes teaser-progress {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
 }
 
-.animate-marquee {
-  animation: marquee 22s linear infinite;
-  will-change: transform;
-}
-
-.animate-marquee:hover {
-  animation-play-state: paused;
+.animate-teaser-progress {
+  transform-origin: left;
+  animation: teaser-progress 3.5s linear forwards;
 }
 
 @layer base {
