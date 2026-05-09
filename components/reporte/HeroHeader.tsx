@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 interface Seccion {
   id:     string
@@ -39,10 +39,14 @@ function totalColor(score: number) {
 export default function HeroHeader({ nombre, ciudad, scoreTotal, modulos, secciones, subtitulo }: Props) {
   const [compact, setCompact] = useState(false)
   const [active,  setActive]  = useState(secciones[0]?.id ?? '')
+  const heroRef = useRef<HTMLDivElement>(null)
 
-  // Comprimir al scrollear
+  // El compact bar aparece cuando el hero se ha ido del viewport
   useEffect(() => {
-    const onScroll = () => setCompact(window.scrollY > 60)
+    const onScroll = () => {
+      const heroH = heroRef.current?.offsetHeight ?? 200
+      setCompact(window.scrollY > heroH - 20)
+    }
     window.addEventListener('scroll', onScroll, { passive: true })
     onScroll()
     return () => window.removeEventListener('scroll', onScroll)
@@ -72,40 +76,42 @@ export default function HeroHeader({ nombre, ciudad, scoreTotal, modulos, seccio
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  return (
-    <div className="print:hidden bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-20">
+  // ── Shared module bars markup ─────────────────────────────
+  const moduloBars = (
+    <div className="flex items-center gap-3 flex-1">
+      {modulos.map(({ code, score, max }) => {
+        const pct = Math.min(1, score / max)
+        const { bar, txt } = pctColors(pct)
+        return (
+          <div key={code} className="flex flex-col items-center gap-1 w-8">
+            <span className={`text-xs font-bold tabular-nums leading-none ${txt}`}>{score}</span>
+            <div className="w-full h-1 rounded-full bg-gray-200 dark:bg-gray-700">
+              <div className={`h-full rounded-full ${bar}`} style={{ width: `${pct * 100}%` }} />
+            </div>
+            <span className="text-[10px] text-gray-400 dark:text-gray-600 leading-none">{code}</span>
+          </div>
+        )
+      })}
+    </div>
+  )
 
-      {/* ── HERO EXPANDIDO ─────────────────────────────── */}
+  return (
+    <>
+      {/* ── HERO — flujo normal, NO sticky ───────────────────
+          Scrollea con la página sin causar layout shifts.         */}
       <div
-        className="overflow-hidden transition-all duration-300 ease-in-out"
-        style={{ maxHeight: compact ? '0px' : '300px', opacity: compact ? 0 : 1 }}
+        ref={heroRef}
+        className="print:hidden bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700"
       >
         <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-10">
 
-          {/* Fila: brand + barras de módulos + score total + toggle */}
+          {/* Fila: brand + barras + score total */}
           <div className="flex items-center gap-4 mb-6">
             <span className="text-xs font-black tracking-widest text-gray-300 dark:text-white/30 uppercase shrink-0">
               Innovando
             </span>
             <div className="w-px h-4 bg-gray-200 dark:bg-gray-700 shrink-0" />
-
-            <div className="flex items-center gap-3 flex-1">
-              {modulos.map(({ code, score, max }) => {
-                const pct = Math.min(1, score / max)
-                const { bar, txt } = pctColors(pct)
-                return (
-                  <div key={code} className="flex flex-col items-center gap-1 w-8">
-                    <span className={`text-xs font-bold tabular-nums leading-none ${txt}`}>{score}</span>
-                    <div className="w-full h-1 rounded-full bg-gray-200 dark:bg-gray-700">
-                      <div className={`h-full rounded-full ${bar}`} style={{ width: `${pct * 100}%` }} />
-                    </div>
-                    <span className="text-[10px] text-gray-400 dark:text-gray-600 leading-none">{code}</span>
-                  </div>
-                )
-              })}
-            </div>
-
-            {/* Score total */}
+            {moduloBars}
             <div className="shrink-0 text-right">
               <p className="text-[10px] text-gray-400 dark:text-gray-500 leading-tight uppercase tracking-wider">
                 Score total
@@ -115,7 +121,6 @@ export default function HeroHeader({ nombre, ciudad, scoreTotal, modulos, seccio
                 <span className="text-xs text-gray-300 dark:text-gray-600 font-normal">/100</span>
               </p>
             </div>
-
           </div>
 
           {/* Nombre del negocio */}
@@ -132,12 +137,16 @@ export default function HeroHeader({ nombre, ciudad, scoreTotal, modulos, seccio
         </div>
       </div>
 
-      {/* ── BARRA COMPACTA ─────────────────────────────── */}
+      {/* ── COMPACT BAR — fixed, entra desde arriba con translateY ──
+          No afecta el layout (position: fixed), sin saltos.         */}
       <div
-        className="overflow-hidden transition-all duration-300 ease-in-out"
-        style={{ maxHeight: compact ? '56px' : '0px', opacity: compact ? 1 : 0 }}
+        className={`print:hidden fixed top-0 left-0 right-0 z-20 h-14
+          bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700
+          shadow-sm dark:shadow-black/30
+          transition-transform duration-200 ease-out
+          ${compact ? 'translate-y-0' : '-translate-y-full'}`}
       >
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 h-14 flex items-center gap-3">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 h-full flex items-center gap-3">
 
           {/* Brand */}
           <button
@@ -149,7 +158,7 @@ export default function HeroHeader({ nombre, ciudad, scoreTotal, modulos, seccio
 
           <div className="w-px h-4 bg-gray-200 dark:bg-gray-700 shrink-0" />
 
-          {/* Nombre truncado */}
+          {/* Nombre */}
           <button
             onClick={scrollTop}
             className="text-sm font-semibold text-gray-600 dark:text-gray-300 truncate shrink-0 max-w-[140px] hidden sm:block hover:text-gray-900 dark:hover:text-white transition-colors"
@@ -171,7 +180,7 @@ export default function HeroHeader({ nombre, ciudad, scoreTotal, modulos, seccio
                 <button
                   key={sec.id}
                   onClick={() => scrollTo(sec.id)}
-                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs whitespace-nowrap transition-all duration-200 ${
+                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs whitespace-nowrap transition-all duration-150 ${
                     isActive
                       ? 'bg-gray-100 dark:bg-white/10 font-bold text-gray-900 dark:text-white'
                       : 'font-medium text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5'
@@ -193,16 +202,14 @@ export default function HeroHeader({ nombre, ciudad, scoreTotal, modulos, seccio
             })}
           </div>
 
-          {/* Score total compacto */}
+          {/* Score total */}
           <span className={`text-sm font-black tabular-nums shrink-0 ${totalColor(scoreTotal)}`}>
             {scoreTotal}
             <span className="text-xs text-gray-300 dark:text-gray-600 font-normal">/100</span>
           </span>
 
-
         </div>
       </div>
-
-    </div>
+    </>
   )
 }
