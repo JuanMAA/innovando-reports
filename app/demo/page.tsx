@@ -312,6 +312,9 @@ export default function DemoPage() {
             business={DEMO_BUSINESS}
             socialData={DEMO_SOCIAL_DATA}
             platformData={DEMO_PLATFORM_DATA}
+            slug="demo"
+            pricingNuevo={DEMO_PRICING_NUEVO}
+            pricingOptimizar={DEMO_PRICING_OPTIMIZAR}
           />
         </div>
 

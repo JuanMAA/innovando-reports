@@ -248,6 +248,9 @@ export default async function ReportePage({ params }: PageProps) {
             business={business}
             socialData={socialData}
             platformData={platformData}
+            slug={slug}
+            pricingNuevo={pricingNuevo}
+            pricingOptimizar={pricingOptimizar}
           />
         </div>
 
