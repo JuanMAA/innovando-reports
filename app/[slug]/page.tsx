@@ -11,6 +11,7 @@ import ComparacionBenchmark from '@/components/reporte/ComparacionBenchmark'
 import ReportarProblema from '@/components/reporte/ReportarProblema'
 import StickyTeaser from '@/components/reporte/StickyTeaser'
 import BotonDescargarPDF from '@/components/reporte/BotonDescargarPDF'
+import IndiceReporte from '@/components/reporte/IndiceReporte'
 import { parseCatKeyword, buildGroup, type BizRow, type BenchmarkData } from '@/lib/benchmark'
 
 export const revalidate = 0
@@ -164,7 +165,7 @@ export default async function ReportePage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-28">
-      <BotonDescargarPDF nombre={business.name} />
+      <IndiceReporte nombre={business.name} />
       {/* Header */}
       <header className="bg-gray-900 border-b border-gray-700 sticky top-0 z-20">
         <div className="mx-auto max-w-6xl px-6 py-3 flex items-center justify-between">
@@ -191,7 +192,7 @@ export default async function ReportePage({ params }: PageProps) {
       {/* Main content */}
       <main className="mx-auto max-w-6xl px-6 py-8">
         {/* Top grid: gauge + nota | modulos */}
-        <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-6 mb-6">
+        <div id="sec-diagnostico" className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-6 mb-6">
           {/* Left: diagnóstico + valoración fusionados */}
           <NotaGeneral report={report} businessName={business.name} />
 
@@ -205,7 +206,7 @@ export default async function ReportePage({ params }: PageProps) {
         </div>
 
         {/* Auditoría + Módulo sitio web */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 items-start">
+        <div id="sec-web" className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 items-start">
           <AuditoriaWebCard business={business} />
           <ModuloSitioWeb
             business={business}
@@ -217,7 +218,7 @@ export default async function ReportePage({ params }: PageProps) {
         </div>
 
         {/* Plataformas de reserva */}
-        <div className="mb-6">
+        <div id="sec-plataformas" className="mb-6">
           <PlataformasReserva
             platformData={platformData}
             description={description}
@@ -227,7 +228,7 @@ export default async function ReportePage({ params }: PageProps) {
 
         {/* Comparación competitiva */}
         {benchmarkData.groups.length > 0 && (
-          <div className="mb-6 bg-white rounded-2xl border border-gray-200 p-6">
+          <div id="sec-benchmark" className="mb-6 bg-white rounded-2xl border border-gray-200 p-6">
             <ComparacionBenchmark
               business={bizMetrics}
               benchmark={benchmarkData}
@@ -237,7 +238,7 @@ export default async function ReportePage({ params }: PageProps) {
         )}
 
         {/* Detalle por módulo con recomendaciones */}
-        <div className="mb-6">
+        <div id="sec-detalle" className="mb-6">
           <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">
             Análisis detallado y recomendaciones
           </p>
