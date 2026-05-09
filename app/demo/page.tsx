@@ -226,6 +226,7 @@ export default function DemoPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-28">
+      <BotonDescargarPDF nombre={DEMO_BUSINESS.name} />
       {/* Banner demo */}
       <div className="bg-blue-600 text-white text-center py-2 text-sm font-medium tracking-wide">
         ✦ Este es un reporte de ejemplo con datos ficticios — así se ve tu reporte completo ✦
@@ -253,7 +254,6 @@ export default function DemoPage() {
             </h1>
             <p className="text-base text-gray-500 mt-2">{city}</p>
           </div>
-          <BotonDescargarPDF nombre={DEMO_BUSINESS.name} />
         </div>
       </div>
 

@@ -164,6 +164,7 @@ export default async function ReportePage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-28">
+      <BotonDescargarPDF nombre={business.name} />
       {/* Header */}
       <header className="bg-gray-900 border-b border-gray-700 sticky top-0 z-20">
         <div className="mx-auto max-w-6xl px-6 py-3 flex items-center justify-between">
@@ -176,17 +177,14 @@ export default async function ReportePage({ params }: PageProps) {
 
       {/* Hero strip */}
       <div className="bg-white border-b border-gray-200">
-        <div className="mx-auto max-w-6xl px-6 py-10 flex items-end justify-between gap-4">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-2">
-              Reporte de presencia digital
-            </p>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
-              {business.name}
-            </h1>
-            {city && <p className="text-base text-gray-500 mt-2">{city}</p>}
-          </div>
-          <BotonDescargarPDF nombre={business.name} />
+        <div className="mx-auto max-w-6xl px-6 py-10">
+          <p className="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-2">
+            Reporte de presencia digital
+          </p>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+            {business.name}
+          </h1>
+          {city && <p className="text-base text-gray-500 mt-2">{city}</p>}
         </div>
       </div>
 

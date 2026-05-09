@@ -8,7 +8,6 @@ export default function BotonDescargarPDF({ nombre }: { nombre: string }) {
 
   function handlePrint() {
     setLoading(true)
-    // Pequeño delay para que el estado de loading no aparezca en el PDF
     setTimeout(() => {
       window.print()
       setLoading(false)
@@ -19,10 +18,16 @@ export default function BotonDescargarPDF({ nombre }: { nombre: string }) {
     <button
       onClick={handlePrint}
       disabled={loading}
-      className="print:hidden inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-colors disabled:opacity-50"
+      title={loading ? 'Preparando PDF…' : `Descargar PDF — ${nombre}`}
+      className="print:hidden fixed right-4 top-1/2 -translate-y-1/2 z-30 flex flex-col items-center gap-1.5 rounded-2xl bg-gray-900 border border-gray-700 px-3 py-3.5 shadow-lg hover:bg-gray-800 transition-colors disabled:opacity-50 group"
     >
-      <Download className="w-4 h-4 text-gray-400" />
-      {loading ? 'Preparando…' : 'Descargar PDF'}
+      <Download className="w-4 h-4 text-white" />
+      <span
+        className="text-white font-semibold tracking-widest"
+        style={{ fontSize: '10px', writingMode: 'vertical-rl', textOrientation: 'mixed', letterSpacing: '0.12em' }}
+      >
+        {loading ? 'PREPARANDO…' : 'DESCARGAR PDF'}
+      </span>
     </button>
   )
 }
