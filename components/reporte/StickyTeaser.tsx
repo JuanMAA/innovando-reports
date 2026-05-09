@@ -66,10 +66,10 @@ function ChipWithPopover({ chip }: { chip: typeof CHIPS[number] }) {
       )}
 
       {/* Chip */}
-      <span className="inline-flex items-center gap-1.5 bg-gray-100 hover:bg-gray-200 rounded-full px-3 py-1 cursor-help transition-colors group">
-        <CheckCircle2 className="w-3 h-3 text-green-500 shrink-0" />
-        <span className="text-xs font-medium text-gray-600 whitespace-nowrap">
-          {chip.icon} {chip.label}
+      <span className="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 rounded-full px-3.5 py-1.5 cursor-help transition-colors group">
+        <CheckCircle2 className="w-3.5 h-3.5 text-green-500 shrink-0" />
+        <span className="text-sm font-medium text-gray-700 whitespace-nowrap">
+          {chip.label}
         </span>
         <Info className="w-3 h-3 text-gray-300 group-hover:text-gray-500 shrink-0 transition-colors" />
       </span>
