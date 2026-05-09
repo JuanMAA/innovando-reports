@@ -178,11 +178,64 @@ export default async function ReportePage({ params }: PageProps) {
       />
       {/* Header */}
       <header className="bg-gray-900 border-b border-gray-700 sticky top-0 z-20">
-        <div className="mx-auto max-w-6xl px-6 py-3 flex items-center justify-between">
-          <span className="text-base font-bold tracking-tight text-white">Innovando</span>
-          <span className="text-sm text-gray-400 truncate max-w-[220px] hidden sm:block">
-            {business.name}
-          </span>
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-2.5 flex items-center gap-6">
+
+          {/* Brand */}
+          <span className="text-sm font-black tracking-tight text-white shrink-0">Innovando</span>
+
+          {/* Divider */}
+          <div className="w-px h-5 bg-gray-700 shrink-0" />
+
+          {/* Business info */}
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-semibold text-white truncate leading-tight">{business.name}</p>
+            {(business.city || business.category) && (
+              <p className="text-xs text-gray-500 truncate leading-tight">
+                {[business.category, business.city].filter(Boolean).join(' · ')}
+              </p>
+            )}
+          </div>
+
+          {/* Module scores — hidden on mobile */}
+          <div className="hidden md:flex items-center gap-3 shrink-0">
+            {[
+              { code: 'Maps',  score: business.score_p2a, max: 20 },
+              { code: 'Web',   score: business.score_p2b, max: 20 },
+              { code: 'Rep.',  score: business.score_p2c, max: 20 },
+              { code: 'Redes', score: business.score_p2d, max: 15 },
+              { code: 'IA',    score: business.score_p2e, max: 5  },
+              { code: 'Plat.', score: business.score_p2f, max: 20 },
+            ].map(({ code, score, max }) => {
+              const pct = Math.min(1, score / max)
+              const bar = pct >= 0.7 ? 'bg-green-500' : pct >= 0.4 ? 'bg-amber-400' : 'bg-red-400'
+              const txt = pct >= 0.7 ? 'text-green-400' : pct >= 0.4 ? 'text-amber-400' : 'text-red-400'
+              return (
+                <div key={code} className="flex flex-col items-center gap-1 w-8">
+                  <span className={`text-xs font-bold tabular-nums leading-none ${txt}`}>{score}</span>
+                  <div className="w-full h-1 rounded-full bg-gray-700">
+                    <div className={`h-full rounded-full ${bar}`} style={{ width: `${pct * 100}%` }} />
+                  </div>
+                  <span className="text-xs text-gray-600 leading-none">{code}</span>
+                </div>
+              )
+            })}
+          </div>
+
+          {/* Divider */}
+          <div className="hidden md:block w-px h-5 bg-gray-700 shrink-0" />
+
+          {/* Score total */}
+          <div className="shrink-0 text-right">
+            <p className="text-xs text-gray-500 leading-tight">Score</p>
+            <p className={`text-lg font-black tabular-nums leading-tight ${
+              business.score_total >= 70 ? 'text-green-400'
+              : business.score_total >= 40 ? 'text-amber-400'
+              : 'text-red-400'
+            }`}>
+              {business.score_total}<span className="text-xs text-gray-600 font-normal">/100</span>
+            </p>
+          </div>
+
         </div>
       </header>
 
