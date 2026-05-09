@@ -5,6 +5,7 @@ import NotaGeneral from '@/components/reporte/NotaGeneral'
 import ModulosBars from '@/components/reporte/ModulosBars'
 import AuditoriaWebCard from '@/components/reporte/AuditoriaWebCard'
 import ModuloSitioWeb from '@/components/reporte/ModuloSitioWeb'
+import PlataformasReserva from '@/components/reporte/PlataformasReserva'
 import ReportarProblema from '@/components/reporte/ReportarProblema'
 import StickyTeaser from '@/components/reporte/StickyTeaser'
 
@@ -37,6 +38,28 @@ export default async function ReportePage({ params }: PageProps) {
   }
 
   if (!report) notFound()
+
+  // Platform data (booking, airbnb, tripadvisor, expedia, despegar)
+  const { data: platformRows } = await supabase
+    .from('business_data')
+    .select('key, value')
+    .eq('business_id', business.id)
+    .eq('module', 'platform')
+
+  const platformData: Record<string, string | null> = Object.fromEntries(
+    (platformRows ?? []).map(r => [r.key, r.value])
+  )
+
+  // Description from maps module
+  const { data: descRow } = await supabase
+    .from('business_data')
+    .select('value')
+    .eq('business_id', business.id)
+    .eq('module', 'maps')
+    .eq('key', 'description')
+    .maybeSingle()
+
+  const description = descRow?.value ?? null
 
   const { data: pricingRows } = await supabase
     .from('country_pricing')
@@ -104,6 +127,15 @@ export default async function ReportePage({ params }: PageProps) {
             pricingOptimizar={pricingOptimizar}
             tieneWebPropia={!!business.website}
             slug={slug}
+          />
+        </div>
+
+        {/* Plataformas de reserva */}
+        <div className="mb-6">
+          <PlataformasReserva
+            platformData={platformData}
+            description={description}
+            businessName={business.name}
           />
         </div>
 
