@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { ChevronRight, CheckCircle2, Zap } from 'lucide-react'
+import { ChevronRight, CheckCircle2, Zap, Info } from 'lucide-react'
 import { CountryPricing } from '@/types'
 
 interface Props {
@@ -66,11 +66,12 @@ function ChipWithPopover({ chip }: { chip: typeof CHIPS[number] }) {
       )}
 
       {/* Chip */}
-      <span className="inline-flex items-center gap-1.5 bg-gray-100 hover:bg-gray-200 rounded-full px-3 py-1 cursor-default transition-colors">
+      <span className="inline-flex items-center gap-1.5 bg-gray-100 hover:bg-gray-200 rounded-full px-3 py-1 cursor-help transition-colors group">
         <CheckCircle2 className="w-3 h-3 text-green-500 shrink-0" />
         <span className="text-xs font-medium text-gray-600 whitespace-nowrap">
           {chip.icon} {chip.label}
         </span>
+        <Info className="w-3 h-3 text-gray-300 group-hover:text-gray-500 shrink-0 transition-colors" />
       </span>
     </div>
   )
