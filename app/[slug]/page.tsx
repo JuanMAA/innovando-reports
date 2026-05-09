@@ -176,79 +176,62 @@ export default async function ReportePage({ params }: PageProps) {
           { id: 'sec-detalle',     label: 'Recomendaciones'},
         ]}
       />
-      {/* Header */}
-      <header className="bg-gray-900 border-b border-gray-700 sticky top-0 z-20">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-2.5 flex items-center gap-6">
+      {/* Hero — marca + título + scores fusionados */}
+      <div className="bg-gray-900 border-b border-gray-700">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-10">
 
-          {/* Brand */}
-          <span className="text-sm font-black tracking-tight text-white shrink-0">Innovando</span>
+          {/* Top row: brand + módulos + score total */}
+          <div className="flex items-center gap-4 mb-6">
+            <span className="text-xs font-black tracking-widest text-white/40 uppercase shrink-0">Innovando</span>
+            <div className="w-px h-4 bg-gray-700 shrink-0" />
 
-          {/* Divider */}
-          <div className="w-px h-5 bg-gray-700 shrink-0" />
-
-          {/* Business info */}
-          <div className="min-w-0 flex-1">
-            <p className="text-sm font-semibold text-white truncate leading-tight">{business.name}</p>
-            {(business.city || business.category) && (
-              <p className="text-xs text-gray-500 truncate leading-tight">
-                {[business.category, business.city].filter(Boolean).join(' · ')}
-              </p>
-            )}
-          </div>
-
-          {/* Module scores — hidden on mobile */}
-          <div className="hidden md:flex items-center gap-3 shrink-0">
-            {[
-              { code: 'Maps',  score: business.score_p2a, max: 20 },
-              { code: 'Web',   score: business.score_p2b, max: 20 },
-              { code: 'Rep.',  score: business.score_p2c, max: 20 },
-              { code: 'Redes', score: business.score_p2d, max: 15 },
-              { code: 'IA',    score: business.score_p2e, max: 5  },
-              { code: 'Plat.', score: business.score_p2f, max: 20 },
-            ].map(({ code, score, max }) => {
-              const pct = Math.min(1, score / max)
-              const bar = pct >= 0.7 ? 'bg-green-500' : pct >= 0.4 ? 'bg-amber-400' : 'bg-red-400'
-              const txt = pct >= 0.7 ? 'text-green-400' : pct >= 0.4 ? 'text-amber-400' : 'text-red-400'
-              return (
-                <div key={code} className="flex flex-col items-center gap-1 w-8">
-                  <span className={`text-xs font-bold tabular-nums leading-none ${txt}`}>{score}</span>
-                  <div className="w-full h-1 rounded-full bg-gray-700">
-                    <div className={`h-full rounded-full ${bar}`} style={{ width: `${pct * 100}%` }} />
+            {/* Module bars */}
+            <div className="flex items-center gap-3 flex-1">
+              {[
+                { code: 'Maps',  score: business.score_p2a, max: 20 },
+                { code: 'Web',   score: business.score_p2b, max: 20 },
+                { code: 'Rep.',  score: business.score_p2c, max: 20 },
+                { code: 'Redes', score: business.score_p2d, max: 15 },
+                { code: 'IA',    score: business.score_p2e, max: 5  },
+                { code: 'Plat.', score: business.score_p2f, max: 20 },
+              ].map(({ code, score, max }) => {
+                const pct = Math.min(1, score / max)
+                const bar = pct >= 0.7 ? 'bg-green-500' : pct >= 0.4 ? 'bg-amber-400' : 'bg-red-400'
+                const txt = pct >= 0.7 ? 'text-green-400' : pct >= 0.4 ? 'text-amber-400' : 'text-red-400'
+                return (
+                  <div key={code} className="flex flex-col items-center gap-1 w-8">
+                    <span className={`text-xs font-bold tabular-nums leading-none ${txt}`}>{score}</span>
+                    <div className="w-full h-1 rounded-full bg-gray-700">
+                      <div className={`h-full rounded-full ${bar}`} style={{ width: `${pct * 100}%` }} />
+                    </div>
+                    <span className="text-[10px] text-gray-600 leading-none">{code}</span>
                   </div>
-                  <span className="text-xs text-gray-600 leading-none">{code}</span>
-                </div>
-              )
-            })}
+                )
+              })}
+            </div>
+
+            {/* Score total */}
+            <div className="shrink-0 text-right">
+              <p className="text-[10px] text-gray-500 leading-tight uppercase tracking-wider">Score total</p>
+              <p className={`text-2xl font-black tabular-nums leading-tight ${
+                business.score_total >= 70 ? 'text-green-400'
+                : business.score_total >= 40 ? 'text-amber-400'
+                : 'text-red-400'
+              }`}>
+                {business.score_total}<span className="text-xs text-gray-600 font-normal">/100</span>
+              </p>
+            </div>
           </div>
 
-          {/* Divider */}
-          <div className="hidden md:block w-px h-5 bg-gray-700 shrink-0" />
-
-          {/* Score total */}
-          <div className="shrink-0 text-right">
-            <p className="text-xs text-gray-500 leading-tight">Score</p>
-            <p className={`text-lg font-black tabular-nums leading-tight ${
-              business.score_total >= 70 ? 'text-green-400'
-              : business.score_total >= 40 ? 'text-amber-400'
-              : 'text-red-400'
-            }`}>
-              {business.score_total}<span className="text-xs text-gray-600 font-normal">/100</span>
-            </p>
-          </div>
-
-        </div>
-      </header>
-
-      {/* Hero strip */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="mx-auto max-w-6xl px-6 py-10">
-          <p className="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-2">
+          {/* Business title */}
+          <p className="text-xs font-semibold uppercase tracking-widest text-blue-400 mb-2">
             Reporte de presencia digital
           </p>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
             {business.name}
           </h1>
-          {city && <p className="text-base text-gray-500 mt-2">{city}</p>}
+          {city && <p className="text-base text-gray-400 mt-2">{city}</p>}
+
         </div>
       </div>
 
