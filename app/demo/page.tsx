@@ -232,10 +232,10 @@ export default function DemoPage() {
       </div>
 
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-20">
+      <header className="bg-gray-900 border-b border-gray-700 sticky top-0 z-20">
         <div className="mx-auto max-w-6xl px-6 py-3 flex items-center justify-between">
-          <span className="text-base font-bold tracking-tight text-gray-900">Innovando</span>
-          <span className="text-sm text-gray-500 truncate max-w-[220px] hidden sm:block">
+          <span className="text-base font-bold tracking-tight text-white">Innovando</span>
+          <span className="text-sm text-gray-400 truncate max-w-[220px] hidden sm:block">
             {DEMO_BUSINESS.name}
           </span>
         </div>
