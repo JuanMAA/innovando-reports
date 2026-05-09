@@ -10,13 +10,71 @@ interface Props {
 }
 
 const CHIPS = [
-  { label: 'Puntuación en 6 módulos',       icon: '📊' },
-  { label: 'Recomendaciones por módulo',     icon: '🎯' },
-  { label: 'Desglose por red social',        icon: '📱' },
-  { label: 'Plataformas de reserva',         icon: '🏨' },
-  { label: 'Vs la competencia',              icon: '📈' },
-  { label: 'Descargable en PDF',             icon: '📄' },
+  {
+    label:  'Puntuación en 6 módulos',
+    icon:   '📊',
+    detail: 'Google Maps, sitio web, reputación, redes sociales, IA & SEO y plataformas de reserva — todo en un solo número.',
+  },
+  {
+    label:  'Recomendaciones por módulo',
+    icon:   '🎯',
+    detail: 'Para cada módulo, qué mejorar primero, cómo hacerlo y qué impacto tiene en tu visibilidad y reservas.',
+  },
+  {
+    label:  'Desglose por red social',
+    icon:   '📱',
+    detail: 'Tips específicos para Instagram, Facebook, TikTok, YouTube y TripAdvisor — según si los tienes o no.',
+  },
+  {
+    label:  'Plataformas de reserva',
+    icon:   '🏨',
+    detail: 'Estado en Booking.com, Airbnb, Expedia, Despegar y TripAdvisor con botones directos para reservar.',
+  },
+  {
+    label:  'Vs la competencia',
+    icon:   '📈',
+    detail: 'Benchmark vs negocios similares en tu ciudad: dónde estás parado frente al mercado real.',
+  },
+  {
+    label:  'Descargable en PDF',
+    icon:   '📄',
+    detail: 'Guarda o imprime tu reporte en cualquier momento para compartirlo con tu equipo o contabilidad.',
+  },
 ]
+
+function ChipWithPopover({ chip }: { chip: typeof CHIPS[number] }) {
+  const [open, setOpen] = useState(false)
+
+  return (
+    <div
+      className="relative"
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
+      {/* Popover */}
+      {open && (
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 w-56 z-50 pointer-events-none">
+          <div className="bg-gray-900 rounded-xl px-3.5 py-3 shadow-xl">
+            <p className="text-xs font-bold text-white leading-tight mb-1">
+              {chip.icon} {chip.label}
+            </p>
+            <p className="text-xs text-white/60 leading-snug">{chip.detail}</p>
+          </div>
+          {/* Arrow */}
+          <div className="w-2.5 h-2.5 bg-gray-900 rotate-45 mx-auto -mt-1.5 rounded-sm" />
+        </div>
+      )}
+
+      {/* Chip */}
+      <span className="inline-flex items-center gap-1.5 bg-gray-100 hover:bg-gray-200 rounded-full px-3 py-1 cursor-default transition-colors">
+        <CheckCircle2 className="w-3 h-3 text-green-500 shrink-0" />
+        <span className="text-xs font-medium text-gray-600 whitespace-nowrap">
+          {chip.icon} {chip.label}
+        </span>
+      </span>
+    </div>
+  )
+}
 
 export default function StickyTeaser({ slug, pricing }: Props) {
   const [atBottom, setAtBottom] = useState(false)
@@ -92,17 +150,9 @@ export default function StickyTeaser({ slug, pricing }: Props) {
 
       {/* Chips row */}
       <div className="border-b border-gray-100 px-4 sm:px-6 py-2">
-        <div className="mx-auto max-w-5xl flex flex-wrap gap-x-3 gap-y-1.5 justify-start sm:justify-center">
+        <div className="mx-auto max-w-5xl flex flex-wrap gap-x-2 gap-y-1.5 justify-start sm:justify-center">
           {CHIPS.map((chip) => (
-            <span
-              key={chip.label}
-              className="inline-flex items-center gap-1.5 bg-gray-100 rounded-full px-3 py-1"
-            >
-              <CheckCircle2 className="w-3 h-3 text-green-500 shrink-0" />
-              <span className="text-xs font-medium text-gray-600 whitespace-nowrap">
-                {chip.icon} {chip.label}
-              </span>
-            </span>
+            <ChipWithPopover key={chip.label} chip={chip} />
           ))}
         </div>
       </div>
