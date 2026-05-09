@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { Business, Report, CountryPricing } from '@/types'
+import HeroHeader from '@/components/reporte/HeroHeader'
 import NotaGeneral from '@/components/reporte/NotaGeneral'
 import ModulosBars from '@/components/reporte/ModulosBars'
 import ModulosDetalle from '@/components/reporte/ModulosDetalle'
@@ -10,8 +11,6 @@ import PlataformasReserva from '@/components/reporte/PlataformasReserva'
 import ComparacionBenchmark from '@/components/reporte/ComparacionBenchmark'
 import ReportarProblema from '@/components/reporte/ReportarProblema'
 import StickyTeaser from '@/components/reporte/StickyTeaser'
-import BotonDescargarPDF from '@/components/reporte/BotonDescargarPDF'
-import IndiceReporte from '@/components/reporte/IndiceReporte'
 import { parseCatKeyword, buildGroup, type BizRow, type BenchmarkData } from '@/lib/benchmark'
 
 export const revalidate = 0
@@ -165,75 +164,26 @@ export default async function ReportePage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-28">
-      <IndiceReporte
+      <HeroHeader
         nombre={business.name}
+        ciudad={city}
         scoreTotal={business.score_total}
+        modulos={[
+          { code: 'Maps',  score: business.score_p2a, max: 20 },
+          { code: 'Web',   score: business.score_p2b, max: 20 },
+          { code: 'Rep.',  score: business.score_p2c, max: 20 },
+          { code: 'Redes', score: business.score_p2d, max: 15 },
+          { code: 'IA',    score: business.score_p2e, max: 5  },
+          { code: 'Plat.', score: business.score_p2f, max: 20 },
+        ]}
         secciones={[
-          { id: 'sec-diagnostico', label: 'Diagnóstico'    },
-          { id: 'sec-web',         label: 'Sitio web',      score: business.score_p2b, max: 20 },
-          { id: 'sec-plataformas', label: 'Plataformas',    score: business.score_p2f, max: 20 },
-          { id: 'sec-benchmark',   label: 'Competencia'    },
-          { id: 'sec-detalle',     label: 'Recomendaciones'},
+          { id: 'sec-diagnostico', label: 'Diagnóstico'                                    },
+          { id: 'sec-web',         label: 'Sitio web',   score: business.score_p2b, max: 20 },
+          { id: 'sec-plataformas', label: 'Plataformas', score: business.score_p2f, max: 20 },
+          { id: 'sec-benchmark',   label: 'Competencia'                                    },
+          { id: 'sec-detalle',     label: 'Recomendaciones'                                },
         ]}
       />
-      {/* Hero — marca + título + scores fusionados */}
-      <div className="bg-gray-900 border-b border-gray-700">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-10">
-
-          {/* Top row: brand + módulos + score total */}
-          <div className="flex items-center gap-4 mb-6">
-            <span className="text-xs font-black tracking-widest text-white/40 uppercase shrink-0">Innovando</span>
-            <div className="w-px h-4 bg-gray-700 shrink-0" />
-
-            {/* Module bars */}
-            <div className="flex items-center gap-3 flex-1">
-              {[
-                { code: 'Maps',  score: business.score_p2a, max: 20 },
-                { code: 'Web',   score: business.score_p2b, max: 20 },
-                { code: 'Rep.',  score: business.score_p2c, max: 20 },
-                { code: 'Redes', score: business.score_p2d, max: 15 },
-                { code: 'IA',    score: business.score_p2e, max: 5  },
-                { code: 'Plat.', score: business.score_p2f, max: 20 },
-              ].map(({ code, score, max }) => {
-                const pct = Math.min(1, score / max)
-                const bar = pct >= 0.7 ? 'bg-green-500' : pct >= 0.4 ? 'bg-amber-400' : 'bg-red-400'
-                const txt = pct >= 0.7 ? 'text-green-400' : pct >= 0.4 ? 'text-amber-400' : 'text-red-400'
-                return (
-                  <div key={code} className="flex flex-col items-center gap-1 w-8">
-                    <span className={`text-xs font-bold tabular-nums leading-none ${txt}`}>{score}</span>
-                    <div className="w-full h-1 rounded-full bg-gray-700">
-                      <div className={`h-full rounded-full ${bar}`} style={{ width: `${pct * 100}%` }} />
-                    </div>
-                    <span className="text-[10px] text-gray-600 leading-none">{code}</span>
-                  </div>
-                )
-              })}
-            </div>
-
-            {/* Score total */}
-            <div className="shrink-0 text-right">
-              <p className="text-[10px] text-gray-500 leading-tight uppercase tracking-wider">Score total</p>
-              <p className={`text-2xl font-black tabular-nums leading-tight ${
-                business.score_total >= 70 ? 'text-green-400'
-                : business.score_total >= 40 ? 'text-amber-400'
-                : 'text-red-400'
-              }`}>
-                {business.score_total}<span className="text-xs text-gray-600 font-normal">/100</span>
-              </p>
-            </div>
-          </div>
-
-          {/* Business title */}
-          <p className="text-xs font-semibold uppercase tracking-widest text-blue-400 mb-2">
-            Reporte de presencia digital
-          </p>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
-            {business.name}
-          </h1>
-          {city && <p className="text-base text-gray-400 mt-2">{city}</p>}
-
-        </div>
-      </div>
 
       {/* Main content */}
       <main className="mx-auto max-w-6xl px-6 py-8">

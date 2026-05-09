@@ -6,9 +6,9 @@ import AuditoriaWebCard from '@/components/reporte/AuditoriaWebCard'
 import ModuloSitioWeb from '@/components/reporte/ModuloSitioWeb'
 import PlataformasReserva from '@/components/reporte/PlataformasReserva'
 import ComparacionBenchmark from '@/components/reporte/ComparacionBenchmark'
+import HeroHeader from '@/components/reporte/HeroHeader'
 import ReportarProblema from '@/components/reporte/ReportarProblema'
 import StickyTeaser from '@/components/reporte/StickyTeaser'
-import IndiceReporte from '@/components/reporte/IndiceReporte'
 import { buildGroup, type BizRow, type BenchmarkData } from '@/lib/benchmark'
 
 // ─────────────────────────────────────────────────────────────
@@ -226,80 +226,32 @@ export default function DemoPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-28">
-      <IndiceReporte
-        nombre={DEMO_BUSINESS.name}
-        scoreTotal={DEMO_BUSINESS.score_total}
-        secciones={[
-          { id: 'sec-diagnostico', label: 'Diagnóstico'    },
-          { id: 'sec-web',         label: 'Sitio web',      score: DEMO_BUSINESS.score_p2b, max: 20 },
-          { id: 'sec-plataformas', label: 'Plataformas',    score: DEMO_BUSINESS.score_p2f, max: 20 },
-          { id: 'sec-benchmark',   label: 'Competencia'    },
-          { id: 'sec-detalle',     label: 'Recomendaciones'},
-        ]}
-      />
       {/* Banner demo */}
-      <div className="bg-blue-600 text-white text-center py-2 text-sm font-medium tracking-wide">
+      <div className="bg-blue-600 text-white text-center py-2 text-sm font-medium tracking-wide sticky top-0 z-30">
         ✦ Este es un reporte de ejemplo con datos ficticios — así se ve tu reporte completo ✦
       </div>
 
-      {/* Hero — marca + título + scores fusionados */}
-      <div className="bg-gray-900 border-b border-gray-700">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-10">
-
-          {/* Top row: brand + módulos + score total */}
-          <div className="flex items-center gap-4 mb-6">
-            <span className="text-xs font-black tracking-widest text-white/40 uppercase shrink-0">Innovando</span>
-            <div className="w-px h-4 bg-gray-700 shrink-0" />
-
-            {/* Module bars */}
-            <div className="flex items-center gap-3 flex-1">
-              {[
-                { code: 'Maps',  score: DEMO_BUSINESS.score_p2a, max: 20 },
-                { code: 'Web',   score: DEMO_BUSINESS.score_p2b, max: 20 },
-                { code: 'Rep.',  score: DEMO_BUSINESS.score_p2c, max: 20 },
-                { code: 'Redes', score: DEMO_BUSINESS.score_p2d, max: 15 },
-                { code: 'IA',    score: DEMO_BUSINESS.score_p2e, max: 5  },
-                { code: 'Plat.', score: DEMO_BUSINESS.score_p2f, max: 20 },
-              ].map(({ code, score, max }) => {
-                const pct = Math.min(1, score / max)
-                const bar = pct >= 0.7 ? 'bg-green-500' : pct >= 0.4 ? 'bg-amber-400' : 'bg-red-400'
-                const txt = pct >= 0.7 ? 'text-green-400' : pct >= 0.4 ? 'text-amber-400' : 'text-red-400'
-                return (
-                  <div key={code} className="flex flex-col items-center gap-1 w-8">
-                    <span className={`text-xs font-bold tabular-nums leading-none ${txt}`}>{score}</span>
-                    <div className="w-full h-1 rounded-full bg-gray-700">
-                      <div className={`h-full rounded-full ${bar}`} style={{ width: `${pct * 100}%` }} />
-                    </div>
-                    <span className="text-[10px] text-gray-600 leading-none">{code}</span>
-                  </div>
-                )
-              })}
-            </div>
-
-            {/* Score total */}
-            <div className="shrink-0 text-right">
-              <p className="text-[10px] text-gray-500 leading-tight uppercase tracking-wider">Score total</p>
-              <p className={`text-2xl font-black tabular-nums leading-tight ${
-                DEMO_BUSINESS.score_total >= 70 ? 'text-green-400'
-                : DEMO_BUSINESS.score_total >= 40 ? 'text-amber-400'
-                : 'text-red-400'
-              }`}>
-                {DEMO_BUSINESS.score_total}<span className="text-xs text-gray-600 font-normal">/100</span>
-              </p>
-            </div>
-          </div>
-
-          {/* Business title */}
-          <p className="text-xs font-semibold uppercase tracking-widest text-blue-400 mb-2">
-            Reporte de presencia digital — Ejemplo
-          </p>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
-            {DEMO_BUSINESS.name}
-          </h1>
-          <p className="text-base text-gray-400 mt-2">{city}</p>
-
-        </div>
-      </div>
+      <HeroHeader
+        nombre={DEMO_BUSINESS.name}
+        ciudad={city}
+        scoreTotal={DEMO_BUSINESS.score_total}
+        subtitulo="Reporte de presencia digital — Ejemplo"
+        modulos={[
+          { code: 'Maps',  score: DEMO_BUSINESS.score_p2a, max: 20 },
+          { code: 'Web',   score: DEMO_BUSINESS.score_p2b, max: 20 },
+          { code: 'Rep.',  score: DEMO_BUSINESS.score_p2c, max: 20 },
+          { code: 'Redes', score: DEMO_BUSINESS.score_p2d, max: 15 },
+          { code: 'IA',    score: DEMO_BUSINESS.score_p2e, max: 5  },
+          { code: 'Plat.', score: DEMO_BUSINESS.score_p2f, max: 20 },
+        ]}
+        secciones={[
+          { id: 'sec-diagnostico', label: 'Diagnóstico'                                         },
+          { id: 'sec-web',         label: 'Sitio web',   score: DEMO_BUSINESS.score_p2b, max: 20 },
+          { id: 'sec-plataformas', label: 'Plataformas', score: DEMO_BUSINESS.score_p2f, max: 20 },
+          { id: 'sec-benchmark',   label: 'Competencia'                                         },
+          { id: 'sec-detalle',     label: 'Recomendaciones'                                     },
+        ]}
+      />
 
       {/* Main content */}
       <main className="mx-auto max-w-6xl px-6 py-8">
