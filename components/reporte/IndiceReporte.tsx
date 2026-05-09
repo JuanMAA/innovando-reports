@@ -51,7 +51,7 @@ export default function IndiceReporte({ nombre }: Props) {
 
   return (
     <div className="print:hidden fixed right-4 top-1/2 -translate-y-1/2 z-30 flex flex-col items-end gap-1 hidden lg:flex">
-      {SECCIONES.map((sec, i) => {
+      {SECCIONES.map((sec) => {
         const isActive = active === sec.id
         return (
           <button
@@ -59,21 +59,18 @@ export default function IndiceReporte({ nombre }: Props) {
             onClick={() => scrollTo(sec.id)}
             className="group flex items-center gap-2"
           >
-            {/* Label — visible on hover or active */}
             <span className={`
-              text-xs font-medium px-2 py-0.5 rounded-full transition-all duration-200 whitespace-nowrap
+              text-xs whitespace-nowrap transition-all duration-200
               ${isActive
-                ? 'opacity-100 text-gray-800 bg-white border border-gray-200 shadow-sm'
-                : 'opacity-0 group-hover:opacity-100 text-gray-500 bg-white border border-gray-200 shadow-sm'
+                ? 'font-bold text-gray-900'
+                : 'font-medium text-gray-400 hover:text-gray-600'
               }
             `}>
               {sec.label}
             </span>
-
-            {/* Dot */}
             <span className={`
               rounded-full shrink-0 transition-all duration-300
-              ${isActive ? 'w-2.5 h-2.5 bg-gray-800' : 'w-1.5 h-1.5 bg-gray-300 group-hover:bg-gray-500'}
+              ${isActive ? 'w-2 h-2 bg-gray-900' : 'w-1.5 h-1.5 bg-gray-300 group-hover:bg-gray-400'}
             `} />
           </button>
         )
@@ -86,15 +83,13 @@ export default function IndiceReporte({ nombre }: Props) {
       <button
         onClick={handlePrint}
         disabled={loading}
-        title={loading ? 'Preparando PDF…' : `Descargar PDF — ${nombre}`}
         className="group flex items-center gap-2 mt-1"
       >
-        <span className="text-xs font-medium px-2 py-0.5 rounded-full text-gray-500 bg-white border border-gray-200 shadow-sm opacity-0 group-hover:opacity-100 transition-all duration-200 whitespace-nowrap">
-          {loading ? 'Preparando…' : 'Descargar PDF'}
+        <span className="text-xs font-medium text-gray-400 hover:text-gray-600 transition-colors whitespace-nowrap flex items-center gap-1.5">
+          <Download className="w-3 h-3" />
+          {loading ? 'Preparando…' : 'PDF'}
         </span>
-        <span className="flex items-center justify-center w-6 h-6 rounded-full bg-gray-800 shrink-0">
-          <Download className="w-3 h-3 text-white" />
-        </span>
+        <span className="w-1.5 h-1.5 rounded-full bg-gray-200 group-hover:bg-gray-400 transition-colors shrink-0" />
       </button>
     </div>
   )
