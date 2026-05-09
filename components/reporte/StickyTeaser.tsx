@@ -106,13 +106,14 @@ export default function StickyTeaser({ slug, pricing }: Props) {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-30 bg-white border-t border-gray-200 shadow-[0_-4px_24px_rgba(0,0,0,0.08)] transition-all duration-500">
 
-      {/* Items row — sm+ */}
-      <div className="hidden sm:block border-b border-gray-100 px-6 py-2">
-        <div className="mx-auto max-w-5xl flex flex-wrap gap-x-5 gap-y-1 justify-center">
-          {INCLUIDO_SHORT.map((item) => (
-            <div key={item} className="flex items-center gap-1.5">
+      {/* Marquee row */}
+      <div className="border-b border-gray-100 py-2 overflow-hidden">
+        <div className="flex animate-marquee whitespace-nowrap">
+          {/* Duplicamos para loop continuo */}
+          {[...INCLUIDO_SHORT, ...INCLUIDO_SHORT].map((item, i) => (
+            <div key={i} className="inline-flex items-center gap-1.5 mx-5 shrink-0">
               <CheckCircle2 className="w-3.5 h-3.5 text-green-500 shrink-0" />
-              <span className="text-xs text-gray-500">{item}</span>
+              <span className="text-xs text-gray-500 font-medium">{item}</span>
             </div>
           ))}
         </div>
