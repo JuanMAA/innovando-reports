@@ -6,8 +6,10 @@ import ModulosBars from '@/components/reporte/ModulosBars'
 import AuditoriaWebCard from '@/components/reporte/AuditoriaWebCard'
 import ModuloSitioWeb from '@/components/reporte/ModuloSitioWeb'
 import PlataformasReserva from '@/components/reporte/PlataformasReserva'
+import ComparacionBenchmark from '@/components/reporte/ComparacionBenchmark'
 import ReportarProblema from '@/components/reporte/ReportarProblema'
 import StickyTeaser from '@/components/reporte/StickyTeaser'
+import { parseCatKeyword, buildGroup, type BizRow, type BenchmarkData } from '@/lib/benchmark'
 
 export const revalidate = 0
 
@@ -60,6 +62,78 @@ export default async function ReportePage({ params }: PageProps) {
     .maybeSingle()
 
   const description = descRow?.value ?? null
+
+  // ── Benchmark data ────────────────────────────────────────
+  const BENCH_SELECT = 'score_total,score_p2a,score_p2c,score_p2f,rating,num_reviews,lh_performance,category'
+
+  const catParsed  = parseCatKeyword(business.category)
+  const catKeyword = catParsed?.keyword ?? null
+  const catLabel   = catParsed?.label   ?? (business.category ?? 'Negocios similares')
+
+  // Fetch en paralelo: ciudad + categoría (sin este negocio)
+  const [cityRes, catRes] = await Promise.all([
+    business.city
+      ? supabase.from('businesses').select(BENCH_SELECT).eq('city', business.city).neq('id', business.id)
+      : Promise.resolve({ data: [] }),
+    catKeyword
+      ? supabase.from('businesses').select(BENCH_SELECT).ilike('category', `%${catKeyword}%`).neq('id', business.id)
+      : Promise.resolve({ data: [] }),
+  ])
+
+  const cityRows = (cityRes.data ?? []) as BizRow[]
+  const catRows  = (catRes.data  ?? []) as BizRow[]
+
+  // Ciudad + Categoría (intersección)
+  const cityCatRows = catRows.filter(
+    r => r.category && cityRows.some(
+      c => c.score_total === r.score_total // proxy join (mismo score+cat en ciudad)
+    )
+  )
+  // Más preciso: re-fetch con ambos filtros si hay ciudad y keyword
+  let cityCatRowsFinal = cityCatRows
+  if (business.city && catKeyword) {
+    const { data } = await supabase
+      .from('businesses')
+      .select(BENCH_SELECT)
+      .eq('city', business.city)
+      .ilike('category', `%${catKeyword}%`)
+      .neq('id', business.id)
+    cityCatRowsFinal = (data ?? []) as BizRow[]
+  }
+
+  const bizMetrics: BizRow = {
+    score_total:    business.score_total,
+    score_p2a:      business.score_p2a,
+    score_p2c:      business.score_p2c,
+    score_p2f:      business.score_p2f,
+    rating:         business.rating,
+    num_reviews:    business.num_reviews,
+    lh_performance: business.lh_performance,
+    category:       business.category,
+  }
+
+  const benchmarkGroups = [
+    cityRows.length >= 3
+      ? buildGroup(`${catLabel} en ${business.city}`, '', cityRows, bizMetrics)
+      : null,
+    cityCatRowsFinal.length >= 3
+      ? buildGroup(`${catLabel} similares en ${business.city}`, '', cityCatRowsFinal, bizMetrics)
+      : null,
+    catRows.length >= 3
+      ? buildGroup(`${catLabel} en toda la base`, '', catRows, bizMetrics)
+      : null,
+  ].filter(Boolean) as import('@/lib/benchmark').BenchmarkGroup[]
+
+  // Añadir sublabels con conteo
+  benchmarkGroups.forEach(g => {
+    g.sublabel = `${g.n} negocio${g.n !== 1 ? 's' : ''} comparado${g.n !== 1 ? 's' : ''}`
+  })
+
+  const benchmarkData: BenchmarkData = {
+    catKeyword,
+    catLabel,
+    groups: benchmarkGroups,
+  }
 
   const { data: pricingRows } = await supabase
     .from('country_pricing')
@@ -138,6 +212,17 @@ export default async function ReportePage({ params }: PageProps) {
             businessName={business.name}
           />
         </div>
+
+        {/* Comparación competitiva */}
+        {benchmarkData.groups.length > 0 && (
+          <div className="mb-6 bg-white rounded-2xl border border-gray-200 p-6">
+            <ComparacionBenchmark
+              business={bizMetrics}
+              benchmark={benchmarkData}
+              businessName={business.name}
+            />
+          </div>
+        )}
 
         {/* Report a problem */}
         <ReportarProblema businessId={business.id} />
