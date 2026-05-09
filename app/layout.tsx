@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import AccessibilityMenu from '@/components/AccessibilityMenu'
 import './globals.css'
 
 const inter = Inter({
@@ -29,6 +30,7 @@ export default function RootLayout({
     <html lang="es" className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
       <body className="min-h-full bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 font-[family-name:var(--font-inter)]">
           {children}
+          <AccessibilityMenu />
         </body>
     </html>
   )

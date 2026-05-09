@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import ThemeToggle from './ThemeToggle'
 
 interface Seccion {
   id:     string
@@ -117,8 +116,6 @@ export default function HeroHeader({ nombre, ciudad, scoreTotal, modulos, seccio
               </p>
             </div>
 
-            {/* Dark mode toggle */}
-            <ThemeToggle />
           </div>
 
           {/* Nombre del negocio */}
@@ -202,8 +199,6 @@ export default function HeroHeader({ nombre, ciudad, scoreTotal, modulos, seccio
             <span className="text-xs text-gray-300 dark:text-gray-600 font-normal">/100</span>
           </span>
 
-          {/* Dark mode toggle */}
-          <ThemeToggle />
 
         </div>
       </div>
