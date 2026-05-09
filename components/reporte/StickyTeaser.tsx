@@ -43,7 +43,7 @@ const FEATURES = [
   },
 ]
 
-const INTERVAL = 3500 // ms por slide
+const INTERVAL = 5000 // ms por slide
 
 export default function StickyTeaser({ slug, pricing }: Props) {
   const [atBottom,   setAtBottom]   = useState(false)
@@ -145,36 +145,44 @@ export default function StickyTeaser({ slug, pricing }: Props) {
   const feature = FEATURES[current]
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-30 bg-white border-t border-gray-200 shadow-[0_-4px_24px_rgba(0,0,0,0.08)]">
+    <div className="fixed bottom-0 left-0 right-0 z-30 shadow-[0_-4px_32px_rgba(0,0,0,0.12)]">
 
-      {/* ── Carousel ── */}
-      <div className="border-b border-gray-100 px-4 sm:px-6 py-2.5 overflow-hidden relative">
-        <div className="mx-auto max-w-5xl flex items-center gap-4">
+      {/* ── Carousel + CTA — una sola franja integrada ── */}
+      <div className="bg-gray-950 relative overflow-hidden">
 
-          {/* Slide animado */}
-          <div className="flex-1 min-w-0 relative h-10">
+        {/* Progress bar arriba */}
+        <div className="absolute top-0 left-0 right-0 h-0.5 bg-white/10">
+          <div
+            key={progressKey}
+            className="h-full bg-white/50 animate-teaser-progress"
+          />
+        </div>
+
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 py-4 flex items-center gap-5">
+
+          {/* Slide animado — ocupa todo el espacio disponible */}
+          <div className="flex-1 min-w-0 relative h-12">
             <AnimatePresence mode="wait" initial={false} custom={direction}>
               <motion.div
                 key={current}
                 custom={direction}
                 variants={{
-                  enter:  (d: number) => ({ y: d > 0 ? 20 : -20, opacity: 0 }),
+                  enter:  (d: number) => ({ y: d > 0 ? 24 : -24, opacity: 0 }),
                   center: { y: 0, opacity: 1 },
-                  exit:   (d: number) => ({ y: d > 0 ? -20 : 20, opacity: 0 }),
+                  exit:   (d: number) => ({ y: d > 0 ? -24 : 24, opacity: 0 }),
                 }}
                 initial="enter"
                 animate="center"
                 exit="exit"
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
-                className="absolute inset-0 flex items-start gap-2.5"
+                transition={{ duration: 0.35, ease: 'easeInOut' }}
+                className="absolute inset-0 flex items-center gap-3"
               >
-                {/* Icon + label */}
-                <span className="text-base leading-none mt-0.5 shrink-0">{feature.icon}</span>
+                <span className="text-2xl leading-none shrink-0">{feature.icon}</span>
                 <div className="min-w-0">
-                  <p className="text-xs font-bold text-gray-800 leading-tight truncate">
+                  <p className="text-sm font-bold text-white leading-tight">
                     {feature.label}
                   </p>
-                  <p className="text-xs text-gray-400 leading-snug line-clamp-2 mt-0.5">
+                  <p className="text-xs text-white/50 leading-snug mt-0.5 line-clamp-1">
                     {feature.detail}
                   </p>
                 </div>
@@ -183,57 +191,38 @@ export default function StickyTeaser({ slug, pricing }: Props) {
           </div>
 
           {/* Dots */}
-          <div className="flex items-center gap-1 shrink-0">
+          <div className="hidden sm:flex items-center gap-1.5 shrink-0">
             {FEATURES.map((_, i) => (
               <button
                 key={i}
                 onClick={() => goTo(i)}
                 className={`rounded-full transition-all duration-300 ${
                   i === current
-                    ? 'w-4 h-1.5 bg-gray-800'
-                    : 'w-1.5 h-1.5 bg-gray-200 hover:bg-gray-400'
+                    ? 'w-5 h-1.5 bg-white'
+                    : 'w-1.5 h-1.5 bg-white/25 hover:bg-white/50'
                 }`}
               />
             ))}
           </div>
-        </div>
 
-        {/* Progress bar */}
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gray-100">
-          <div
-            key={progressKey}
-            className="h-full bg-gray-800 animate-teaser-progress"
-          />
-        </div>
-      </div>
+          {/* Separador vertical */}
+          <div className="hidden sm:block w-px h-10 bg-white/10 shrink-0" />
 
-      {/* ── CTA row ── */}
-      <div className="px-4 sm:px-6 py-3">
-        <div className="mx-auto max-w-5xl flex items-center justify-between gap-4">
-          <div className="min-w-0">
-            <p className="text-sm sm:text-base font-bold text-gray-900 leading-snug">
-              Descubre qué te está costando clientes
-            </p>
-            <p className="text-xs text-gray-400 mt-0.5 hidden sm:block">
-              Sin suscripción · acceso único · entrega en horas
-            </p>
-          </div>
-
-          <div className="flex items-center gap-2 shrink-0">
+          {/* Botón único — sin precio duplicado */}
+          <a
+            href={`/pago/${slug}`}
+            className="shrink-0 inline-flex flex-col items-center justify-center rounded-xl bg-white px-5 py-2.5 hover:bg-gray-100 active:scale-95 transition-all shadow-sm text-center"
+          >
+            <span className="text-sm font-black text-gray-900 leading-tight whitespace-nowrap">
+              Ver reporte completo
+            </span>
             {pricing && (
-              <span className="hidden md:inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-sm font-bold text-gray-900">
+              <span className="text-xs font-semibold text-gray-500 leading-tight">
                 {pricing.price_display}
               </span>
             )}
-            <a
-              href={`/pago/${slug}`}
-              className="inline-flex items-center gap-2 rounded-xl bg-gray-900 px-5 py-2.5 sm:px-6 sm:py-3 text-sm sm:text-base font-bold text-white hover:bg-gray-800 active:scale-95 transition-all shadow-sm"
-            >
-              <span className="hidden sm:inline">Ver reporte —</span>
-              <span>{pricing ? pricing.price_display : 'Ver precio'}</span>
-              <ChevronRight className="w-4 h-4" />
-            </a>
-          </div>
+          </a>
+
         </div>
       </div>
     </div>

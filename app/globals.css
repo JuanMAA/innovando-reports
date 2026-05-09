@@ -124,7 +124,7 @@
 
 .animate-teaser-progress {
   transform-origin: left;
-  animation: teaser-progress 3.5s linear forwards;
+  animation: teaser-progress 5s linear forwards;
 }
 
 @layer base {
