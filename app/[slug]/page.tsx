@@ -9,6 +9,7 @@ import PlataformasReserva from '@/components/reporte/PlataformasReserva'
 import ComparacionBenchmark from '@/components/reporte/ComparacionBenchmark'
 import ReportarProblema from '@/components/reporte/ReportarProblema'
 import StickyTeaser from '@/components/reporte/StickyTeaser'
+import BotonDescargarPDF from '@/components/reporte/BotonDescargarPDF'
 import { parseCatKeyword, buildGroup, type BizRow, type BenchmarkData } from '@/lib/benchmark'
 
 export const revalidate = 0
@@ -165,14 +166,17 @@ export default async function ReportePage({ params }: PageProps) {
 
       {/* Hero strip */}
       <div className="bg-white border-b border-gray-200">
-        <div className="mx-auto max-w-6xl px-6 py-10">
-          <p className="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-2">
-            Reporte de presencia digital
-          </p>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
-            {business.name}
-          </h1>
-          {city && <p className="text-base text-gray-500 mt-2">{city}</p>}
+        <div className="mx-auto max-w-6xl px-6 py-10 flex items-end justify-between gap-4">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-widest text-blue-500 mb-2">
+              Reporte de presencia digital
+            </p>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+              {business.name}
+            </h1>
+            {city && <p className="text-base text-gray-500 mt-2">{city}</p>}
+          </div>
+          <BotonDescargarPDF nombre={business.name} />
         </div>
       </div>
 
@@ -225,10 +229,14 @@ export default async function ReportePage({ params }: PageProps) {
         )}
 
         {/* Report a problem */}
-        <ReportarProblema businessId={business.id} />
+        <div data-print="hidden">
+          <ReportarProblema businessId={business.id} />
+        </div>
       </main>
 
-      <StickyTeaser slug={slug} pricing={pricing} />
+      <div data-print="hidden">
+        <StickyTeaser slug={slug} pricing={pricing} />
+      </div>
 
       {/* Footer */}
       <footer className="border-t border-gray-200 bg-white mt-8">

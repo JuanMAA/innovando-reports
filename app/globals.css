@@ -127,3 +127,80 @@
     @apply font-sans;
   }
 }
+
+/* ── Estilos de impresión / PDF ───────────────────────────── */
+@media print {
+  /* Preservar colores y fondos en PDF */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Ocultar elementos que no deben aparecer en el PDF */
+  .print\:hidden,
+  header,
+  [data-print="hidden"] {
+    display: none !important;
+  }
+
+  /* Quitar sticky del header */
+  header {
+    position: static !important;
+  }
+
+  /* Márgenes de página */
+  @page {
+    margin: 1.2cm 1.5cm;
+    size: A4 portrait;
+  }
+
+  body {
+    background: white !important;
+    font-size: 11pt;
+  }
+
+  /* Máximo ancho sin restricciones de viewport */
+  main {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  /* Evitar corte de tarjetas entre páginas */
+  .rounded-xl,
+  .rounded-2xl {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Separar secciones principales entre páginas si no caben */
+  .mb-6 {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Quitar sombras (se ven mal en PDF) */
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* Ajustar grids a una sola columna en papel */
+  .lg\:grid-cols-2,
+  .lg\:grid-cols-\[340px_1fr\] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Mostrar URLs de links */
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+    font-size: 8pt;
+    color: #888;
+  }
+
+  /* Excepciones: no mostrar URL en botones */
+  a.rounded-xl:after,
+  a.rounded-lg:after,
+  button:after {
+    content: none !important;
+  }
+}
