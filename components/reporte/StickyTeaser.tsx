@@ -66,12 +66,12 @@ function ChipWithPopover({ chip }: { chip: typeof CHIPS[number] }) {
       )}
 
       {/* Chip */}
-      <span className="inline-flex items-center gap-1.5 bg-gray-100 hover:bg-gray-200 rounded-full px-2.5 py-1 cursor-help transition-colors group">
-        <CheckCircle2 className="w-3 h-3 text-green-500 shrink-0" />
-        <span className="text-xs font-medium text-gray-600 whitespace-nowrap">
+      <span className="inline-flex items-center gap-1.5 bg-white/10 hover:bg-white/20 rounded-full px-2.5 py-1 cursor-help transition-colors group">
+        <CheckCircle2 className="w-3 h-3 text-emerald-400 shrink-0" />
+        <span className="text-xs font-medium text-white/75 whitespace-nowrap">
           {chip.label}
         </span>
-        <Info className="w-2.5 h-2.5 text-gray-300 group-hover:text-gray-500 shrink-0 transition-colors" />
+        <Info className="w-2.5 h-2.5 text-white/25 group-hover:text-white/60 shrink-0 transition-colors" />
       </span>
     </div>
   )
@@ -145,34 +145,45 @@ export default function StickyTeaser({ slug, pricing }: Props) {
     )
   }
 
-  /* ── COLLAPSED — chips estáticos ───────────────────────────── */
+  /* ── COLLAPSED ──────────────────────────────────────────────── */
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-30 bg-white border-t border-gray-200 shadow-[0_-4px_24px_rgba(0,0,0,0.08)]">
+    <div className="fixed bottom-0 left-0 right-0 z-30 bg-gray-900 border-t border-gray-700 shadow-[0_-4px_24px_rgba(0,0,0,0.3)]">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-2.5 flex items-center justify-between gap-4">
 
-      {/* CTA + chips */}
-      <div className="px-4 sm:px-6 py-3">
-        <div className="mx-auto max-w-5xl flex items-center justify-between gap-4">
-          {/* Left: título + chips debajo */}
-          <div className="min-w-0 flex-1">
-            <p className="text-sm sm:text-base font-bold text-gray-900 leading-snug mb-2">
+        {/* Left: badge + título + chips */}
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2 mb-1.5">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-500/20 border border-blue-400/30 px-2.5 py-0.5 text-xs font-semibold text-blue-300 shrink-0">
+              Reporte completo
+            </span>
+            <p className="text-sm font-semibold text-white hidden sm:block">
               Descubre qué te está costando clientes
             </p>
-            <div className="flex flex-wrap gap-x-2 gap-y-1.5">
-              {CHIPS.map((chip) => (
-                <ChipWithPopover key={chip.label} chip={chip} />
-              ))}
-            </div>
           </div>
+          <div className="flex flex-wrap gap-x-2 gap-y-1.5">
+            {CHIPS.map((chip) => (
+              <ChipWithPopover key={chip.label} chip={chip} />
+            ))}
+          </div>
+        </div>
 
-          {/* Right: botón */}
+        {/* Right: botón */}
+        <div className="flex items-center gap-3 shrink-0">
+          <a
+            href={`/${slug}`}
+            className="text-xs text-gray-400 hover:text-white transition-colors hidden sm:block"
+          >
+            ← Volver al reporte
+          </a>
           <a
             href={`/pago/${slug}`}
-            className="shrink-0 inline-flex items-center gap-2 rounded-xl bg-gray-900 px-5 py-2.5 sm:px-6 sm:py-3 text-sm sm:text-base font-bold text-white hover:bg-gray-800 active:scale-95 transition-all shadow-sm"
+            className="inline-flex items-center gap-1.5 rounded-xl bg-white px-4 py-2 text-sm font-bold text-gray-900 hover:bg-gray-100 active:scale-95 transition-all"
           >
             {pricing ? `Ver reporte — ${pricing.price_display}` : 'Ver reporte'}
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="w-3.5 h-3.5" />
           </a>
         </div>
+
       </div>
     </div>
   )
