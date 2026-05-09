@@ -168,21 +168,13 @@ export default function StickyTeaser({ slug, pricing }: Props) {
         </div>
 
         {/* Right: botón */}
-        <div className="flex items-center gap-3 shrink-0">
-          <a
-            href={`/${slug}`}
-            className="text-xs text-gray-400 hover:text-white transition-colors hidden sm:block"
-          >
-            ← Volver al reporte
-          </a>
-          <a
-            href={`/pago/${slug}`}
-            className="inline-flex items-center gap-1.5 rounded-xl bg-white px-4 py-2 text-sm font-bold text-gray-900 hover:bg-gray-100 active:scale-95 transition-all"
-          >
-            {pricing ? `Ver reporte — ${pricing.price_display}` : 'Ver reporte'}
-            <ChevronRight className="w-3.5 h-3.5" />
-          </a>
-        </div>
+        <a
+          href={`/pago/${slug}`}
+          className="inline-flex items-center gap-1.5 rounded-xl bg-white px-4 py-2 text-sm font-bold text-gray-900 hover:bg-gray-100 active:scale-95 transition-all shrink-0"
+        >
+          {pricing ? `Ver reporte — ${pricing.price_display}` : 'Ver reporte'}
+          <ChevronRight className="w-3.5 h-3.5" />
+        </a>
 
       </div>
     </div>
