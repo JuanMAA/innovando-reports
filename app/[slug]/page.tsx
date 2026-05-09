@@ -165,7 +165,17 @@ export default async function ReportePage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-28">
-      <IndiceReporte nombre={business.name} />
+      <IndiceReporte
+        nombre={business.name}
+        scoreTotal={business.score_total}
+        secciones={[
+          { id: 'sec-diagnostico', label: 'Diagnóstico'    },
+          { id: 'sec-web',         label: 'Sitio web',      score: business.score_p2b, max: 20 },
+          { id: 'sec-plataformas', label: 'Plataformas',    score: business.score_p2f, max: 20 },
+          { id: 'sec-benchmark',   label: 'Competencia'    },
+          { id: 'sec-detalle',     label: 'Recomendaciones'},
+        ]}
+      />
       {/* Header */}
       <header className="bg-gray-900 border-b border-gray-700 sticky top-0 z-20">
         <div className="mx-auto max-w-6xl px-6 py-3 flex items-center justify-between">

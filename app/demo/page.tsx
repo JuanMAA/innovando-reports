@@ -8,7 +8,7 @@ import PlataformasReserva from '@/components/reporte/PlataformasReserva'
 import ComparacionBenchmark from '@/components/reporte/ComparacionBenchmark'
 import ReportarProblema from '@/components/reporte/ReportarProblema'
 import StickyTeaser from '@/components/reporte/StickyTeaser'
-import BotonDescargarPDF from '@/components/reporte/BotonDescargarPDF'
+import IndiceReporte from '@/components/reporte/IndiceReporte'
 import { buildGroup, type BizRow, type BenchmarkData } from '@/lib/benchmark'
 
 // ─────────────────────────────────────────────────────────────
@@ -226,7 +226,17 @@ export default function DemoPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-28">
-      <BotonDescargarPDF nombre={DEMO_BUSINESS.name} />
+      <IndiceReporte
+        nombre={DEMO_BUSINESS.name}
+        scoreTotal={DEMO_BUSINESS.score_total}
+        secciones={[
+          { id: 'sec-diagnostico', label: 'Diagnóstico'    },
+          { id: 'sec-web',         label: 'Sitio web',      score: DEMO_BUSINESS.score_p2b, max: 20 },
+          { id: 'sec-plataformas', label: 'Plataformas',    score: DEMO_BUSINESS.score_p2f, max: 20 },
+          { id: 'sec-benchmark',   label: 'Competencia'    },
+          { id: 'sec-detalle',     label: 'Recomendaciones'},
+        ]}
+      />
       {/* Banner demo */}
       <div className="bg-blue-600 text-white text-center py-2 text-sm font-medium tracking-wide">
         ✦ Este es un reporte de ejemplo con datos ficticios — así se ve tu reporte completo ✦
@@ -261,7 +271,7 @@ export default function DemoPage() {
       <main className="mx-auto max-w-6xl px-6 py-8">
 
         {/* Top grid: gauge + módulos */}
-        <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-6 mb-6">
+        <div id="sec-diagnostico" className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-6 mb-6">
           <NotaGeneral report={DEMO_REPORT} businessName={DEMO_BUSINESS.name} />
 
           <div className="bg-white rounded-2xl border border-gray-200 p-6">
@@ -273,7 +283,7 @@ export default function DemoPage() {
         </div>
 
         {/* Auditoría web + módulo sitio */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 items-start">
+        <div id="sec-web" className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 items-start">
           <AuditoriaWebCard business={DEMO_BUSINESS} />
           <ModuloSitioWeb
             business={DEMO_BUSINESS}
@@ -285,7 +295,7 @@ export default function DemoPage() {
         </div>
 
         {/* Plataformas de reserva */}
-        <div className="mb-6">
+        <div id="sec-plataformas" className="mb-6">
           <PlataformasReserva
             platformData={DEMO_PLATFORM_DATA}
             description={DEMO_DESCRIPTION}
@@ -294,7 +304,7 @@ export default function DemoPage() {
         </div>
 
         {/* Comparación competitiva */}
-        <div className="mb-6 bg-white rounded-2xl border border-gray-200 p-6">
+        <div id="sec-benchmark" className="mb-6 bg-white rounded-2xl border border-gray-200 p-6">
           <ComparacionBenchmark
             business={BIZ_METRICS}
             benchmark={BENCHMARK_DATA}
@@ -303,7 +313,7 @@ export default function DemoPage() {
         </div>
 
         {/* Detalle por módulo con recomendaciones */}
-        <div className="mb-6">
+        <div id="sec-detalle" className="mb-6">
           <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">
             Análisis detallado y recomendaciones
           </p>
