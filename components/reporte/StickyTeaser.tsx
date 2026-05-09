@@ -149,26 +149,22 @@ export default function StickyTeaser({ slug, pricing }: Props) {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-30 bg-white border-t border-gray-200 shadow-[0_-4px_24px_rgba(0,0,0,0.08)]">
 
-      {/* Chips row */}
-      <div className="border-b border-gray-100 px-4 sm:px-6 py-2">
-        <div className="mx-auto max-w-5xl flex flex-wrap gap-x-2 gap-y-1.5 justify-start sm:justify-center">
-          {CHIPS.map((chip) => (
-            <ChipWithPopover key={chip.label} chip={chip} />
-          ))}
-        </div>
-      </div>
-
-      {/* CTA row */}
+      {/* CTA + chips */}
       <div className="px-4 sm:px-6 py-3">
         <div className="mx-auto max-w-5xl flex items-center justify-between gap-4">
-          <div className="min-w-0">
-            <p className="text-sm sm:text-base font-bold text-gray-900 leading-snug">
+          {/* Left: título + chips debajo */}
+          <div className="min-w-0 flex-1">
+            <p className="text-sm sm:text-base font-bold text-gray-900 leading-snug mb-2">
               Descubre qué te está costando clientes
             </p>
-            <p className="text-xs text-gray-400 mt-0.5 hidden sm:block">
-              Sin suscripción · acceso único · entrega en horas
-            </p>
+            <div className="flex flex-wrap gap-x-2 gap-y-1.5">
+              {CHIPS.map((chip) => (
+                <ChipWithPopover key={chip.label} chip={chip} />
+              ))}
+            </div>
           </div>
+
+          {/* Right: botón */}
           <a
             href={`/pago/${slug}`}
             className="shrink-0 inline-flex items-center gap-2 rounded-xl bg-gray-900 px-5 py-2.5 sm:px-6 sm:py-3 text-sm sm:text-base font-bold text-white hover:bg-gray-800 active:scale-95 transition-all shadow-sm"
