@@ -188,7 +188,7 @@ export default function ModuloSitioWeb({ business, pricingNuevo, pricingOptimiza
           className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors mt-2"
         >
           <ExternalLink className="w-4 h-4 text-gray-400" />
-          Ver cómo quedaría mi sitio web
+          Obtén tu sitio AHORA
         </a>
         <p className="text-xs text-center text-amber-600 font-medium mt-2">
           ⏳ La vista previa estará disponible en las próximas horas

@@ -3,6 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { Business, Report, CountryPricing } from '@/types'
 import NotaGeneral from '@/components/reporte/NotaGeneral'
 import ModulosBars from '@/components/reporte/ModulosBars'
+import ModulosDetalle from '@/components/reporte/ModulosDetalle'
 import AuditoriaWebCard from '@/components/reporte/AuditoriaWebCard'
 import ModuloSitioWeb from '@/components/reporte/ModuloSitioWeb'
 import PlataformasReserva from '@/components/reporte/PlataformasReserva'
@@ -42,27 +43,36 @@ export default async function ReportePage({ params }: PageProps) {
 
   if (!report) notFound()
 
-  // Platform data (booking, airbnb, tripadvisor, expedia, despegar)
-  const { data: platformRows } = await supabase
-    .from('business_data')
-    .select('key, value')
-    .eq('business_id', business.id)
-    .eq('module', 'platform')
+  // Fetch platform data, social data, and description in parallel
+  const [platformRes, socialRes, descRes] = await Promise.all([
+    supabase
+      .from('business_data')
+      .select('key, value')
+      .eq('business_id', business.id)
+      .eq('module', 'platform'),
+    supabase
+      .from('business_data')
+      .select('key, value')
+      .eq('business_id', business.id)
+      .eq('module', 'social'),
+    supabase
+      .from('business_data')
+      .select('value')
+      .eq('business_id', business.id)
+      .eq('module', 'maps')
+      .eq('key', 'description')
+      .maybeSingle(),
+  ])
 
   const platformData: Record<string, string | null> = Object.fromEntries(
-    (platformRows ?? []).map(r => [r.key, r.value])
+    (platformRes.data ?? []).map(r => [r.key, r.value])
   )
 
-  // Description from maps module
-  const { data: descRow } = await supabase
-    .from('business_data')
-    .select('value')
-    .eq('business_id', business.id)
-    .eq('module', 'maps')
-    .eq('key', 'description')
-    .maybeSingle()
+  const socialData: Record<string, string | null> = Object.fromEntries(
+    (socialRes.data ?? []).map(r => [r.key, r.value])
+  )
 
-  const description = descRow?.value ?? null
+  const description = descRes.data?.value ?? null
 
   // ── Benchmark data ────────────────────────────────────────
   const BENCH_SELECT = 'score_total,score_p2a,score_p2c,score_p2f,rating,num_reviews,lh_performance,category'
@@ -227,6 +237,19 @@ export default async function ReportePage({ params }: PageProps) {
             />
           </div>
         )}
+
+        {/* Detalle por módulo con recomendaciones */}
+        <div className="mb-6">
+          <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">
+            Análisis detallado y recomendaciones
+          </p>
+          <ModulosDetalle
+            report={report}
+            business={business}
+            socialData={socialData}
+            platformData={platformData}
+          />
+        </div>
 
         {/* Report a problem */}
         <div data-print="hidden">

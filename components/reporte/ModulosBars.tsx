@@ -10,17 +10,17 @@ interface Props {
 }
 
 const MODULOS = [
-  { key: 'score_p2a', label: 'Google Maps', desc: 'Ficha y reseñas', max: 15, code: 'P2a',
+  { key: 'score_p2a', label: 'Google Maps', desc: 'Ficha y reseñas', max: 20, code: 'P2a',
     hint: 'Completitud del perfil, fotos, calificación y cantidad de reseñas.' },
   { key: 'score_p2b', label: 'Sitio web', desc: 'Presencia propia', max: 20, code: 'P2b',
     hint: 'Velocidad de carga, SEO técnico, adaptación a móvil y seguridad HTTPS.' },
   { key: 'score_p2c', label: 'Reputación', desc: 'Calificaciones', max: 20, code: 'P2c',
     hint: 'Promedio de estrellas y volumen de reseñas en Google.' },
-  { key: 'score_p2d', label: 'Redes sociales', desc: 'Instagram y más', max: 10, code: 'P2d',
-    hint: 'Presencia activa en Instagram y Facebook.' },
-  { key: 'score_p2e', label: 'SEO', desc: 'Posicionamiento', max: 10, code: 'P2e',
-    hint: 'Aparición en búsquedas de Google para términos clave del negocio.' },
-  { key: 'score_p2f', label: 'Plataformas', desc: 'Booking, Airbnb…', max: 25, code: 'P2f',
+  { key: 'score_p2d', label: 'Redes sociales', desc: 'Instagram y más', max: 15, code: 'P2d',
+    hint: 'Presencia activa en Instagram, Facebook, TikTok y YouTube.' },
+  { key: 'score_p2e', label: 'IA & SEO', desc: 'Posicionamiento', max: 5, code: 'P2e',
+    hint: 'Aparición en respuestas de IA (Google AI Overview) y directorios de autoridad.' },
+  { key: 'score_p2f', label: 'Plataformas', desc: 'Booking, Airbnb…', max: 20, code: 'P2f',
     hint: 'Presencia y completitud en Booking, Airbnb, TripAdvisor y similares.' },
 ] as const
 
