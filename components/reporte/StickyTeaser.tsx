@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { ChevronRight, CheckCircle2, Zap, Info } from 'lucide-react'
+import { ChevronRight, CheckCircle2, Info } from 'lucide-react'
 import { CountryPricing } from '@/types'
 
 interface Props {
@@ -91,55 +91,40 @@ export default function StickyTeaser({ slug, pricing }: Props) {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  /* ── EXPANDED — fondo oscuro al llegar al fondo ─────────────── */
+  /* ── EXPANDED — igual que collapsed + grid de chips encima ─── */
   if (atBottom) {
     return (
-      <div
-        className="fixed bottom-0 left-0 right-0 z-30"
-        style={{ background: 'linear-gradient(135deg,#111827 0%,#1f2937 60%,#111827 100%)' }}
-      >
-        <div className="border-b border-white/10 px-4 sm:px-6 py-4">
-          <div className="mx-auto max-w-5xl grid grid-cols-2 sm:grid-cols-3 gap-x-8 gap-y-2">
+      <div className="fixed bottom-0 left-0 right-0 z-30 bg-gray-900 border-t border-gray-700 shadow-[0_-4px_24px_rgba(0,0,0,0.3)]">
+        {/* Chips grid */}
+        <div className="border-b border-gray-700 px-4 sm:px-6 py-3">
+          <div className="mx-auto max-w-6xl grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-1.5">
             {CHIPS.map((c) => (
               <div key={c.label} className="flex items-center gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                <CheckCircle2 className="w-3 h-3 text-emerald-400 shrink-0" />
                 <span className="text-xs font-medium text-white/75">{c.label}</span>
               </div>
             ))}
           </div>
         </div>
-        <div className="px-4 sm:px-6 py-4 sm:py-5">
-          <div className="mx-auto max-w-5xl flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="text-center sm:text-left">
-              <div className="flex items-center gap-2 justify-center sm:justify-start mb-1">
-                <Zap className="w-4 h-4 text-amber-400 shrink-0" />
-                <span className="text-xs font-bold text-amber-400 uppercase tracking-wider">
-                  Listo para desbloquear tu reporte
-                </span>
-              </div>
-              <p className="text-lg sm:text-xl font-black text-white leading-snug">
+        {/* Same row as collapsed */}
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-2.5 flex items-center justify-between gap-4">
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-500/20 border border-blue-400/30 px-2.5 py-0.5 text-xs font-semibold text-blue-300 shrink-0">
+                Reporte completo
+              </span>
+              <p className="text-sm font-semibold text-white hidden sm:block">
                 Descubre qué te está costando clientes
               </p>
-              <p className="text-sm text-white/50 mt-0.5">
-                Sin suscripción · acceso único · entrega en horas
-              </p>
-            </div>
-            <div className="flex items-center gap-3 shrink-0">
-              {pricing && (
-                <div className="text-center hidden sm:block">
-                  <p className="text-xs text-white/40 font-medium">Solo</p>
-                  <p className="text-2xl font-black text-white">{pricing.price_display}</p>
-                </div>
-              )}
-              <a
-                href={`/pago/${slug}`}
-                className="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3.5 text-base font-black text-gray-900 hover:bg-gray-100 active:scale-95 transition-all shadow-lg"
-              >
-                {pricing ? `Ver reporte — ${pricing.price_display}` : 'Ver reporte completo'}
-                <ChevronRight className="w-5 h-5" />
-              </a>
             </div>
           </div>
+          <a
+            href={`/pago/${slug}`}
+            className="inline-flex items-center gap-1.5 rounded-xl bg-white px-4 py-2 text-sm font-bold text-gray-900 hover:bg-gray-100 active:scale-95 transition-all shrink-0"
+          >
+            {pricing ? `Ver reporte — ${pricing.price_display}` : 'Ver reporte'}
+            <ChevronRight className="w-3.5 h-3.5" />
+          </a>
         </div>
       </div>
     )
