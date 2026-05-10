@@ -143,9 +143,9 @@ export default function StickyTeaser({ slug, pricing }: Props) {
   return (
     <div className={baseBar}>
 
-      {/* Mobile: chips arriba, botón abajo */}
+      {/* Mobile: chips arriba (fila única scrolleable), botón abajo */}
       <div className="sm:hidden px-4 py-2 flex flex-col gap-2">
-        <div className="flex flex-wrap gap-x-2 gap-y-1.5">
+        <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-0.5">
           {CHIPS.map((chip) => (
             <ChipWithPopover key={chip.label} chip={chip} />
           ))}

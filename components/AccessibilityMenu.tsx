@@ -98,7 +98,7 @@ export default function AccessibilityMenu() {
         onClick={() => setOpen(o => !o)}
         aria-label="Menú de accesibilidad"
         aria-expanded={open}
-        className="print:hidden fixed bottom-5 right-5 z-50 w-11 h-11 rounded-full bg-gray-900 text-white shadow-xl flex items-center justify-center hover:bg-gray-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-900"
+        className="print:hidden fixed bottom-28 sm:bottom-5 right-5 z-50 w-11 h-11 rounded-full bg-gray-900 text-white shadow-xl flex items-center justify-center hover:bg-gray-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-900"
       >
         <Accessibility className="w-5 h-5" />
         {hasAny && (
