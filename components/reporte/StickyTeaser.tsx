@@ -139,9 +139,27 @@ export default function StickyTeaser({ slug, pricing }: Props) {
   /* ── COLLAPSED ──────────────────────────────────────── */
   return (
     <div className={baseBar}>
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-2.5 flex items-center justify-between gap-4">
 
-        {/* Left: badge + título + chips */}
+      {/* Mobile: chips arriba, botón abajo */}
+      <div className="sm:hidden px-4 py-2 flex flex-col gap-2">
+        <div className="flex flex-wrap gap-x-2 gap-y-1.5">
+          {CHIPS.map((chip) => (
+            <ChipWithPopover key={chip.label} chip={chip} />
+          ))}
+        </div>
+        <a
+          href={`/pago/${slug}`}
+          className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-bold transition-all active:scale-95
+            bg-gray-900 text-white hover:bg-gray-700
+            dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100"
+        >
+          {pricing ? `Ver reporte — ${pricing.price_display}` : 'Ver reporte'}
+          <ChevronRight className="w-3.5 h-3.5" />
+        </a>
+      </div>
+
+      {/* Desktop: layout horizontal original */}
+      <div className="hidden sm:flex mx-auto max-w-6xl px-6 py-2.5 items-center justify-between gap-4">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 mb-1.5">
             <span className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold shrink-0
@@ -149,7 +167,7 @@ export default function StickyTeaser({ slug, pricing }: Props) {
               dark:bg-blue-500/20 dark:border-blue-400/30 dark:text-blue-300">
               Reporte completo
             </span>
-            <p className="text-sm font-semibold text-gray-900 dark:text-white hidden sm:block">
+            <p className="text-sm font-semibold text-gray-900 dark:text-white">
               Descubre qué te está costando clientes
             </p>
           </div>
@@ -159,8 +177,6 @@ export default function StickyTeaser({ slug, pricing }: Props) {
             ))}
           </div>
         </div>
-
-        {/* Right: botón */}
         <a
           href={`/pago/${slug}`}
           className="inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-bold transition-all shrink-0 active:scale-95
@@ -170,8 +186,8 @@ export default function StickyTeaser({ slug, pricing }: Props) {
           {pricing ? `Ver reporte — ${pricing.price_display}` : 'Ver reporte'}
           <ChevronRight className="w-3.5 h-3.5" />
         </a>
-
       </div>
+
     </div>
   )
 }
