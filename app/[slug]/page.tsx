@@ -186,35 +186,37 @@ export default async function ReportePage({ params }: PageProps) {
       />
 
       {/* Main content */}
-      <main className="mx-auto max-w-6xl px-6 py-8">
-        {/* Top grid: gauge + nota | modulos */}
-        <div id="sec-diagnostico" className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-6 mb-6">
-          {/* Left: diagnóstico + valoración fusionados */}
+      <main className="mx-auto max-w-6xl px-6 py-8 flex flex-col gap-6">
+
+        {/* Diagnóstico general */}
+        <div id="sec-diagnostico">
           <NotaGeneral report={report} businessName={business.name} />
-
-          {/* Right: módulos */}
-          <div className="bg-white rounded-2xl border border-gray-200 p-6">
-            <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">
-              Detalle por área
-            </p>
-            <ModulosBars report={report} teaser />
-          </div>
         </div>
 
-        {/* Auditoría + Módulo sitio web */}
-        <div id="sec-web" className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 items-start">
+        {/* Detalle por módulo (barras) */}
+        <div className="bg-white rounded-2xl border border-gray-200 p-6">
+          <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">
+            Detalle por área
+          </p>
+          <ModulosBars report={report} teaser />
+        </div>
+
+        {/* Auditoría web */}
+        <div id="sec-web">
           <AuditoriaWebCard business={business} />
-          <ModuloSitioWeb
-            business={business}
-            pricingNuevo={pricingNuevo}
-            pricingOptimizar={pricingOptimizar}
-            tieneWebPropia={!!business.website}
-            slug={slug}
-          />
         </div>
+
+        {/* Sitio web Innovando */}
+        <ModuloSitioWeb
+          business={business}
+          pricingNuevo={pricingNuevo}
+          pricingOptimizar={pricingOptimizar}
+          tieneWebPropia={!!business.website}
+          slug={slug}
+        />
 
         {/* Plataformas de reserva */}
-        <div id="sec-plataformas" className="mb-6">
+        <div id="sec-plataformas">
           <PlataformasReserva
             platformData={platformData}
             description={description}
@@ -224,7 +226,7 @@ export default async function ReportePage({ params }: PageProps) {
 
         {/* Comparación competitiva */}
         {benchmarkData.groups.length > 0 && (
-          <div id="sec-benchmark" className="mb-6 bg-white rounded-2xl border border-gray-200 p-6">
+          <div id="sec-benchmark" className="bg-white rounded-2xl border border-gray-200 p-6">
             <ComparacionBenchmark
               business={bizMetrics}
               benchmark={benchmarkData}
@@ -233,8 +235,8 @@ export default async function ReportePage({ params }: PageProps) {
           </div>
         )}
 
-        {/* Detalle por módulo con recomendaciones */}
-        <div id="sec-detalle" className="mb-6">
+        {/* Recomendaciones por módulo */}
+        <div id="sec-detalle">
           <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">
             Análisis detallado y recomendaciones
           </p>
@@ -253,6 +255,7 @@ export default async function ReportePage({ params }: PageProps) {
         <div data-print="hidden">
           <ReportarProblema businessId={business.id} />
         </div>
+
       </main>
 
       <div data-print="hidden">

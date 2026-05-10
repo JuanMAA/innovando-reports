@@ -254,34 +254,37 @@ export default function DemoPage() {
       />
 
       {/* Main content */}
-      <main className="mx-auto max-w-6xl px-6 py-8">
+      <main className="mx-auto max-w-6xl px-6 py-8 flex flex-col gap-6">
 
-        {/* Top grid: gauge + módulos */}
-        <div id="sec-diagnostico" className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-6 mb-6">
+        {/* Diagnóstico general */}
+        <div id="sec-diagnostico">
           <NotaGeneral report={DEMO_REPORT} businessName={DEMO_BUSINESS.name} />
-
-          <div className="bg-white rounded-2xl border border-gray-200 p-6">
-            <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">
-              Detalle por área
-            </p>
-            <ModulosBars report={DEMO_REPORT} />
-          </div>
         </div>
 
-        {/* Auditoría web + módulo sitio */}
-        <div id="sec-web" className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 items-start">
+        {/* Detalle por área (barras) */}
+        <div className="bg-white rounded-2xl border border-gray-200 p-6">
+          <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">
+            Detalle por área
+          </p>
+          <ModulosBars report={DEMO_REPORT} />
+        </div>
+
+        {/* Auditoría web */}
+        <div id="sec-web">
           <AuditoriaWebCard business={DEMO_BUSINESS} />
-          <ModuloSitioWeb
-            business={DEMO_BUSINESS}
-            pricingNuevo={DEMO_PRICING_NUEVO}
-            pricingOptimizar={DEMO_PRICING_OPTIMIZAR}
-            tieneWebPropia={!!DEMO_BUSINESS.website}
-            slug="demo"
-          />
         </div>
+
+        {/* Sitio web Innovando */}
+        <ModuloSitioWeb
+          business={DEMO_BUSINESS}
+          pricingNuevo={DEMO_PRICING_NUEVO}
+          pricingOptimizar={DEMO_PRICING_OPTIMIZAR}
+          tieneWebPropia={!!DEMO_BUSINESS.website}
+          slug="demo"
+        />
 
         {/* Plataformas de reserva */}
-        <div id="sec-plataformas" className="mb-6">
+        <div id="sec-plataformas">
           <PlataformasReserva
             platformData={DEMO_PLATFORM_DATA}
             description={DEMO_DESCRIPTION}
@@ -290,7 +293,7 @@ export default function DemoPage() {
         </div>
 
         {/* Comparación competitiva */}
-        <div id="sec-benchmark" className="mb-6 bg-white rounded-2xl border border-gray-200 p-6">
+        <div id="sec-benchmark" className="bg-white rounded-2xl border border-gray-200 p-6">
           <ComparacionBenchmark
             business={BIZ_METRICS}
             benchmark={BENCHMARK_DATA}
@@ -298,8 +301,8 @@ export default function DemoPage() {
           />
         </div>
 
-        {/* Detalle por módulo con recomendaciones */}
-        <div id="sec-detalle" className="mb-6">
+        {/* Recomendaciones por módulo */}
+        <div id="sec-detalle">
           <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">
             Análisis detallado y recomendaciones
           </p>
@@ -318,6 +321,7 @@ export default function DemoPage() {
         <div data-print="hidden">
           <ReportarProblema businessId="demo-business-id" />
         </div>
+
       </main>
 
       {/* Sticky teaser */}
