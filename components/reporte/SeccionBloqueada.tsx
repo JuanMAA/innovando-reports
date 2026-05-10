@@ -50,9 +50,9 @@ function FakeContent() {
   )
 }
 
-export default function SeccionBloqueada({ slug, pricing, titulo }: Props) {
+export default function SeccionBloqueada({ slug, pricing, titulo, descripcion }: Props) {
   return (
-    <div className="relative rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-hidden h-48">
+    <div className="relative rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-hidden h-56">
 
       {/* Contenido falso borroso */}
       <div className="absolute inset-0 blur-sm">
@@ -67,16 +67,19 @@ export default function SeccionBloqueada({ slug, pricing, titulo }: Props) {
       />
 
       {/* CTA centrado */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2.5 px-6 text-center">
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 px-8 text-center">
         <div className="flex items-center gap-2">
           <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm">
             <Lock className="w-3.5 h-3.5 text-gray-400" />
           </div>
           <p className="text-sm font-bold text-gray-900 dark:text-white">{titulo}</p>
         </div>
+        {descripcion && (
+          <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed max-w-sm">{descripcion}</p>
+        )}
         <a
           href={`/pago/${slug}`}
-          className="inline-flex items-center gap-1.5 rounded-xl bg-gray-900 dark:bg-white px-5 py-2 text-sm font-bold text-white dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-100 active:scale-95 transition-all shadow-sm"
+          className="inline-flex items-center gap-1.5 rounded-xl bg-gray-900 dark:bg-white px-5 py-2 text-sm font-bold text-white dark:text-gray-900 hover:bg-gray-700 dark:hover:bg-gray-100 active:scale-95 transition-all shadow-sm mt-0.5"
         >
           {pricing ? `Desbloquear — ${pricing.price_display}` : 'Comprar informe'}
           <ChevronRight className="w-4 h-4" />
