@@ -4,15 +4,11 @@ import { Business, Report, CountryPricing } from '@/types'
 import HeroHeader from '@/components/reporte/HeroHeader'
 import NotaGeneral from '@/components/reporte/NotaGeneral'
 import ModulosBars from '@/components/reporte/ModulosBars'
-import ModulosDetalle from '@/components/reporte/ModulosDetalle'
 import AuditoriaWebCard from '@/components/reporte/AuditoriaWebCard'
 import ModuloSitioWeb from '@/components/reporte/ModuloSitioWeb'
-import PlataformasReserva from '@/components/reporte/PlataformasReserva'
-import ComparacionBenchmark from '@/components/reporte/ComparacionBenchmark'
 import ReportarProblema from '@/components/reporte/ReportarProblema'
 import StickyTeaser from '@/components/reporte/StickyTeaser'
 import SeccionBloqueada from '@/components/reporte/SeccionBloqueada'
-import { parseCatKeyword, buildGroup, type BizRow, type BenchmarkData } from '@/lib/benchmark'
 
 export const revalidate = 0
 
@@ -43,109 +39,6 @@ export default async function ReportePage({ params }: PageProps) {
   }
 
   if (!report) notFound()
-
-  // Fetch platform data, social data, and description in parallel
-  const [platformRes, socialRes, descRes] = await Promise.all([
-    supabase
-      .from('business_data')
-      .select('key, value')
-      .eq('business_id', business.id)
-      .eq('module', 'platform'),
-    supabase
-      .from('business_data')
-      .select('key, value')
-      .eq('business_id', business.id)
-      .eq('module', 'social'),
-    supabase
-      .from('business_data')
-      .select('value')
-      .eq('business_id', business.id)
-      .eq('module', 'maps')
-      .eq('key', 'description')
-      .maybeSingle(),
-  ])
-
-  const platformData: Record<string, string | null> = Object.fromEntries(
-    (platformRes.data ?? []).map(r => [r.key, r.value])
-  )
-
-  const socialData: Record<string, string | null> = Object.fromEntries(
-    (socialRes.data ?? []).map(r => [r.key, r.value])
-  )
-
-  const description = descRes.data?.value ?? null
-
-  // ── Benchmark data ────────────────────────────────────────
-  const BENCH_SELECT = 'score_total,score_p2a,score_p2c,score_p2f,rating,num_reviews,lh_performance,category'
-
-  const catParsed  = parseCatKeyword(business.category)
-  const catKeyword = catParsed?.keyword ?? null
-  const catLabel   = catParsed?.label   ?? (business.category ?? 'Negocios similares')
-
-  // Fetch en paralelo: ciudad + categoría (sin este negocio)
-  const [cityRes, catRes] = await Promise.all([
-    business.city
-      ? supabase.from('businesses').select(BENCH_SELECT).eq('city', business.city).neq('id', business.id)
-      : Promise.resolve({ data: [] }),
-    catKeyword
-      ? supabase.from('businesses').select(BENCH_SELECT).ilike('category', `%${catKeyword}%`).neq('id', business.id)
-      : Promise.resolve({ data: [] }),
-  ])
-
-  const cityRows = (cityRes.data ?? []) as BizRow[]
-  const catRows  = (catRes.data  ?? []) as BizRow[]
-
-  // Ciudad + Categoría (intersección)
-  const cityCatRows = catRows.filter(
-    r => r.category && cityRows.some(
-      c => c.score_total === r.score_total // proxy join (mismo score+cat en ciudad)
-    )
-  )
-  // Más preciso: re-fetch con ambos filtros si hay ciudad y keyword
-  let cityCatRowsFinal = cityCatRows
-  if (business.city && catKeyword) {
-    const { data } = await supabase
-      .from('businesses')
-      .select(BENCH_SELECT)
-      .eq('city', business.city)
-      .ilike('category', `%${catKeyword}%`)
-      .neq('id', business.id)
-    cityCatRowsFinal = (data ?? []) as BizRow[]
-  }
-
-  const bizMetrics: BizRow = {
-    score_total:    business.score_total,
-    score_p2a:      business.score_p2a,
-    score_p2c:      business.score_p2c,
-    score_p2f:      business.score_p2f,
-    rating:         business.rating,
-    num_reviews:    business.num_reviews,
-    lh_performance: business.lh_performance,
-    category:       business.category,
-  }
-
-  const benchmarkGroups = [
-    cityRows.length >= 3
-      ? buildGroup(`${catLabel} en ${business.city}`, '', cityRows, bizMetrics)
-      : null,
-    cityCatRowsFinal.length >= 3
-      ? buildGroup(`${catLabel} similares en ${business.city}`, '', cityCatRowsFinal, bizMetrics)
-      : null,
-    catRows.length >= 3
-      ? buildGroup(`${catLabel} en toda la base`, '', catRows, bizMetrics)
-      : null,
-  ].filter(Boolean) as import('@/lib/benchmark').BenchmarkGroup[]
-
-  // Añadir sublabels con conteo
-  benchmarkGroups.forEach(g => {
-    g.sublabel = `${g.n} negocio${g.n !== 1 ? 's' : ''} comparado${g.n !== 1 ? 's' : ''}`
-  })
-
-  const benchmarkData: BenchmarkData = {
-    catKeyword,
-    catLabel,
-    groups: benchmarkGroups,
-  }
 
   const { data: pricingRows } = await supabase
     .from('country_pricing')
@@ -229,39 +122,35 @@ export default async function ReportePage({ params }: PageProps) {
             slug={slug}
             pricing={pricing}
             titulo="Plataformas de reserva"
-            descripcion="Descubre tu presencia en Booking.com, Airbnb, Expedia, Despegar y TripAdvisor con links directos."
-          >
-            <PlataformasReserva
-              platformData={platformData}
-              description={description}
-              businessName={business.name}
-            />
-          </SeccionBloqueada>
+            descripcion="Tu estado en las principales plataformas de reserva online con links directos para gestionar tu presencia."
+            incluye={[
+              'Estado en Booking.com, Airbnb, Expedia, Despegar y TripAdvisor',
+              'Calificación y número de reseñas en cada plataforma',
+              'Links directos a tu perfil en cada plataforma',
+              'Recomendaciones para plataformas donde no estás presente',
+            ]}
+          />
         </section>
 
         {/* ── Competencia ─────────────────────────────── */}
-        {benchmarkData.groups.length > 0 && (
-          <section id="sec-benchmark" className="flex flex-col gap-4">
-            <div className="flex items-center gap-3">
-              <span className="text-xs font-bold uppercase tracking-widest text-gray-400 shrink-0">Benchmark vs competencia</span>
-              <div className="flex-1 h-px bg-gray-200" />
-            </div>
-            <SeccionBloqueada
-              slug={slug}
-              pricing={pricing}
-              titulo="Benchmark vs competencia"
-              descripcion="Compara tu score vs negocios similares en tu ciudad y descubre dónde estás parado en el mercado."
-            >
-              <div className="bg-white rounded-2xl border border-gray-200 p-6">
-                <ComparacionBenchmark
-                  business={bizMetrics}
-                  benchmark={benchmarkData}
-                  businessName={business.name}
-                />
-              </div>
-            </SeccionBloqueada>
-          </section>
-        )}
+        <section id="sec-benchmark" className="flex flex-col gap-4">
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-bold uppercase tracking-widest text-gray-400 shrink-0">Benchmark vs competencia</span>
+            <div className="flex-1 h-px bg-gray-200" />
+          </div>
+          <SeccionBloqueada
+            slug={slug}
+            pricing={pricing}
+            titulo="Benchmark vs competencia"
+            descripcion="Compara tu negocio contra negocios similares de tu ciudad y descubre exactamente dónde estás parado."
+            incluye={[
+              'Score total vs el promedio de tu categoría y ciudad',
+              'Posición en calificación Google, reputación y rendimiento web',
+              'Gráficos comparativos de cada módulo vs la competencia',
+              'Cuántos negocios similares te superan y en qué áreas',
+            ]}
+          />
+        </section>
 
         {/* ── Recomendaciones ─────────────────────────── */}
         <section id="sec-detalle" className="flex flex-col gap-4">
@@ -273,18 +162,15 @@ export default async function ReportePage({ params }: PageProps) {
             slug={slug}
             pricing={pricing}
             titulo="Análisis detallado y recomendaciones"
-            descripcion="Plan de acción priorizado para cada módulo: qué mejorar, cómo hacerlo y qué impacto tiene."
-          >
-            <ModulosDetalle
-              report={report}
-              business={business}
-              socialData={socialData}
-              platformData={platformData}
-              slug={slug}
-              pricingNuevo={pricingNuevo}
-              pricingOptimizar={pricingOptimizar}
-            />
-          </SeccionBloqueada>
+            descripcion="Plan de acción paso a paso para cada uno de los 6 módulos, priorizado por impacto en visibilidad y reservas."
+            incluye={[
+              'Recomendaciones específicas para Google Maps, sitio web y reputación',
+              'Guía por red social: Instagram, Facebook, TikTok, YouTube y TripAdvisor',
+              'Diagnóstico de plataformas: Booking, Airbnb, Expedia y más',
+              'Priorización por impacto: qué cambiar primero para ver resultados antes',
+              'Nota de análisis generada para tu negocio en particular',
+            ]}
+          />
         </section>
 
         {/* Report a problem */}
