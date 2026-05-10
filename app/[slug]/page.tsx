@@ -11,6 +11,7 @@ import PlataformasReserva from '@/components/reporte/PlataformasReserva'
 import ComparacionBenchmark from '@/components/reporte/ComparacionBenchmark'
 import ReportarProblema from '@/components/reporte/ReportarProblema'
 import StickyTeaser from '@/components/reporte/StickyTeaser'
+import SeccionBloqueada from '@/components/reporte/SeccionBloqueada'
 import { parseCatKeyword, buildGroup, type BizRow, type BenchmarkData } from '@/lib/benchmark'
 
 export const revalidate = 0
@@ -224,11 +225,18 @@ export default async function ReportePage({ params }: PageProps) {
             <span className="text-xs font-bold uppercase tracking-widest text-gray-400 shrink-0">Plataformas de reserva</span>
             <div className="flex-1 h-px bg-gray-200" />
           </div>
-          <PlataformasReserva
-            platformData={platformData}
-            description={description}
-            businessName={business.name}
-          />
+          <SeccionBloqueada
+            slug={slug}
+            pricing={pricing}
+            titulo="Plataformas de reserva"
+            descripcion="Descubre tu presencia en Booking.com, Airbnb, Expedia, Despegar y TripAdvisor con links directos."
+          >
+            <PlataformasReserva
+              platformData={platformData}
+              description={description}
+              businessName={business.name}
+            />
+          </SeccionBloqueada>
         </section>
 
         {/* ── Competencia ─────────────────────────────── */}
@@ -238,13 +246,20 @@ export default async function ReportePage({ params }: PageProps) {
               <span className="text-xs font-bold uppercase tracking-widest text-gray-400 shrink-0">Benchmark vs competencia</span>
               <div className="flex-1 h-px bg-gray-200" />
             </div>
-            <div className="bg-white rounded-2xl border border-gray-200 p-6">
-              <ComparacionBenchmark
-                business={bizMetrics}
-                benchmark={benchmarkData}
-                businessName={business.name}
-              />
-            </div>
+            <SeccionBloqueada
+              slug={slug}
+              pricing={pricing}
+              titulo="Benchmark vs competencia"
+              descripcion="Compara tu score vs negocios similares en tu ciudad y descubre dónde estás parado en el mercado."
+            >
+              <div className="bg-white rounded-2xl border border-gray-200 p-6">
+                <ComparacionBenchmark
+                  business={bizMetrics}
+                  benchmark={benchmarkData}
+                  businessName={business.name}
+                />
+              </div>
+            </SeccionBloqueada>
           </section>
         )}
 
@@ -254,15 +269,22 @@ export default async function ReportePage({ params }: PageProps) {
             <span className="text-xs font-bold uppercase tracking-widest text-gray-400 shrink-0">Análisis y recomendaciones</span>
             <div className="flex-1 h-px bg-gray-200" />
           </div>
-          <ModulosDetalle
-            report={report}
-            business={business}
-            socialData={socialData}
-            platformData={platformData}
+          <SeccionBloqueada
             slug={slug}
-            pricingNuevo={pricingNuevo}
-            pricingOptimizar={pricingOptimizar}
-          />
+            pricing={pricing}
+            titulo="Análisis detallado y recomendaciones"
+            descripcion="Plan de acción priorizado para cada módulo: qué mejorar, cómo hacerlo y qué impacto tiene."
+          >
+            <ModulosDetalle
+              report={report}
+              business={business}
+              socialData={socialData}
+              platformData={platformData}
+              slug={slug}
+              pricingNuevo={pricingNuevo}
+              pricingOptimizar={pricingOptimizar}
+            />
+          </SeccionBloqueada>
         </section>
 
         {/* Report a problem */}
