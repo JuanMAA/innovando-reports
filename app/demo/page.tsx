@@ -236,6 +236,7 @@ export default function DemoPage() {
         ciudad={city}
         scoreTotal={DEMO_BUSINESS.score_total}
         subtitulo="Reporte de presencia digital — Ejemplo"
+        foto={null}
         modulos={[
           { code: 'Maps',  score: DEMO_BUSINESS.score_p2a, max: 20 },
           { code: 'Web',   score: DEMO_BUSINESS.score_p2b, max: 20 },

@@ -22,6 +22,7 @@ interface Props {
   modulos:    Modulo[]
   secciones:  Seccion[]
   subtitulo?: string
+  foto?:      string | null
 }
 
 function pctColors(pct: number) {
@@ -36,7 +37,7 @@ function totalColor(score: number) {
   return 'text-red-500 dark:text-red-400'
 }
 
-export default function HeroHeader({ nombre, ciudad, scoreTotal, modulos, secciones, subtitulo }: Props) {
+export default function HeroHeader({ nombre, ciudad, scoreTotal, modulos, secciones, subtitulo, foto }: Props) {
   const [compact, setCompact] = useState(false)
   const [active,  setActive]  = useState(secciones[0]?.id ?? '')
   const heroRef = useRef<HTMLDivElement>(null)
@@ -76,19 +77,22 @@ export default function HeroHeader({ nombre, ciudad, scoreTotal, modulos, seccio
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+  // Iniciales del negocio para el avatar fallback
+  const iniciales = nombre.split(' ').slice(0, 2).map(w => w[0]).join('').toUpperCase()
+
   // ── Shared module bars markup ─────────────────────────────
   const moduloBars = (
-    <div className="flex items-center gap-3 flex-1">
+    <div className="flex items-center gap-4 flex-1">
       {modulos.map(({ code, score, max }) => {
         const pct = Math.min(1, score / max)
         const { bar, txt } = pctColors(pct)
         return (
-          <div key={code} className="flex flex-col items-center gap-1 w-8">
-            <span className={`text-xs font-bold tabular-nums leading-none ${txt}`}>{score}</span>
-            <div className="w-full h-1 rounded-full bg-gray-200 dark:bg-gray-700">
+          <div key={code} className="flex flex-col items-center gap-1.5 w-9">
+            <span className={`text-sm font-bold tabular-nums leading-none ${txt}`}>{score}</span>
+            <div className="w-full h-1.5 rounded-full bg-gray-200 dark:bg-gray-700">
               <div className={`h-full rounded-full ${bar}`} style={{ width: `${pct * 100}%` }} />
             </div>
-            <span className="text-[10px] text-gray-400 dark:text-gray-600 leading-none">{code}</span>
+            <span className="text-[11px] text-gray-400 dark:text-gray-600 leading-none">{code}</span>
           </div>
         )
       })}
@@ -121,16 +125,29 @@ export default function HeroHeader({ nombre, ciudad, scoreTotal, modulos, seccio
             </div>
           </div>
 
-          {/* Nombre del negocio */}
-          <p className="text-xs font-semibold uppercase tracking-widest text-blue-500 dark:text-blue-400 mb-2">
-            {subtitulo ?? 'Reporte de presencia digital'}
-          </p>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-tight">
-            {nombre}
-          </h1>
-          {ciudad && (
-            <p className="text-base text-gray-500 dark:text-gray-400 mt-2">{ciudad}</p>
-          )}
+          {/* Nombre del negocio + foto */}
+          <div className="flex items-center gap-5">
+            {/* Avatar / foto */}
+            <div className="shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-sm bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+              {foto
+                ? <img src={foto} alt={nombre} className="w-full h-full object-cover" />
+                : <span className="text-xl sm:text-2xl font-black text-gray-400 dark:text-gray-500 select-none">{iniciales}</span>
+              }
+            </div>
+
+            {/* Texto */}
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-blue-500 dark:text-blue-400 mb-1.5">
+                {subtitulo ?? 'Reporte de presencia digital'}
+              </p>
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white leading-tight">
+                {nombre}
+              </h1>
+              {ciudad && (
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{ciudad}</p>
+              )}
+            </div>
+          </div>
 
         </div>
       </div>

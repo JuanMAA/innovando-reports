@@ -40,6 +40,18 @@ export default async function ReportePage({ params }: PageProps) {
 
   if (!report) notFound()
 
+  // Fetch foto principal desde business_data
+  const { data: fotoData } = await supabase
+    .from('business_data')
+    .select('value')
+    .eq('business_id', business.id)
+    .eq('module', 'maps')
+    .eq('key', 'photo_1')
+    .maybeSingle()
+
+  const fotoRef = fotoData?.value ?? null
+  const foto = fotoRef ? `/api/photo?ref=${fotoRef}` : null
+
   const { data: pricingRows } = await supabase
     .from('country_pricing')
     .select('*')
@@ -61,6 +73,7 @@ export default async function ReportePage({ params }: PageProps) {
       <HeroHeader
         nombre={business.name}
         ciudad={city}
+        foto={foto}
         scoreTotal={business.score_total}
         modulos={[
           { code: 'Maps',  score: business.score_p2a, max: 20 },
