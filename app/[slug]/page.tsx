@@ -204,7 +204,7 @@ export default async function ReportePage({ params }: PageProps) {
             <span className="font-medium text-gray-500">Aviso:</span> Este reporte fue generado de forma automática a partir de información pública disponible en internet — Google Maps, sitios web, redes sociales y plataformas de viaje. Los datos reflejan el estado al momento del análisis y pueden no estar actualizados. Si encuentras algún error, puedes reportarlo arriba.
           </p>
           <div className="flex items-center justify-between">
-            <img src="/logo-innovando.png" alt="Innovando" className="h-6 w-6" />
+            <img src="/logo-innovando.png" alt="Innovando" className="h-8 w-8" />
             <a
               href="https://innovando.cl"
               className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
