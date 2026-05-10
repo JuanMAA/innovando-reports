@@ -12,7 +12,7 @@ interface Props {
 function FakeContent() {
   return (
     <div className="px-5 py-5 flex flex-col gap-3 pointer-events-none select-none" aria-hidden>
-      {/* Fila 1 — icono + nombre + score verde */}
+      {/* Fila 1 */}
       <div className="flex items-center gap-3">
         <div className="h-9 w-9 rounded-xl bg-gray-200 shrink-0" />
         <div className="flex flex-col gap-1.5 flex-1">
@@ -21,13 +21,12 @@ function FakeContent() {
         </div>
         <div className="h-6 w-10 rounded-full bg-green-200" />
       </div>
-      {/* Barra larga verde */}
       <div className="h-2.5 w-full rounded-full bg-gray-100">
         <div className="h-2.5 w-[72%] rounded-full bg-green-300" />
       </div>
 
-      {/* Fila 2 — icono + nombre + score amber */}
-      <div className="flex items-center gap-3 mt-1">
+      {/* Fila 2 */}
+      <div className="flex items-center gap-3">
         <div className="h-9 w-9 rounded-xl bg-gray-200 shrink-0" />
         <div className="flex flex-col gap-1.5 flex-1">
           <div className="h-2.5 w-28 rounded-full bg-gray-200" />
@@ -35,16 +34,29 @@ function FakeContent() {
         </div>
         <div className="h-6 w-10 rounded-full bg-amber-200" />
       </div>
-      {/* Barra amber */}
       <div className="h-2.5 w-full rounded-full bg-gray-100">
         <div className="h-2.5 w-[43%] rounded-full bg-amber-300" />
       </div>
 
-      {/* Fila 3 — chips */}
-      <div className="flex gap-2 mt-1">
+      {/* Fila 3 */}
+      <div className="flex items-center gap-3">
+        <div className="h-9 w-9 rounded-xl bg-gray-200 shrink-0" />
+        <div className="flex flex-col gap-1.5 flex-1">
+          <div className="h-2.5 w-32 rounded-full bg-gray-200" />
+          <div className="h-2 w-24 rounded-full bg-gray-100" />
+        </div>
+        <div className="h-6 w-10 rounded-full bg-red-200" />
+      </div>
+      <div className="h-2.5 w-full rounded-full bg-gray-100">
+        <div className="h-2.5 w-[28%] rounded-full bg-red-300" />
+      </div>
+
+      {/* Chips */}
+      <div className="flex gap-2 pt-1">
         <div className="h-6 w-24 rounded-full bg-gray-200" />
         <div className="h-6 w-16 rounded-full bg-green-200" />
         <div className="h-6 w-20 rounded-full bg-gray-200" />
+        <div className="h-6 w-14 rounded-full bg-amber-200" />
       </div>
     </div>
   )
@@ -52,7 +64,7 @@ function FakeContent() {
 
 export default function SeccionBloqueada({ slug, pricing, titulo, descripcion }: Props) {
   return (
-    <div className="relative rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-hidden h-56">
+    <div className="relative rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-hidden h-72">
 
       {/* Contenido falso borroso */}
       <div className="absolute inset-0 blur-sm">
