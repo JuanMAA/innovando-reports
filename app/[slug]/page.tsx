@@ -186,60 +186,74 @@ export default async function ReportePage({ params }: PageProps) {
       />
 
       {/* Main content */}
-      <main className="mx-auto max-w-6xl px-6 py-8 flex flex-col gap-6">
+      <main className="mx-auto max-w-6xl px-6 py-8 flex flex-col gap-8">
 
-        {/* Diagnóstico general */}
-        <div id="sec-diagnostico">
-          <NotaGeneral report={report} businessName={business.name} />
-        </div>
+        {/* ── Diagnóstico ─────────────────────────────── */}
+        <section id="sec-diagnostico" className="flex flex-col gap-4">
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-bold uppercase tracking-widest text-gray-400 shrink-0">Diagnóstico general</span>
+            <div className="flex-1 h-px bg-gray-200" />
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <NotaGeneral report={report} />
+            <div className="bg-white rounded-2xl border border-gray-200 p-6">
+              <ModulosBars report={report} teaser />
+            </div>
+          </div>
+        </section>
 
-        {/* Detalle por módulo (barras) */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-6">
-          <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">
-            Detalle por área
-          </p>
-          <ModulosBars report={report} teaser />
-        </div>
-
-        {/* Auditoría web */}
-        <div id="sec-web">
+        {/* ── Sitio web ───────────────────────────────── */}
+        <section id="sec-web" className="flex flex-col gap-4">
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-bold uppercase tracking-widest text-gray-400 shrink-0">Sitio web</span>
+            <div className="flex-1 h-px bg-gray-200" />
+          </div>
           <AuditoriaWebCard business={business} />
-        </div>
+          <ModuloSitioWeb
+            business={business}
+            pricingNuevo={pricingNuevo}
+            pricingOptimizar={pricingOptimizar}
+            tieneWebPropia={!!business.website}
+            slug={slug}
+          />
+        </section>
 
-        {/* Sitio web Innovando */}
-        <ModuloSitioWeb
-          business={business}
-          pricingNuevo={pricingNuevo}
-          pricingOptimizar={pricingOptimizar}
-          tieneWebPropia={!!business.website}
-          slug={slug}
-        />
-
-        {/* Plataformas de reserva */}
-        <div id="sec-plataformas">
+        {/* ── Plataformas ─────────────────────────────── */}
+        <section id="sec-plataformas" className="flex flex-col gap-4">
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-bold uppercase tracking-widest text-gray-400 shrink-0">Plataformas de reserva</span>
+            <div className="flex-1 h-px bg-gray-200" />
+          </div>
           <PlataformasReserva
             platformData={platformData}
             description={description}
             businessName={business.name}
           />
-        </div>
+        </section>
 
-        {/* Comparación competitiva */}
+        {/* ── Competencia ─────────────────────────────── */}
         {benchmarkData.groups.length > 0 && (
-          <div id="sec-benchmark" className="bg-white rounded-2xl border border-gray-200 p-6">
-            <ComparacionBenchmark
-              business={bizMetrics}
-              benchmark={benchmarkData}
-              businessName={business.name}
-            />
-          </div>
+          <section id="sec-benchmark" className="flex flex-col gap-4">
+            <div className="flex items-center gap-3">
+              <span className="text-xs font-bold uppercase tracking-widest text-gray-400 shrink-0">Benchmark vs competencia</span>
+              <div className="flex-1 h-px bg-gray-200" />
+            </div>
+            <div className="bg-white rounded-2xl border border-gray-200 p-6">
+              <ComparacionBenchmark
+                business={bizMetrics}
+                benchmark={benchmarkData}
+                businessName={business.name}
+              />
+            </div>
+          </section>
         )}
 
-        {/* Recomendaciones por módulo */}
-        <div id="sec-detalle">
-          <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">
-            Análisis detallado y recomendaciones
-          </p>
+        {/* ── Recomendaciones ─────────────────────────── */}
+        <section id="sec-detalle" className="flex flex-col gap-4">
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-bold uppercase tracking-widest text-gray-400 shrink-0">Análisis y recomendaciones</span>
+            <div className="flex-1 h-px bg-gray-200" />
+          </div>
           <ModulosDetalle
             report={report}
             business={business}
@@ -249,7 +263,7 @@ export default async function ReportePage({ params }: PageProps) {
             pricingNuevo={pricingNuevo}
             pricingOptimizar={pricingOptimizar}
           />
-        </div>
+        </section>
 
         {/* Report a problem */}
         <div data-print="hidden">

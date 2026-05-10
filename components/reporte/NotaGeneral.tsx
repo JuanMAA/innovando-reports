@@ -1,30 +1,13 @@
-import { ClipboardList } from 'lucide-react'
 import { Report } from '@/types'
 import ScoreGauge from './ScoreGauge'
 
 interface Props {
   report: Report
-  businessName: string
 }
 
-export default function NotaGeneral({ report, businessName }: Props) {
+export default function NotaGeneral({ report }: Props) {
   return (
     <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden">
-      {/* Header */}
-      <div className="bg-gray-50 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 px-6 py-5">
-        <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gray-200 dark:bg-white/10 shrink-0">
-            <ClipboardList className="w-5 h-5 text-gray-600 dark:text-white" />
-          </div>
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400">
-              Diagnóstico general
-            </p>
-            <p className="text-lg font-bold text-gray-900 dark:text-white leading-tight">{businessName}</p>
-          </div>
-        </div>
-      </div>
-
       {/* Gauge de valoración */}
       <div className="flex justify-center px-6 py-6 border-b border-gray-100">
         <ScoreGauge score={report.score_total} />
