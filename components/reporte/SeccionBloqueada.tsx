@@ -9,29 +9,42 @@ interface Props {
   incluye?:    string[]
 }
 
-// Filas de skeleton que simulan contenido real (sin datos reales)
 function FakeContent() {
   return (
-    <div className="px-5 py-4 flex flex-col gap-2.5 pointer-events-none select-none" aria-hidden>
-      {/* Fila 1 */}
+    <div className="px-5 py-5 flex flex-col gap-3 pointer-events-none select-none" aria-hidden>
+      {/* Fila 1 — icono + nombre + score verde */}
       <div className="flex items-center gap-3">
-        <div className="h-8 w-8 rounded-lg bg-gray-200 dark:bg-gray-700 shrink-0" />
-        <div className="h-2.5 w-40 rounded-full bg-gray-200 dark:bg-gray-700" />
-        <div className="ml-auto h-5 w-14 rounded-full bg-gray-100 dark:bg-gray-800" />
+        <div className="h-9 w-9 rounded-xl bg-gray-200 shrink-0" />
+        <div className="flex flex-col gap-1.5 flex-1">
+          <div className="h-2.5 w-36 rounded-full bg-gray-200" />
+          <div className="h-2 w-20 rounded-full bg-gray-100" />
+        </div>
+        <div className="h-6 w-10 rounded-full bg-green-200" />
       </div>
-      {/* Barra de progreso */}
-      <div className="h-2.5 w-full rounded-full bg-gray-100 dark:bg-gray-800">
-        <div className="h-2.5 w-3/5 rounded-full bg-gray-200 dark:bg-gray-700" />
+      {/* Barra larga verde */}
+      <div className="h-2.5 w-full rounded-full bg-gray-100">
+        <div className="h-2.5 w-[72%] rounded-full bg-green-300" />
       </div>
-      {/* Fila 2 */}
-      <div className="flex items-center gap-3 mt-0.5">
-        <div className="h-8 w-8 rounded-lg bg-gray-200 dark:bg-gray-700 shrink-0" />
-        <div className="h-2.5 w-32 rounded-full bg-gray-200 dark:bg-gray-700" />
-        <div className="ml-auto h-5 w-10 rounded-full bg-gray-100 dark:bg-gray-800" />
+
+      {/* Fila 2 — icono + nombre + score amber */}
+      <div className="flex items-center gap-3 mt-1">
+        <div className="h-9 w-9 rounded-xl bg-gray-200 shrink-0" />
+        <div className="flex flex-col gap-1.5 flex-1">
+          <div className="h-2.5 w-28 rounded-full bg-gray-200" />
+          <div className="h-2 w-16 rounded-full bg-gray-100" />
+        </div>
+        <div className="h-6 w-10 rounded-full bg-amber-200" />
       </div>
-      {/* Barra de progreso */}
-      <div className="h-2.5 w-full rounded-full bg-gray-100 dark:bg-gray-800">
-        <div className="h-2.5 w-2/5 rounded-full bg-gray-200 dark:bg-gray-700" />
+      {/* Barra amber */}
+      <div className="h-2.5 w-full rounded-full bg-gray-100">
+        <div className="h-2.5 w-[43%] rounded-full bg-amber-300" />
+      </div>
+
+      {/* Fila 3 — chips */}
+      <div className="flex gap-2 mt-1">
+        <div className="h-6 w-24 rounded-full bg-gray-200" />
+        <div className="h-6 w-16 rounded-full bg-green-200" />
+        <div className="h-6 w-20 rounded-full bg-gray-200" />
       </div>
     </div>
   )
@@ -39,15 +52,19 @@ function FakeContent() {
 
 export default function SeccionBloqueada({ slug, pricing, titulo }: Props) {
   return (
-    <div className="relative rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-hidden h-36">
+    <div className="relative rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-hidden h-48">
 
       {/* Contenido falso borroso */}
       <div className="absolute inset-0 blur-sm">
         <FakeContent />
       </div>
 
-      {/* Velo semitransparente */}
-      <div className="absolute inset-0 bg-white/70 dark:bg-gray-900/70" />
+      {/* Degradado: más opaco arriba y abajo, translúcido en el centro */}
+      <div className="absolute inset-0"
+        style={{
+          background: 'linear-gradient(to bottom, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.45) 40%, rgba(255,255,255,0.75) 100%)'
+        }}
+      />
 
       {/* CTA centrado */}
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-2.5 px-6 text-center">
@@ -64,7 +81,7 @@ export default function SeccionBloqueada({ slug, pricing, titulo }: Props) {
           {pricing ? `Desbloquear — ${pricing.price_display}` : 'Comprar informe'}
           <ChevronRight className="w-4 h-4" />
         </a>
-        <p className="text-xs text-gray-400">Sin suscripción · pago único · acceso inmediato</p>
+        <p className="text-xs text-gray-400 dark:text-gray-500">Sin suscripción · pago único · acceso inmediato</p>
       </div>
     </div>
   )
