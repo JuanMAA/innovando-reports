@@ -107,9 +107,7 @@ export default function HeroHeader({ nombre, ciudad, scoreTotal, modulos, seccio
 
           {/* Fila: brand + barras + score total */}
           <div className="flex items-center gap-4 mb-6">
-            <span className="text-xs font-black tracking-widest text-gray-300 dark:text-white/30 uppercase shrink-0">
-              Innovando
-            </span>
+            <img src="/logo-innovando.svg" alt="Innovando" className="h-6 w-6 shrink-0 opacity-40 dark:opacity-20" />
             <div className="w-px h-4 bg-gray-200 dark:bg-gray-700 shrink-0" />
             {moduloBars}
             <div className="shrink-0 text-right">
@@ -151,9 +149,10 @@ export default function HeroHeader({ nombre, ciudad, scoreTotal, modulos, seccio
           {/* Brand */}
           <button
             onClick={scrollTop}
-            className="text-xs font-black tracking-widest text-gray-300 dark:text-white/30 uppercase shrink-0 hover:text-gray-500 dark:hover:text-white/60 transition-colors"
+            className="shrink-0 hover:opacity-70 transition-opacity"
+            aria-label="Volver al inicio"
           >
-            Innovando
+            <img src="/logo-innovando.svg" alt="Innovando" className="h-6 w-6 opacity-40 dark:opacity-20" />
           </button>
 
           <div className="w-px h-4 bg-gray-200 dark:bg-gray-700 shrink-0" />
