@@ -225,7 +225,7 @@ export default function DemoPage() {
   const city = 'Santiago, Chile'
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-28">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 pb-28">
       {/* Banner demo */}
       <div className="bg-blue-600 text-white text-center py-2 text-sm font-medium tracking-wide sticky top-0 z-30">
         ✦ Este es un reporte de ejemplo con datos ficticios — así se ve tu reporte completo ✦

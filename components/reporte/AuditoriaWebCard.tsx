@@ -48,25 +48,27 @@ export default function AuditoriaWebCard({ business }: Props) {
 
   return (
     <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden">
-      {/* Header oscuro */}
-      <div className="bg-gray-900 px-6 py-5">
+      {/* Header */}
+      <div className="bg-gray-50 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 px-6 py-5">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 shrink-0">
-              <Globe className="w-5 h-5 text-white" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gray-200 dark:bg-white/10 shrink-0">
+              <Globe className="w-5 h-5 text-gray-600 dark:text-white" />
             </div>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">
+              <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400">
                 Auditoría del sitio web
               </p>
-              <p className="text-lg font-bold text-white leading-tight">
+              <p className="text-lg font-bold text-gray-900 dark:text-white leading-tight">
                 {hostname ?? 'Sin sitio web propio'}
               </p>
             </div>
           </div>
           {lcpSeconds && (
             <div className={`flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full shrink-0 ${
-              lcpOk ? 'bg-green-500/20 text-green-300' : 'bg-red-500/20 text-red-300'
+              lcpOk
+                ? 'bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-300'
+                : 'bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-300'
             }`}>
               {lcpOk ? <CheckCircle2 className="w-3.5 h-3.5" /> : <AlertTriangle className="w-3.5 h-3.5" />}
               {lcpSeconds}s carga

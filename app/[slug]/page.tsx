@@ -163,7 +163,7 @@ export default async function ReportePage({ params }: PageProps) {
     .join(', ')
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-28">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 pb-28">
       <HeroHeader
         nombre={business.name}
         ciudad={city}

@@ -91,7 +91,7 @@ export default function StickyTeaser({ slug, pricing }: Props) {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const baseBar = 'fixed bottom-0 left-0 right-0 z-30 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 shadow-[0_-4px_24px_rgba(0,0,0,0.06)] dark:shadow-[0_-4px_24px_rgba(0,0,0,0.3)]'
+  const baseBar = 'fixed bottom-0 left-0 right-0 z-30 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 shadow-[0_-4px_24px_rgba(0,0,0,0.06)] dark:shadow-[0_-4px_24px_rgba(0,0,0,0.3)]'
 
   /* ── EXPANDED — chips grid al llegar al fondo ─────── */
   if (atBottom) {

@@ -101,7 +101,7 @@ export default function HeroHeader({ nombre, ciudad, scoreTotal, modulos, seccio
           Scrollea con la página sin causar layout shifts.         */}
       <div
         ref={heroRef}
-        className="print:hidden bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700"
+        className="print:hidden bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700"
       >
         <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-10">
 
@@ -141,7 +141,7 @@ export default function HeroHeader({ nombre, ciudad, scoreTotal, modulos, seccio
           No afecta el layout (position: fixed), sin saltos.         */}
       <div
         className={`print:hidden fixed top-0 left-0 right-0 z-20 h-14
-          bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700
+          bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700
           shadow-sm dark:shadow-black/30
           transition-transform duration-200 ease-out
           ${compact ? 'translate-y-0' : '-translate-y-full'}`}
