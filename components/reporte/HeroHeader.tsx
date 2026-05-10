@@ -70,7 +70,11 @@ export default function HeroHeader({ nombre, ciudad, scoreTotal, modulos, seccio
   }, [secciones])
 
   function scrollTo(id: string) {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    const el = document.getElementById(id)
+    if (!el) return
+    const offset = 80 // compact bar h-16 (64px) + 16px de aire
+    const top = el.getBoundingClientRect().top + window.scrollY - offset
+    window.scrollTo({ top, behavior: 'smooth' })
   }
 
   function scrollTop() {
