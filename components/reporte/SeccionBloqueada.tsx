@@ -9,54 +9,49 @@ interface Props {
   incluye?:    string[]
 }
 
+function rand(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+const ROW_COLORS = [
+  { score: 'bg-green-200',  bar: 'bg-green-300'  },
+  { score: 'bg-amber-200',  bar: 'bg-amber-300'  },
+  { score: 'bg-red-200',    bar: 'bg-red-300'    },
+]
+
 function FakeContent() {
+  const rows = ROW_COLORS.map((c, i) => ({
+    ...c,
+    barW:    rand(i === 0 ? 55 : i === 1 ? 30 : 15, i === 0 ? 90 : i === 1 ? 65 : 45),
+    labelW:  rand(20, 36) * 4, // multiples of 4 → Tailwind-like widths in px
+    subW:    rand(14, 24) * 4,
+  }))
+
+  const chipWidths = [rand(18, 28), rand(12, 18), rand(16, 24), rand(10, 16)].map(w => w * 4)
+
   return (
     <div className="px-5 py-5 flex flex-col gap-3 pointer-events-none select-none" aria-hidden>
-      {/* Fila 1 */}
-      <div className="flex items-center gap-3">
-        <div className="h-9 w-9 rounded-xl bg-gray-200 shrink-0" />
-        <div className="flex flex-col gap-1.5 flex-1">
-          <div className="h-2.5 w-36 rounded-full bg-gray-200" />
-          <div className="h-2 w-20 rounded-full bg-gray-100" />
+      {rows.map((row, i) => (
+        <div key={i}>
+          <div className="flex items-center gap-3">
+            <div className="h-9 w-9 rounded-xl bg-gray-200 shrink-0" />
+            <div className="flex flex-col gap-1.5 flex-1">
+              <div className="h-2.5 rounded-full bg-gray-200" style={{ width: row.labelW }} />
+              <div className="h-2 rounded-full bg-gray-100"   style={{ width: row.subW   }} />
+            </div>
+            <div className={`h-6 w-10 rounded-full ${row.score}`} />
+          </div>
+          <div className="h-2.5 w-full rounded-full bg-gray-100 mt-3">
+            <div className={`h-2.5 rounded-full ${row.bar}`} style={{ width: `${row.barW}%` }} />
+          </div>
         </div>
-        <div className="h-6 w-10 rounded-full bg-green-200" />
-      </div>
-      <div className="h-2.5 w-full rounded-full bg-gray-100">
-        <div className="h-2.5 w-[72%] rounded-full bg-green-300" />
-      </div>
-
-      {/* Fila 2 */}
-      <div className="flex items-center gap-3">
-        <div className="h-9 w-9 rounded-xl bg-gray-200 shrink-0" />
-        <div className="flex flex-col gap-1.5 flex-1">
-          <div className="h-2.5 w-28 rounded-full bg-gray-200" />
-          <div className="h-2 w-16 rounded-full bg-gray-100" />
-        </div>
-        <div className="h-6 w-10 rounded-full bg-amber-200" />
-      </div>
-      <div className="h-2.5 w-full rounded-full bg-gray-100">
-        <div className="h-2.5 w-[43%] rounded-full bg-amber-300" />
-      </div>
-
-      {/* Fila 3 */}
-      <div className="flex items-center gap-3">
-        <div className="h-9 w-9 rounded-xl bg-gray-200 shrink-0" />
-        <div className="flex flex-col gap-1.5 flex-1">
-          <div className="h-2.5 w-32 rounded-full bg-gray-200" />
-          <div className="h-2 w-24 rounded-full bg-gray-100" />
-        </div>
-        <div className="h-6 w-10 rounded-full bg-red-200" />
-      </div>
-      <div className="h-2.5 w-full rounded-full bg-gray-100">
-        <div className="h-2.5 w-[28%] rounded-full bg-red-300" />
-      </div>
+      ))}
 
       {/* Chips */}
-      <div className="flex gap-2 pt-1">
-        <div className="h-6 w-24 rounded-full bg-gray-200" />
-        <div className="h-6 w-16 rounded-full bg-green-200" />
-        <div className="h-6 w-20 rounded-full bg-gray-200" />
-        <div className="h-6 w-14 rounded-full bg-amber-200" />
+      <div className="flex gap-2 pt-1 flex-wrap">
+        {chipWidths.map((w, i) => (
+          <div key={i} className={`h-6 rounded-full ${i % 2 === 0 ? 'bg-gray-200' : i === 1 ? 'bg-green-200' : 'bg-amber-200'}`} style={{ width: w }} />
+        ))}
       </div>
     </div>
   )
