@@ -111,7 +111,7 @@ export default function HeroHeader({ nombre, ciudad, scoreTotal, modulos, seccio
 
           {/* Fila: brand + barras + score total */}
           <div className="flex items-center gap-4 mb-6">
-            <img src="/logo-innovando.png" alt="Innovando" className="h-8 w-8 shrink-0 opacity-40 dark:opacity-20" />
+            <img src="/logo-innovando.png" alt="Innovando" className="h-10 w-10 shrink-0" />
             <div className="w-px h-4 bg-gray-200 dark:bg-gray-700 shrink-0" />
             {moduloBars}
             <div className="shrink-0 text-right">
@@ -169,7 +169,7 @@ export default function HeroHeader({ nombre, ciudad, scoreTotal, modulos, seccio
             className="shrink-0 hover:opacity-70 transition-opacity"
             aria-label="Volver al inicio"
           >
-            <img src="/logo-innovando.png" alt="Innovando" className="h-8 w-8 opacity-40 dark:opacity-20" />
+            <img src="/logo-innovando.png" alt="Innovando" className="h-8 w-8" />
           </button>
 
           <div className="w-px h-4 bg-gray-200 dark:bg-gray-700 shrink-0" />
