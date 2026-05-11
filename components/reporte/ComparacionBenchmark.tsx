@@ -45,10 +45,10 @@ function diffLabel(mine: number, avg: number) {
 }
 
 function PercentilBadge({ pct }: { pct: number }) {
-  const color = pct >= 75 ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-              : pct >= 50 ? 'bg-blue-50 text-blue-700 border-blue-200'
-              : pct >= 25 ? 'bg-amber-50 text-amber-700 border-amber-200'
-              :             'bg-red-50 text-red-700 border-red-200'
+  const color = pct >= 75 ? 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-900/50 dark:text-emerald-300 dark:border-emerald-800'
+              : pct >= 50 ? 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/50 dark:text-blue-300 dark:border-blue-800'
+              : pct >= 25 ? 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-900/50 dark:text-amber-300 dark:border-amber-800'
+              :             'bg-red-50 text-red-700 border-red-200 dark:bg-red-900/50 dark:text-red-300 dark:border-red-800'
   const label = pct >= 75 ? 'Top 25%'
               : pct >= 50 ? 'Sobre promedio'
               : pct >= 25 ? 'Bajo promedio'
@@ -81,15 +81,15 @@ function CompareBar({
 
   return (
     <div className="flex flex-col gap-1">
-      <p className="text-xs font-medium text-gray-500">{label}</p>
+      <p className="text-xs font-medium text-gray-500 dark:text-gray-400">{label}</p>
       {/* Mi barra */}
       {myPct !== null && (
         <div className="flex items-center gap-2">
-          <span className="w-20 text-xs text-gray-700 text-right shrink-0">{myLabel}</span>
-          <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+          <span className="w-20 text-xs text-gray-700 text-right shrink-0 dark:text-gray-300">{myLabel}</span>
+          <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden dark:bg-gray-800">
             <div className={`h-full rounded-full ${color}`} style={{ width: `${myPct}%` }} />
           </div>
-          <span className="w-10 text-xs font-semibold text-gray-800 text-right shrink-0">
+          <span className="w-10 text-xs font-semibold text-gray-800 text-right shrink-0 dark:text-gray-200">
             {fmt(myValue!)}
           </span>
         </div>
@@ -97,11 +97,11 @@ function CompareBar({
       {/* Barra promedio */}
       {avgPct !== null && (
         <div className="flex items-center gap-2">
-          <span className="w-20 text-xs text-gray-400 text-right shrink-0">{avgLabel}</span>
-          <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden relative">
-            <div className="h-full rounded-full bg-gray-300" style={{ width: `${avgPct}%` }} />
+          <span className="w-20 text-xs text-gray-400 text-right shrink-0 dark:text-gray-500">{avgLabel}</span>
+          <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden relative dark:bg-gray-800">
+            <div className="h-full rounded-full bg-gray-300 dark:bg-gray-600" style={{ width: `${avgPct}%` }} />
           </div>
-          <span className="w-10 text-xs text-gray-400 text-right shrink-0">
+          <span className="w-10 text-xs text-gray-400 text-right shrink-0 dark:text-gray-500">
             {fmt(avgValue!)}
           </span>
         </div>
@@ -126,19 +126,19 @@ function GroupCard({
       onClick={onClick}
       className={`text-left rounded-xl border p-4 transition-all ${
         active
-          ? 'border-blue-400 bg-blue-50 shadow-sm'
-          : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50'
+          ? 'border-blue-400 bg-blue-50 shadow-sm dark:border-blue-500 dark:bg-blue-900/30'
+          : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-gray-600 dark:hover:bg-gray-700'
       }`}
     >
-      <p className="text-xs text-gray-500 mb-0.5">{group.sublabel}</p>
-      <p className="font-semibold text-gray-900 text-sm leading-snug">{group.label}</p>
+      <p className="text-xs text-gray-500 mb-0.5 dark:text-gray-400">{group.sublabel}</p>
+      <p className="font-semibold text-gray-900 text-sm leading-snug dark:text-gray-100">{group.label}</p>
       <div className="flex items-center justify-between mt-2">
-        <span className="text-xs text-gray-500">Prom. score</span>
-        <span className="font-bold text-gray-800">{group.avg_score}</span>
+        <span className="text-xs text-gray-500 dark:text-gray-400">Prom. score</span>
+        <span className="font-bold text-gray-800 dark:text-gray-200">{group.avg_score}</span>
       </div>
       <div className="flex items-center justify-between mt-0.5">
-        <span className="text-xs text-gray-500">Tu diferencia</span>
-        <span className={`text-xs font-bold ${diff >= 0 ? 'text-emerald-600' : 'text-red-500'}`}>
+        <span className="text-xs text-gray-500 dark:text-gray-400">Tu diferencia</span>
+        <span className={`text-xs font-bold ${diff >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-500 dark:text-red-400'}`}>
           {diff >= 0 ? '+' : ''}{Math.round(diff * 10) / 10} pts
         </span>
       </div>
@@ -154,45 +154,45 @@ function GroupCard({
 // ── Panel detallado de un grupo ──────────────────────────────
 function GroupDetail({ group, business, catLabel }: { group: BenchmarkGroup; business: BusinessMetrics; catLabel: string }) {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-5 flex flex-col gap-5">
+    <div className="rounded-xl border border-gray-200 bg-white p-5 flex flex-col gap-5 dark:border-gray-700 dark:bg-gray-900">
 
       {/* Header */}
       <div>
-        <p className="font-semibold text-gray-900">{group.label}</p>
-        <p className="text-xs text-gray-400">{group.sublabel}</p>
+        <p className="font-semibold text-gray-900 dark:text-gray-100">{group.label}</p>
+        <p className="text-xs text-gray-400 dark:text-gray-500">{group.sublabel}</p>
       </div>
 
       {/* Score principal con percentil */}
-      <div className="flex items-center gap-4 p-4 rounded-xl bg-gray-50 border border-gray-100">
+      <div className="flex items-center gap-4 p-4 rounded-xl bg-gray-50 border border-gray-100 dark:bg-gray-800 dark:border-gray-700">
         <div className="text-center">
-          <p className="text-3xl font-bold text-gray-900">{business.score_total}</p>
-          <p className="text-xs text-gray-400">tu score</p>
+          <p className="text-3xl font-bold text-gray-900 dark:text-gray-100">{business.score_total}</p>
+          <p className="text-xs text-gray-400 dark:text-gray-500">tu score</p>
         </div>
         <div className="flex-1">
           <div className="flex items-end justify-between mb-1">
-            <span className="text-xs text-gray-500">Tú</span>
-            <span className="text-xs font-semibold text-gray-700">{business.score_total}/100</span>
+            <span className="text-xs text-gray-500 dark:text-gray-400">Tú</span>
+            <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">{business.score_total}/100</span>
           </div>
-          <div className="h-3 bg-gray-200 rounded-full overflow-hidden mb-2">
+          <div className="h-3 bg-gray-200 rounded-full overflow-hidden mb-2 dark:bg-gray-700">
             <div className="h-full rounded-full bg-blue-500" style={{ width: `${business.score_total}%` }} />
           </div>
           <div className="flex items-end justify-between">
-            <span className="text-xs text-gray-400">Promedio</span>
-            <span className="text-xs text-gray-400">{group.avg_score}/100</span>
+            <span className="text-xs text-gray-400 dark:text-gray-500">Promedio</span>
+            <span className="text-xs text-gray-400 dark:text-gray-500">{group.avg_score}/100</span>
           </div>
-          <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+          <div className="h-2 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700">
             <div className="h-full rounded-full bg-gray-400" style={{ width: `${group.avg_score}%` }} />
           </div>
         </div>
         <div className="text-center">
           <p className={`text-2xl font-bold ${pctColor(group.pct_score)}`}>{group.pct_score}°</p>
-          <p className="text-xs text-gray-400">percentil</p>
+          <p className="text-xs text-gray-400 dark:text-gray-500">percentil</p>
         </div>
       </div>
 
       {/* Métricas clave */}
       <div className="flex flex-col gap-3">
-        <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">Métricas clave</p>
+        <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500">Métricas clave</p>
 
         {/* Rating */}
         <CompareBar
@@ -220,7 +220,7 @@ function GroupDetail({ group, business, catLabel }: { group: BenchmarkGroup; bus
 
       {/* Módulos detallados */}
       <div className="flex flex-col gap-3">
-        <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">Detalle por área</p>
+        <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500">Detalle por área</p>
         {MODULOS.map(mod => {
           const myVal  = (business as any)[mod.bizKey]  as number | null
           const avgVal = (group   as any)[mod.benchKey] as number | null
@@ -230,17 +230,17 @@ function GroupDetail({ group, business, catLabel }: { group: BenchmarkGroup; bus
             <div key={mod.key} className="flex items-center gap-3">
               <div className="flex-1">
                 <div className="flex justify-between items-center mb-1">
-                  <span className="text-xs text-gray-600 font-medium">{mod.label}</span>
+                  <span className="text-xs text-gray-600 font-medium dark:text-gray-300">{mod.label}</span>
                   <div className="flex items-center gap-1.5">
                     {diff !== null && diffLabel(myVal!, avgVal!)}
-                    <span className="text-xs text-gray-800 font-semibold">{myVal ?? '—'}</span>
+                    <span className="text-xs text-gray-800 font-semibold dark:text-gray-200">{myVal ?? '—'}</span>
                   </div>
                 </div>
-                <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden relative">
+                <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden relative dark:bg-gray-800">
                   {/* Barra promedio (fondo) */}
                   {avgVal !== null && (
                     <div
-                      className="absolute top-0 left-0 h-full rounded-full bg-gray-200"
+                      className="absolute top-0 left-0 h-full rounded-full bg-gray-200 dark:bg-gray-700"
                       style={{ width: `${Math.min(100, (avgVal / mod.max) * 100)}%` }}
                     />
                   )}
@@ -252,7 +252,7 @@ function GroupDetail({ group, business, catLabel }: { group: BenchmarkGroup; bus
                     />
                   )}
                 </div>
-                <p className="text-[10px] text-gray-400 mt-0.5">{mod.hint}</p>
+                <p className="text-[10px] text-gray-400 mt-0.5 dark:text-gray-500">{mod.hint}</p>
               </div>
             </div>
           )
@@ -276,9 +276,9 @@ export default function ComparacionBenchmark({ business, benchmark, businessName
 
       {/* Header */}
       <div>
-        <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-0.5">Comparación competitiva</p>
-        <h2 className="text-lg font-bold text-gray-900">¿Cómo se posiciona {businessName}?</h2>
-        <p className="text-sm text-gray-500 mt-0.5">
+        <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-0.5 dark:text-gray-500">Comparación competitiva</p>
+        <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">¿Cómo se posiciona {businessName}?</h2>
+        <p className="text-sm text-gray-500 mt-0.5 dark:text-gray-400">
           Comparado contra {catLabel.toLowerCase()} similares en distintos niveles geográficos.
         </p>
       </div>
@@ -300,7 +300,7 @@ export default function ComparacionBenchmark({ business, benchmark, businessName
       <GroupDetail group={activeGroup} business={business} catLabel={catLabel} />
 
       {/* Nota metodológica */}
-      <p className="text-[11px] text-gray-400 leading-relaxed">
+      <p className="text-[11px] text-gray-400 leading-relaxed dark:text-gray-500">
         * Los promedios se calculan sobre negocios activos en nuestra base de datos al momento del análisis.
         {benchmark.catKeyword && ` Categoría "${catLabel}" detectada automáticamente desde Google Maps.`}
       </p>

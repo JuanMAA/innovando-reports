@@ -286,12 +286,12 @@ function ModuleCard({ index, code, label, desc, max, score, nota, open, onToggle
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05, duration: 0.3 }}
-      className="bg-white rounded-2xl border border-gray-200 overflow-hidden"
+      className="bg-white rounded-2xl border border-gray-200 overflow-hidden dark:bg-gray-900 dark:border-gray-700"
     >
       {/* Header */}
       <button
         onClick={onToggle}
-        className="w-full text-left px-6 py-5 hover:bg-gray-50/60 transition-colors"
+        className="w-full text-left px-6 py-5 hover:bg-gray-50/60 transition-colors dark:hover:bg-gray-800/60"
       >
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1 min-w-0">
@@ -299,10 +299,10 @@ function ModuleCard({ index, code, label, desc, max, score, nota, open, onToggle
               <span className={`text-xs font-bold px-2 py-0.5 rounded-full border ${badgeBg(pct)} ${scoreColor(pct)}`}>
                 {code}
               </span>
-              <span className="text-base font-semibold text-gray-800">{label}</span>
-              <span className="text-sm text-gray-400 hidden sm:inline">{desc}</span>
+              <span className="text-base font-semibold text-gray-800 dark:text-gray-100">{label}</span>
+              <span className="text-sm text-gray-400 dark:text-gray-500 hidden sm:inline">{desc}</span>
             </div>
-            <div className="h-2.5 rounded-full bg-gray-100 overflow-hidden mt-2">
+            <div className="h-2.5 rounded-full bg-gray-100 dark:bg-gray-800 overflow-hidden mt-2">
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${pct * 100}%` }}
@@ -313,16 +313,16 @@ function ModuleCard({ index, code, label, desc, max, score, nota, open, onToggle
           </div>
           <div className="flex items-center gap-3 shrink-0">
             <span className={`text-xl font-bold tabular-nums ${scoreColor(pct)}`}>
-              {score}<span className="text-gray-300 font-normal text-sm">/{max}</span>
+              {score}<span className="text-gray-300 dark:text-gray-600 font-normal text-sm">/{max}</span>
             </span>
             {open
-              ? <ChevronUp   className="w-4 h-4 text-gray-400" />
-              : <ChevronDown className="w-4 h-4 text-gray-400" />
+              ? <ChevronUp   className="w-4 h-4 text-gray-400 dark:text-gray-500" />
+              : <ChevronDown className="w-4 h-4 text-gray-400 dark:text-gray-500" />
             }
           </div>
         </div>
         {nota && (
-          <p className="text-sm text-gray-600 leading-relaxed mt-3 pr-8">{nota}</p>
+          <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mt-3 pr-8">{nota}</p>
         )}
       </button>
 
@@ -337,8 +337,8 @@ function ModuleCard({ index, code, label, desc, max, score, nota, open, onToggle
             transition={{ duration: 0.25, ease: 'easeInOut' }}
             className="overflow-hidden"
           >
-            <div className="px-6 pb-6 border-t border-gray-100">
-              <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mt-4 mb-3">
+            <div className="px-6 pb-6 border-t border-gray-100 dark:border-gray-800">
+              <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500 mt-4 mb-3">
                 Recomendaciones
               </p>
               {children}
@@ -524,8 +524,8 @@ export default function ModulosDetalle({ report, business, socialData, platformD
                       {platform.icon}
                       <span className="text-sm">{platform.label}</span>
                       {presente
-                        ? <span className="ml-auto text-xs bg-green-50 text-green-600 border border-green-200 px-2 py-0.5 rounded-full font-normal">Activo</span>
-                        : <span className="ml-auto text-xs bg-red-50 text-red-500 border border-red-200 px-2 py-0.5 rounded-full font-normal">Sin presencia</span>
+                        ? <span className="ml-auto text-xs bg-green-50 text-green-600 border border-green-200 px-2 py-0.5 rounded-full font-normal dark:bg-green-900/50 dark:text-green-300 dark:border-green-800">Activo</span>
+                        : <span className="ml-auto text-xs bg-red-50 text-red-500 border border-red-200 px-2 py-0.5 rounded-full font-normal dark:bg-red-900/50 dark:text-red-300 dark:border-red-800">Sin presencia</span>
                       }
                     </div>
                     {presente ? (

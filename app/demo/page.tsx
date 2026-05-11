@@ -345,7 +345,7 @@ export default function DemoPage() {
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-gray-200 bg-white mt-8">
+      <footer className="border-t border-gray-200 bg-white mt-8 mb-20">
         <div className="mx-auto max-w-6xl px-6 py-6 flex flex-col gap-3">
           <p className="text-xs text-gray-400 leading-relaxed max-w-2xl">
             <span className="font-medium text-gray-500">Aviso:</span> Este es un reporte de demostración con datos ficticios. Los reportes reales son generados automáticamente a partir de información pública — Google Maps, sitios web, redes sociales y plataformas de viaje.

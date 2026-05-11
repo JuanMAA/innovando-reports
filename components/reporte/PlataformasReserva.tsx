@@ -204,17 +204,17 @@ function PlatformCardActive({ plat, data }: { plat: typeof PLATAFORMAS[0]; data:
 // ── Tarjeta de plataforma — ausente ──────────────────────────
 function PlatformCardMissing({ plat }: { plat: typeof PLATAFORMAS[0] }) {
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-dashed border-gray-200 bg-gray-50 p-4">
+    <div className="flex flex-col gap-3 rounded-xl border border-dashed border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900/50">
       {/* Header */}
       <div className="flex items-center gap-2.5">
         <div className="opacity-40">{plat.icon}</div>
         <div className="flex-1 min-w-0">
-          <p className="font-semibold text-gray-400 text-sm leading-tight">{plat.label}</p>
+          <p className="font-semibold text-gray-400 text-sm leading-tight dark:text-gray-500">{plat.label}</p>
         </div>
-        <span className="text-[10px] font-semibold text-gray-400 bg-gray-100 border border-gray-200 rounded-full px-2 py-0.5 shrink-0">No encontrado</span>
+        <span className="text-[10px] font-semibold text-gray-400 bg-gray-100 border border-gray-200 rounded-full px-2 py-0.5 shrink-0 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400">No encontrado</span>
       </div>
 
-      <p className="text-xs text-gray-400 leading-relaxed">
+      <p className="text-xs text-gray-400 leading-relaxed dark:text-gray-400">
         No se encontró presencia en esta plataforma. Registrarte puede aumentar tu visibilidad y reservas directas.
       </p>
 
@@ -225,7 +225,7 @@ function PlatformCardMissing({ plat }: { plat: typeof PLATAFORMAS[0] }) {
         rel="noopener noreferrer"
         className="mt-auto inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-xs font-semibold text-gray-600 hover:bg-gray-50 transition-colors dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
       >
-        <PlusCircle className="w-3.5 h-3.5 text-gray-400" />
+        <PlusCircle className="w-3.5 h-3.5 text-gray-400 dark:text-gray-500" />
         Registrarme en {plat.label}
       </a>
     </div>
