@@ -405,7 +405,7 @@ function CtaFooter({ business, slug, pricingNuevo, pricingOptimizar }: {
         {ctaSecondary && (
           <a
             href="https://innovando.cl/contacto"
-            className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
           >
             {ctaSecondary.label}
           </a>
@@ -416,9 +416,9 @@ function CtaFooter({ business, slug, pricingNuevo, pricingOptimizar }: {
           href={`/${slug}/demo`}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
         >
-          <ExternalLink className="w-4 h-4 text-gray-400" />
+          <ExternalLink className="w-4 h-4 text-gray-400 dark:text-gray-500" />
           Obtén tu sitio AHORA
         </a>
 
@@ -474,7 +474,7 @@ export default function ModulosDetalle({ report, business, socialData, platformD
       {/* ── Global expand/collapse button ── */}
       <button
         onClick={toggleAll}
-        className="self-start inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors shadow-sm"
+        className="self-start inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
       >
         {allOpen
           ? <><ChevronsDownUp className="w-4 h-4 text-gray-400" /> Colapsar todo</>

@@ -89,16 +89,16 @@ function DiagnosticoSection({ business, tieneWebPropia }: { business: Business; 
 
   if (action === 'optimizar' || (perf !== null && perf !== undefined && perf < 70)) {
     return (
-      <div className="mx-6 my-4 rounded-xl bg-amber-50 border border-amber-100 p-4">
+      <div className="mx-6 my-4 rounded-xl bg-amber-50 border border-amber-100 p-4 dark:bg-amber-950/40 dark:border-amber-900">
         <div className="flex items-start gap-2.5">
-          <Zap className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" />
+          <Zap className="w-4 h-4 text-amber-500 dark:text-amber-400 mt-0.5 shrink-0" />
           <div className="w-full">
-            <p className="text-sm font-bold text-amber-800 mb-2">Te lo ofrecemos porque tu sitio tiene problemas de velocidad y SEO</p>
+            <p className="text-sm font-bold text-amber-800 dark:text-amber-300 mb-2">Te lo ofrecemos porque tu sitio tiene problemas de velocidad y SEO</p>
             <div className="flex flex-wrap gap-2">
               {perf != null && <ScorePill label="Velocidad" score={perf} />}
-              {seo  != null && <ScorePill label="SEO"       score={seo}  />}
+              {seo != null && <ScorePill label="SEO" score={seo} />}
             </div>
-            <p className="text-xs text-amber-700 mt-2 leading-relaxed">
+            <p className="text-xs text-amber-700 dark:text-amber-400 mt-2 leading-relaxed">
               Google penaliza sitios lentos: apareces más abajo en búsquedas y pierdes clientes frente a competidores.
             </p>
           </div>
@@ -155,7 +155,7 @@ export default function ModuloSitioWeb({ business, pricingNuevo, pricingOptimiza
       </div>
 
       {/* CTA */}
-      <div className="px-6 py-5 border-t border-gray-100 bg-gray-50">
+      <div className="px-6 py-5 border-t border-gray-100 bg-gray-50 dark:border-gray-800 dark:bg-gray-900">
         <a
           href="https://innovando.cl/contacto"
           className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gray-900 px-5 py-3.5 text-base font-semibold text-white hover:bg-gray-800 transition-colors"
@@ -167,7 +167,7 @@ export default function ModuloSitioWeb({ business, pricingNuevo, pricingOptimiza
         {ctaSecondary && (
           <a
             href="https://innovando.cl/contacto"
-            className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors mt-2"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors mt-2 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
           >
             {ctaSecondary.label}
           </a>
@@ -177,12 +177,12 @@ export default function ModuloSitioWeb({ business, pricingNuevo, pricingOptimiza
           href={`/${slug}/demo`}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors mt-2"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors mt-2 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
         >
-          <ExternalLink className="w-4 h-4 text-gray-400" />
+          <ExternalLink className="w-4 h-4 text-gray-400 dark:text-gray-500" />
           Obtén tu sitio AHORA
         </a>
-        <p className="text-xs text-center text-amber-600 font-medium mt-2">
+        <p className="text-xs text-center text-amber-600 dark:text-amber-400 font-medium mt-2">
           ⏳ La vista previa estará disponible en las próximas horas
         </p>
         <p className="text-xs text-center text-gray-400 mt-1">

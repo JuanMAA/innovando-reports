@@ -190,7 +190,7 @@ export default function AccessibilityMenu() {
                 onClick={() => update({ fontSize: Math.max(0, prefs.fontSize - 1) })}
                 disabled={prefs.fontSize === 0}
                 aria-label="Reducir texto"
-                className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-gray-700 hover:bg-gray-50 disabled:opacity-30 transition-colors shadow-sm"
+                className="w-8 h-8 rounded-lg bg-white dark:bg-gray-800 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-30 transition-colors shadow-sm"
               >
                 <Minus className="w-3.5 h-3.5" />
               </button>
@@ -201,7 +201,7 @@ export default function AccessibilityMenu() {
                 onClick={() => update({ fontSize: Math.min(2, prefs.fontSize + 1) })}
                 disabled={prefs.fontSize === 2}
                 aria-label="Aumentar texto"
-                className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-gray-700 hover:bg-gray-50 disabled:opacity-30 transition-colors shadow-sm"
+                className="w-8 h-8 rounded-lg bg-white dark:bg-gray-800 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-30 transition-colors shadow-sm"
               >
                 <Plus className="w-3.5 h-3.5" />
               </button>

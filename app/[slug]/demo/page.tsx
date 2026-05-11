@@ -50,7 +50,7 @@ export default async function DemoPage({ params }: PageProps) {
             </a>
             <a
               href="https://innovando.cl/contacto"
-              className="inline-flex items-center gap-1.5 rounded-xl bg-white px-4 py-2 text-sm font-bold text-gray-900 hover:bg-gray-100 transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-white dark:bg-gray-800 px-4 py-2 text-sm font-bold text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
             >
               Quiero este sitio
               <ChevronRight className="w-3.5 h-3.5" />

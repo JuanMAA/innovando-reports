@@ -107,9 +107,9 @@ export default function LighthouseCard({ business }: Props) {
       </div>
 
       {lcpSeconds && !lcpOk && (
-        <div className="mt-5 mx-6 mb-6 flex items-start gap-2.5 rounded-xl bg-red-50 border border-red-100 p-3.5">
-          <AlertTriangle className="w-4 h-4 text-red-500 mt-0.5 shrink-0" />
-          <p className="text-sm text-red-800 leading-relaxed">
+        <div className="mt-5 mx-6 mb-6 flex items-start gap-2.5 rounded-xl bg-red-50 border border-red-100 p-3.5 dark:bg-red-950/40 dark:border-red-900">
+          <AlertTriangle className="w-4 h-4 text-red-500 dark:text-red-400 mt-0.5 shrink-0" />
+          <p className="text-sm text-red-800 dark:text-red-300 leading-relaxed">
             Tu sitio tarda <strong>{lcpSeconds}s</strong> en cargar en móvil.
             El 53% de los usuarios abandona sitios que tardan más de 3 segundos.
           </p>

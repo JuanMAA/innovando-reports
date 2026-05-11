@@ -129,7 +129,7 @@ export default function StickyTeaser({ slug, pricing }: Props) {
             href={`/pago/${slug}`}
             className="inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-bold transition-all shrink-0 active:scale-95
               bg-gray-900 text-white hover:bg-gray-700
-              dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100"
+              dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
           >
             {pricing ? `Ver reporte — ${pricing.price_display}` : 'Ver reporte'}
             <ChevronRight className="w-3.5 h-3.5" />
@@ -154,7 +154,7 @@ export default function StickyTeaser({ slug, pricing }: Props) {
           href={`/pago/${slug}`}
           className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-bold transition-all active:scale-95
             bg-gray-900 text-white hover:bg-gray-700
-            dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100"
+            dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
         >
           {pricing ? `Ver reporte — ${pricing.price_display}` : 'Ver reporte'}
           <ChevronRight className="w-3.5 h-3.5" />
@@ -184,7 +184,7 @@ export default function StickyTeaser({ slug, pricing }: Props) {
           href={`/pago/${slug}`}
           className="inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-bold transition-all shrink-0 active:scale-95
             bg-gray-900 text-white hover:bg-gray-700
-            dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100"
+            dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
         >
           {pricing ? `Ver reporte — ${pricing.price_display}` : 'Ver reporte'}
           <ChevronRight className="w-3.5 h-3.5" />

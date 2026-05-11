@@ -198,7 +198,7 @@ export default async function ReportePage({ params }: PageProps) {
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-gray-200 bg-white mt-8">
+      <footer className="border-t border-gray-200 bg-white mt-8 mb-20">
         <div className="mx-auto max-w-6xl px-6 py-6 flex flex-col gap-3">
           <p className="text-sm text-gray-400 leading-relaxed">
             <span className="font-medium text-gray-500">Aviso:</span> Este reporte fue generado de forma automática a partir de información pública disponible en internet — Google Maps, sitios web, redes sociales y plataformas de viaje. Los datos reflejan el estado al momento del análisis y pueden no estar actualizados. Si encuentras algún error, puedes reportarlo arriba.
