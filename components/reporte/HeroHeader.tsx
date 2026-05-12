@@ -109,7 +109,7 @@ export default function HeroHeader({ nombre, ciudad, scoreTotal, modulos, seccio
           Scrollea con la página sin causar layout shifts.         */}
       <div
         ref={heroRef}
-        className="print:hidden bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700"
+        className="print:hidden bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700"
       >
         <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-10">
 
@@ -122,9 +122,9 @@ export default function HeroHeader({ nombre, ciudad, scoreTotal, modulos, seccio
               <p className="text-[10px] text-gray-400 dark:text-gray-500 leading-tight uppercase tracking-wider">
                 Score total
               </p>
-              <p className={`text-2xl font-black tabular-nums leading-tight ${totalColor(scoreTotal)}`}>
+              <p className={`text-2xl sm:text-3xl lg:text-4xl font-black tabular-nums leading-tight ${totalColor(scoreTotal)}`}>
                 {scoreTotal}
-                <span className="text-xs text-gray-300 dark:text-gray-600 font-normal">/100</span>
+                <span className="text-xs sm:text-sm text-gray-300 dark:text-gray-600 font-normal">/100</span>
               </p>
             </div>
           </div>
@@ -160,7 +160,7 @@ export default function HeroHeader({ nombre, ciudad, scoreTotal, modulos, seccio
           No afecta el layout (position: fixed), sin saltos.         */}
       <div
         className={`print:hidden fixed top-0 left-0 right-0 z-20 h-16
-          bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700
+          bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700
           shadow-sm dark:shadow-black/30
           transition-transform duration-200 ease-out
           ${compact ? 'translate-y-0' : '-translate-y-full'}`}
@@ -225,7 +225,7 @@ export default function HeroHeader({ nombre, ciudad, scoreTotal, modulos, seccio
           </div>
 
           {/* Score total */}
-          <span className={`text-sm font-black tabular-nums shrink-0 ${totalColor(scoreTotal)}`}>
+          <span className={`hidden sm:block text-sm sm:text-base lg:text-lg font-black tabular-nums shrink-0 ${totalColor(scoreTotal)}`}>
             {scoreTotal}
             <span className="text-xs text-gray-300 dark:text-gray-600 font-normal">/100</span>
           </span>

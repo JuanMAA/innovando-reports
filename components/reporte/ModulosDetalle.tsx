@@ -391,7 +391,7 @@ function CtaFooter({ business, slug, pricingNuevo, pricingOptimizar }: {
         </p>
       </div>
 
-      <div className="px-6 py-5 flex flex-col gap-2">
+      <div className="px-6 py-5 flex flex-row sm:flex-col gap-2">
         {/* Primary CTA */}
         <a
           href="https://innovando.cl/contacto"

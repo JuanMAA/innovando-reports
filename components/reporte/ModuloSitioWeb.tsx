@@ -140,15 +140,15 @@ export default function ModuloSitioWeb({ business, pricingNuevo, pricingOptimiza
       <DiagnosticoSection business={business} tieneWebPropia={tieneWebPropia} />
 
       {/* Features */}
-      <div className="divide-y divide-gray-100 border-t border-gray-100">
+      <div className="divide-y divide-gray-100 border-t border-gray-100 dark:divide-gray-800 dark:border-gray-800">
         {FEATURES.map(({ icon: Icon, titulo, detalle }) => (
           <div key={titulo} className="flex items-start gap-4 px-6 py-4">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gray-100 shrink-0 mt-0.5">
-              <Icon className="w-4 h-4 text-gray-600" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gray-100 shrink-0 mt-0.5 dark:bg-gray-800">
+              <Icon className="w-4 h-4 text-gray-600 dark:text-gray-400" />
             </div>
             <div>
-              <p className="text-base font-semibold text-gray-900">{titulo}</p>
-              <p className="text-sm text-gray-500 mt-0.5 leading-relaxed">{detalle}</p>
+              <p className="text-base font-semibold text-gray-900 dark:text-gray-100">{titulo}</p>
+              <p className="text-sm text-gray-500 mt-0.5 leading-relaxed dark:text-gray-400">{detalle}</p>
             </div>
           </div>
         ))}
@@ -156,22 +156,24 @@ export default function ModuloSitioWeb({ business, pricingNuevo, pricingOptimiza
 
       {/* CTA */}
       <div className="px-6 py-5 border-t border-gray-100 bg-gray-50 dark:border-gray-800 dark:bg-gray-900">
-        <a
-          href="https://innovando.cl/contacto"
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gray-900 px-5 py-3.5 text-base font-semibold text-white hover:bg-gray-800 transition-colors"
-        >
-          {ctaPrimary.label}
-          <ChevronRight className="w-4 h-4" />
-        </a>
-
-        {ctaSecondary && (
+        <div className="flex flex-row sm:flex-col gap-2">
           <a
             href="https://innovando.cl/contacto"
-            className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors mt-2 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gray-900 px-5 py-3.5 text-base font-semibold text-white hover:bg-gray-800 transition-colors"
           >
-            {ctaSecondary.label}
+            {ctaPrimary.label}
+            <ChevronRight className="w-4 h-4" />
           </a>
-        )}
+
+          {ctaSecondary && (
+            <a
+              href="https://innovando.cl/contacto"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+            >
+              {ctaSecondary.label}
+            </a>
+          )}
+        </div>
 
         <a
           href={`/${slug}/demo`}

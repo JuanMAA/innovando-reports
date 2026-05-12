@@ -43,6 +43,7 @@ export default function ScoreGauge({ score }: Props) {
             fill="none"
             stroke="#f3f4f6"
             strokeWidth={STROKE_WIDTH}
+            className="dark:stroke-gray-800"
           />
           <motion.circle
             cx={SIZE / 2}
@@ -60,12 +61,12 @@ export default function ScoreGauge({ score }: Props) {
           <motion.span className={`text-7xl font-bold tabular-nums leading-none ${text}`}>
             {displayScore}
           </motion.span>
-          <span className="text-lg text-gray-400 font-medium mt-1">de 100</span>
+          <span className="text-lg text-gray-400 font-medium mt-1 dark:text-gray-500">de 100</span>
         </div>
       </div>
       <div className="text-center">
         <p className={`text-xl font-bold ${text}`}>{label}</p>
-        <p className="text-base text-gray-500 mt-1">Presencia digital total</p>
+        <p className="text-base text-gray-500 mt-1 dark:text-gray-400">Presencia digital total</p>
       </div>
     </div>
   )

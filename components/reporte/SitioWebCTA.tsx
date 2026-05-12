@@ -118,7 +118,7 @@ export default function SitioWebCTA({ business, pricingOptimizar, pricingNuevo }
         <p className="text-xs text-gray-500 mb-4">
           No reemplazamos tu sitio — lo mejoramos.
         </p>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-row sm:flex-col gap-2">
           <a
             href={`https://innovando.cl/contacto`}
             className="inline-flex items-center justify-center rounded-xl bg-gray-900 px-5 py-3 text-sm font-semibold text-white hover:bg-gray-700 transition-colors w-full"
