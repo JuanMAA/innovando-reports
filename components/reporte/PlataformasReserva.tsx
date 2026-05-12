@@ -152,13 +152,13 @@ function PlatformCardActive({ plat, data }: { plat: typeof PLATAFORMAS[0]; data:
         <div className="flex-1 min-w-0">
           <p className="font-semibold text-gray-900 text-sm leading-tight">{plat.label}</p>
           {superhost && (
-            <span className="text-[10px] font-semibold text-amber-600 bg-amber-50 rounded px-1.5 py-0.5">⭐ Superhost</span>
+            <span className="text-[10px] font-semibold text-amber-600 bg-amber-50 dark:bg-amber-500/20 dark:text-amber-300 rounded px-1.5 py-0.5">⭐ Superhost</span>
           )}
           {excellence && (
-            <span className="text-[10px] font-semibold text-emerald-600 bg-emerald-50 rounded px-1.5 py-0.5">🏆 Certificate of Excellence</span>
+            <span className="text-[10px] font-semibold text-emerald-600 bg-emerald-50 dark:bg-emerald-500/20 dark:text-emerald-300 rounded px-1.5 py-0.5">🏆 Certificate of Excellence</span>
           )}
         </div>
-        <span className="text-[10px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 rounded-full px-2 py-0.5 shrink-0">✓ Presente</span>
+        <span className="text-[10px] font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 dark:bg-emerald-500/20 dark:border-emerald-400/30 dark:text-emerald-300 rounded-full px-2 py-0.5 shrink-0">✓ Presente</span>
       </div>
 
       {/* Rating + reviews */}

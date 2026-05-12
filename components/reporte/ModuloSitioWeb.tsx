@@ -29,9 +29,9 @@ const FEATURES = [
 
 function ScorePill({ label, score }: { label: string; score: number }) {
   const color =
-    score >= 70 ? 'bg-green-50 text-green-700 border-green-200' :
-    score >= 50 ? 'bg-amber-50 text-amber-700 border-amber-200' :
-                  'bg-red-50 text-red-700 border-red-200'
+    score >= 70 ? 'bg-green-50 text-green-700 border-green-200 dark:bg-green-500/20 dark:border-green-400/30 dark:text-green-300' :
+    score >= 50 ? 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-500/20 dark:border-amber-400/30 dark:text-amber-300' :
+                  'bg-red-50 text-red-700 border-red-200 dark:bg-red-500/20 dark:border-red-400/30 dark:text-red-300'
   return (
     <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border ${color}`}>
       {label} <span className="font-black">{score}/100</span>

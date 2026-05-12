@@ -30,9 +30,9 @@ function scoreColor(pct: number) {
 }
 
 function badgeBg(pct: number) {
-  if (pct >= 0.7) return 'bg-green-50 border-green-200'
-  if (pct >= 0.4) return 'bg-amber-50 border-amber-200'
-  return 'bg-red-50 border-red-200'
+  if (pct >= 0.7) return 'bg-green-50 border-green-200 dark:bg-green-500/20 dark:border-green-400/30'
+  if (pct >= 0.4) return 'bg-amber-50 border-amber-200 dark:bg-amber-500/20 dark:border-amber-400/30'
+  return 'bg-red-50 border-red-200 dark:bg-red-500/20 dark:border-red-400/30'
 }
 
 type Rec = { type: 'ok' | 'warn' | 'error'; text: string }
@@ -296,9 +296,6 @@ function ModuleCard({ index, code, label, desc, max, score, nota, open, onToggle
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1">
-              <span className={`text-xs font-bold px-2 py-0.5 rounded-full border ${badgeBg(pct)} ${scoreColor(pct)}`}>
-                {code}
-              </span>
               <span className="text-base font-semibold text-gray-800 dark:text-gray-100">{label}</span>
               <span className="text-sm text-gray-400 dark:text-gray-500 hidden sm:inline">{desc}</span>
             </div>

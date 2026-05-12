@@ -142,16 +142,16 @@ export default function SitioWebCTA({ business, pricingOptimizar, pricingNuevo }
 
   // Case: OK (>= 70 or no lh data)
   return (
-    <div className="rounded-2xl border border-green-100 bg-green-50 p-6">
-      <p className="text-xs font-semibold uppercase tracking-wider text-green-500 mb-1">
+    <div className="rounded-2xl border border-green-100 bg-green-50 dark:border-green-800/50 dark:bg-green-900/20 p-6">
+      <p className="text-xs font-semibold uppercase tracking-wider text-green-500 dark:text-green-400 mb-1">
         Tu sitio web está bien
       </p>
       {perf !== null && perf !== undefined && (
-        <p className="text-sm text-green-600 font-medium mb-2">
+        <p className="text-sm text-green-600 dark:text-green-300 font-medium mb-2">
           Performance: {perf}/100
         </p>
       )}
-      <p className="text-sm text-gray-700">
+      <p className="text-sm text-gray-700 dark:text-gray-300">
         El diagnóstico completo muestra cómo mejorar otras áreas de tu presencia digital.
       </p>
     </div>
