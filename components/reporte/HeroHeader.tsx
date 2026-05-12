@@ -114,11 +114,11 @@ export default function HeroHeader({ nombre, ciudad, scoreTotal, modulos, seccio
         <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-10">
 
           {/* Fila: brand + barras + score total */}
-          <div className="flex items-center gap-4 mb-6">
+          <div className="flex flex-col sm:flex-row items-center gap-4 mb-6">
             <img src="/logo-innovando.png" alt="Innovando" className="h-12 w-12 shrink-0" />
-            <div className="w-px h-4 bg-gray-200 dark:bg-gray-700 shrink-0" />
+            <div className="hidden sm:block w-px h-4 bg-gray-200 dark:bg-gray-700 shrink-0" />
             {moduloBars}
-            <div className="shrink-0 text-right">
+            <div className="hidden sm:block shrink-0 text-right">
               <p className="text-[10px] text-gray-400 dark:text-gray-500 leading-tight uppercase tracking-wider">
                 Score total
               </p>
