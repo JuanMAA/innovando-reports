@@ -165,63 +165,61 @@ export default function HeroHeader({ nombre, ciudad, scoreTotal, modulos, seccio
           transition-transform duration-200 ease-out
           ${compact ? 'translate-y-0' : '-translate-y-full'}`}
       >
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 h-full flex items-center gap-3">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 h-full flex flex-col sm:flex-row items-center gap-2 sm:gap-3 py-2 sm:py-0">
 
-          {/* Brand */}
-          <button
-            onClick={scrollTop}
-            className="shrink-0 hover:opacity-70 transition-opacity"
-            aria-label="Volver al inicio"
-          >
-            <img src="/logo-innovando.png" alt="Innovando" className="h-8 w-8" />
-          </button>
-
-          <div className="w-px h-8 bg-gray-200 dark:bg-gray-700 shrink-0" />
-
-          {/* Centro: nombre arriba + nav abajo */}
-          <div className="flex flex-col flex-1 min-w-0 justify-center gap-0.5">
-
-            {/* Nombre del negocio */}
+          {/* Mobile: logo y nombre juntos */}
+          <div className="flex items-center gap-2 w-full sm:w-auto">
             <button
               onClick={scrollTop}
-              className="text-xs font-semibold text-gray-500 dark:text-gray-400 truncate text-left hover:text-gray-800 dark:hover:text-white transition-colors"
+              className="shrink-0 hover:opacity-70 transition-opacity"
+              aria-label="Volver al inicio"
+            >
+              <img src="/logo-innovando.png" alt="Innovando" className="h-8 w-8" />
+            </button>
+
+            <button
+              onClick={scrollTop}
+              className="text-xs font-semibold text-gray-500 dark:text-gray-400 truncate hover:text-gray-800 dark:hover:text-white transition-colors"
             >
               {nombre}
             </button>
+          </div>
 
-            {/* Secciones nav */}
-            <div className="flex items-center gap-0.5 overflow-x-auto scrollbar-hide">
-              {secciones.map((sec) => {
-                const isActive = active === sec.id
-                const hasPct   = sec.score != null && sec.max != null
-                const pct      = hasPct ? sec.score! / sec.max! : null
-                const colors   = pct !== null ? pctColors(pct) : null
+          {/* Desktop: divisor */}
+          <div className="hidden sm:block w-px h-8 bg-gray-200 dark:bg-gray-700 shrink-0" />
 
-                return (
-                  <button
-                    key={sec.id}
-                    onClick={() => scrollTo(sec.id)}
-                    className={`flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] whitespace-nowrap transition-all duration-150 ${
-                      isActive
-                        ? 'bg-gray-100 dark:bg-white/10 font-bold text-gray-900 dark:text-white'
-                        : 'font-medium text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
-                    }`}
-                  >
-                    {hasPct && pct !== null && colors && (
-                      <span className={`font-bold tabular-nums text-[10px] ${colors.txt}`}>
-                        {sec.score}
-                      </span>
-                    )}
-                    {sec.label}
-                    {isActive && (
-                      <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${
-                        colors ? colors.dot : 'bg-gray-800 dark:bg-white'
-                      }`} />
-                    )}
-                  </button>
-                )
-              })}
-            </div>
+          {/* Mobile: nav abajo, Desktop: nav al centro */}
+          <div className="flex items-center gap-0.5 overflow-x-auto scrollbar-hide w-full sm:w-auto sm:flex-1">
+            {secciones.map((sec) => {
+              const isActive = active === sec.id
+              const hasPct   = sec.score != null && sec.max != null
+              const pct      = hasPct ? sec.score! / sec.max! : null
+              const colors   = pct !== null ? pctColors(pct) : null
+
+              return (
+                <button
+                  key={sec.id}
+                  onClick={() => scrollTo(sec.id)}
+                  className={`flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] whitespace-nowrap transition-all duration-150 ${
+                    isActive
+                      ? 'bg-gray-100 dark:bg-white/10 font-bold text-gray-900 dark:text-white'
+                      : 'font-medium text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
+                  }`}
+                >
+                  {hasPct && pct !== null && colors && (
+                    <span className={`font-bold tabular-nums text-[10px] ${colors.txt}`}>
+                      {sec.score}
+                    </span>
+                  )}
+                  {sec.label}
+                  {isActive && (
+                    <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+                      colors ? colors.dot : 'bg-gray-800 dark:bg-white'
+                    }`} />
+                  )}
+                </button>
+              )
+            })}
           </div>
 
           {/* Score total */}
