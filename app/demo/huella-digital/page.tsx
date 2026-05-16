@@ -112,7 +112,7 @@ export default function DemoHuellaDigitalPage() {
     <div className="min-h-screen bg-gray-50 pb-20">
 
       {/* ── Hero ────────────────────────────────────────── */}
-      <div className="bg-gradient-to-br from-pink-50 via-white to-purple-50 border-b border-gray-200">
+      <div className="bg-gradient-to-br from-violet-50 via-white to-purple-50 border-b border-gray-200">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-10">
 
           <Link href="https://innovando.cl" className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 hover:text-gray-900 mb-6">
@@ -124,8 +124,8 @@ export default function DemoHuellaDigitalPage() {
             <img src="/logo-innovando.png" alt="Innovando" className="h-10 w-10" />
             <div className="w-px h-5 bg-gray-300" />
             <div className="flex items-center gap-2">
-              <Heart className="w-4 h-4 text-pink-500" />
-              <p className="text-xs font-bold uppercase tracking-widest text-pink-600">Auditoría Huella Digital</p>
+              <Heart className="w-4 h-4 text-violet-500" />
+              <p className="text-xs font-bold uppercase tracking-widest text-violet-600">Auditoría Huella Digital</p>
             </div>
             <span className="ml-auto inline-flex items-center rounded-full bg-white border border-gray-200 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest text-gray-500">
               Demo · datos ficticios
@@ -355,7 +355,7 @@ export default function DemoHuellaDigitalPage() {
           {DEMO.recommendations.map((p, i) => (
             <div key={i} className="rounded-2xl border border-gray-200 bg-white p-6">
               <p className="text-sm font-bold text-gray-900 mb-3 inline-flex items-center gap-2">
-                <Clock className="w-4 h-4 text-pink-500" />
+                <Clock className="w-4 h-4 text-violet-500" />
                 {p.phase}
               </p>
               <ul className="flex flex-col gap-2">
@@ -371,10 +371,10 @@ export default function DemoHuellaDigitalPage() {
         </section>
 
         {/* ── CTA ────────────────────────────────────────── */}
-        <section className="rounded-2xl border border-pink-200 bg-gradient-to-br from-pink-50 to-purple-50 p-6 flex flex-wrap items-center justify-between gap-4">
+        <section className="rounded-2xl border border-violet-200 bg-gradient-to-br from-violet-50 to-purple-50 p-6 flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="text-sm font-bold text-pink-900">¿Querés que limpiemos esto por vos?</p>
-            <p className="text-xs text-pink-700 mt-0.5">Ofrecemos servicio de limpieza manual: solicitud de baja en directorios, eliminación de perfiles viejos y un informe final.</p>
+            <p className="text-sm font-bold text-violet-900">¿Querés que limpiemos esto por vos?</p>
+            <p className="text-xs text-violet-700 mt-0.5">Ofrecemos servicio de limpieza manual: solicitud de baja en directorios, eliminación de perfiles viejos y un informe final.</p>
           </div>
           <div className="flex flex-wrap gap-2">
             <a href="https://innovando.cl/es/huella-digital/limpieza-huella-digital"
@@ -383,7 +383,7 @@ export default function DemoHuellaDigitalPage() {
               <ChevronRight className="w-4 h-4" />
             </a>
             <a href="https://innovando.cl/es/huella-digital/auditoria-huella-digital"
-               className="inline-flex items-center gap-1.5 rounded-xl border border-pink-300 bg-white px-4 py-2 text-sm font-semibold text-pink-700 hover:bg-pink-50">
+               className="inline-flex items-center gap-1.5 rounded-xl border border-violet-300 bg-white px-4 py-2 text-sm font-semibold text-violet-700 hover:bg-violet-50">
               Pedir otra auditoría
             </a>
           </div>

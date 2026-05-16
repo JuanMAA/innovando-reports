@@ -135,7 +135,7 @@ export default function DemoAuditoriaWebPage() {
     <div className="min-h-screen bg-gray-50 pb-20">
 
       {/* ── Hero ────────────────────────────────────────── */}
-      <div className="bg-gradient-to-br from-amber-50 via-white to-orange-50 border-b border-gray-200">
+      <div className="bg-gradient-to-br from-blue-50 via-white to-sky-50 border-b border-gray-200">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8 sm:py-10">
 
           <Link href="https://innovando.cl" className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 hover:text-gray-900 mb-6">
@@ -148,8 +148,8 @@ export default function DemoAuditoriaWebPage() {
             <img src="/logo-innovando.png" alt="Innovando" className="h-10 w-10" />
             <div className="w-px h-5 bg-gray-300" />
             <div className="flex items-center gap-2">
-              <Globe className="w-4 h-4 text-amber-500" />
-              <p className="text-xs font-bold uppercase tracking-widest text-amber-600">Auditoría de Sitio Web</p>
+              <Globe className="w-4 h-4 text-blue-500" />
+              <p className="text-xs font-bold uppercase tracking-widest text-blue-600">Auditoría de Sitio Web</p>
             </div>
             <span className="ml-auto inline-flex items-center rounded-full bg-white border border-gray-200 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest text-gray-500">
               Demo · datos ficticios
@@ -367,7 +367,7 @@ export default function DemoAuditoriaWebPage() {
           {DEMO.plan.map((p, i) => (
             <div key={i} className="rounded-2xl border border-gray-200 bg-white p-6">
               <p className="text-sm font-bold text-gray-900 mb-3 inline-flex items-center gap-2">
-                <Clock className="w-4 h-4 text-amber-500" />
+                <Clock className="w-4 h-4 text-blue-500" />
                 {p.phase}
               </p>
               <ul className="flex flex-col gap-2">
@@ -383,10 +383,10 @@ export default function DemoAuditoriaWebPage() {
         </section>
 
         {/* ── CTAs ───────────────────────────────────────── */}
-        <section className="rounded-2xl border border-amber-200 bg-gradient-to-br from-amber-50 to-orange-50 p-6 flex flex-wrap items-center justify-between gap-4">
+        <section className="rounded-2xl border border-blue-200 bg-gradient-to-br from-blue-50 to-sky-50 p-6 flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="text-sm font-bold text-amber-900">¿Querés que lo arreglemos por vos?</p>
-            <p className="text-xs text-amber-700 mt-0.5">Cotizamos optimización completa o reemplazo del sitio según el alcance.</p>
+            <p className="text-sm font-bold text-blue-900">¿Querés que lo arreglemos por vos?</p>
+            <p className="text-xs text-blue-700 mt-0.5">Cotizamos optimización completa o reemplazo del sitio según el alcance.</p>
           </div>
           <div className="flex flex-wrap gap-2">
             <a href="https://innovando.cl/es/desarrollo/auditoria_web"
@@ -395,7 +395,7 @@ export default function DemoAuditoriaWebPage() {
               <ChevronRight className="w-4 h-4" />
             </a>
             <a href="https://innovando.cl/es/desarrollo/web_maintenance"
-               className="inline-flex items-center gap-1.5 rounded-xl border border-amber-300 bg-white px-4 py-2 text-sm font-semibold text-amber-700 hover:bg-amber-50">
+               className="inline-flex items-center gap-1.5 rounded-xl border border-blue-300 bg-white px-4 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-50">
               Plan de mantención
             </a>
           </div>
