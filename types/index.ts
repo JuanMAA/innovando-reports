@@ -81,8 +81,51 @@ export interface Report {
   modulo_p2d: ModuloData | null
   modulo_p2e: ModuloData | null
   modulo_p2f: ModuloData | null
+  modulo_sentimientos: SentimientosData | null
   is_public: boolean
   version: number
+}
+
+export interface SentimientosTema {
+  tema:      string
+  menciones: number
+  sample?:   string | null
+}
+
+export interface SentimientosResena {
+  autor:        string
+  rating:       number
+  fecha:        string          // ISO o "hace 3 meses"
+  texto:        string
+  sentimiento:  'positivo' | 'neutro' | 'negativo'
+  plataforma:   string          // 'google' | 'booking' | 'airbnb' | 'tripadvisor' | etc.
+}
+
+export interface SentimientosPalabra {
+  palabra:     string
+  peso:        number            // 0-100, controla tamaño en el cloud
+  sentimiento: 'pos' | 'neu' | 'neg'
+}
+
+export interface SentimientosEvolucion {
+  mes:   string                  // 'ene', 'feb', ... o '2026-01'
+  score: number                  // 0-100
+}
+
+export interface SentimientosData {
+  total_resenas:      number
+  resenas_analizadas: number
+  sentiment_score:    number             // 0-100
+  positivas_pct:      number
+  neutras_pct:        number
+  negativas_pct:      number
+  resumen:            string
+  temas_positivos:    SentimientosTema[]
+  temas_negativos:    SentimientosTema[]
+  resenas_destacadas: SentimientosResena[]
+  palabras_clave:     SentimientosPalabra[]
+  evolucion?:         SentimientosEvolucion[] | null
+  generated_at?:      string
 }
 
 export interface ModuloData {

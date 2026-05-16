@@ -107,6 +107,30 @@ export default async function ReportePage({ params }: PageProps) {
               <ModulosBars report={report} teaser />
             </div>
           </div>
+
+          {/* Acceso al informe de sentimientos — sólo si está disponible */}
+          {report.modulo_sentimientos && (
+            <a
+              href={`/${slug}/sentimientos`}
+              className="group flex items-center gap-4 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gradient-to-r from-pink-50 via-white to-blue-50 dark:from-pink-500/10 dark:via-gray-900 dark:to-blue-500/10 p-5 hover:shadow-md transition-shadow"
+            >
+              <div className="shrink-0 flex h-10 w-10 items-center justify-center rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm">
+                <span className="text-lg">💗</span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-bold text-gray-900 dark:text-white">
+                  Informe de análisis de sentimientos
+                </p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                  Score {report.modulo_sentimientos.sentiment_score}/100 · {report.modulo_sentimientos.resenas_analizadas} reseñas analizadas con IA
+                </p>
+              </div>
+              <span className="shrink-0 inline-flex items-center gap-1 text-xs font-semibold text-gray-600 dark:text-gray-300 group-hover:translate-x-0.5 transition-transform">
+                Ver informe
+                <span aria-hidden>→</span>
+              </span>
+            </a>
+          )}
         </section>
 
         {/* ── Sitio web ───────────────────────────────── */}
