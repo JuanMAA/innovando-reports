@@ -8,7 +8,10 @@ export const metadata = {
   description: 'Ejemplo del informe standalone de análisis de sentimientos de reseñas.',
 }
 
+// Mismos datos que /demo/presencia-digital — comparten el negocio ficticio.
 const DEMO_BUSINESS = {
+  id:     'demo-business-id',
+  slug:   'demo',
   name:   'Hostal El Mirador',
   city:   'Santiago, Chile',
   domain: 'hostalmirador.cl',
@@ -74,9 +77,9 @@ export default function DemoSentimientosPage() {
       <div className="print:hidden bg-gradient-to-br from-violet-50 via-white to-purple-50 dark:from-violet-500/10 dark:via-gray-900 dark:to-purple-500/10 border-b border-gray-200 dark:border-gray-700">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 py-6">
 
-          <Link href="https://innovando.cl" className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors mb-6">
+          <Link href="/demo/presencia-digital" className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors mb-6">
             <ArrowLeft className="w-3.5 h-3.5" />
-            innovando.cl
+            Volver al reporte
           </Link>
 
           <div className="flex items-center gap-4 mb-6 flex-wrap">

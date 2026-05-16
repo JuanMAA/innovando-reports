@@ -6,10 +6,12 @@ export const metadata = {
   description: 'Ejemplo de cómo se vería un sitio web generado con Innovando.',
 }
 
+// Mismos datos que /demo/presencia-digital — comparten el negocio ficticio.
 const DEMO_BUSINESS = {
   id:   'demo-business-id',
-  slug: 'hostal-el-mirador',
+  slug: 'demo',
   name: 'Hostal El Mirador',
+  city: 'Santiago, Chile',
 }
 
 export default function DemoWebPage() {
@@ -29,16 +31,16 @@ export default function DemoWebPage() {
               Demo · datos ficticios
             </span>
             <p className="text-sm text-gray-300 hidden sm:block">
-              Así se vería el sitio web de un negocio turístico con Innovando — ejemplo:{' '}
-              <span className="font-semibold text-white">{DEMO_BUSINESS.name}</span>
+              Así se vería el sitio web de{' '}
+              <span className="font-semibold text-white">{DEMO_BUSINESS.name}</span> con Innovando
             </p>
           </div>
           <div className="flex items-center gap-3 shrink-0">
             <a
-              href="https://innovando.cl"
+              href="/demo/presencia-digital"
               className="text-xs text-gray-400 hover:text-white transition-colors hidden sm:block"
             >
-              ← innovando.cl
+              ← Volver al reporte
             </a>
             <a
               href="https://innovando.cl/es/turismo/desarrollo-web"
