@@ -111,7 +111,7 @@ export default async function ReportePage({ params }: PageProps) {
           {/* Acceso al informe de sentimientos — sólo si está disponible */}
           {report.modulo_sentimientos && (
             <a
-              href={`/${slug}/presencia-digital/sentimientos`}
+              href={`/${slug}/sentimientos`}
               className="group flex items-center gap-4 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gradient-to-r from-pink-50 via-white to-blue-50 dark:from-pink-500/10 dark:via-gray-900 dark:to-blue-500/10 p-5 hover:shadow-md transition-shadow"
             >
               <div className="shrink-0 flex h-10 w-10 items-center justify-center rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm">

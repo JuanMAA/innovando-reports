@@ -71,7 +71,7 @@ export default async function SentimientosPage({ params }: PageProps) {
 
           {/* Volver al reporte */}
           <Link
-            href={`/${slug}/presencia-digital`}
+            href={`/${slug}`}
             className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors mb-6"
           >
             <ArrowLeft className="w-3.5 h-3.5" />

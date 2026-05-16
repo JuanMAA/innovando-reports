@@ -410,7 +410,7 @@ function CtaFooter({ business, slug, pricingNuevo, pricingOptimizar }: {
 
         {/* Demo preview link */}
         <a
-          href={`/${slug}/presencia-digital/web`}
+          href={`/${slug}/web`}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
