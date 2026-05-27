@@ -83,6 +83,11 @@ export interface Report {
   modulo_p2f: ModuloData | null
   modulo_sentimientos: SentimientosData | null
   is_public: boolean
+  // ── Paywall ──────────────────────────────────────────────
+  // Cada reporte nace bloqueado; el webhook de pagos lo libera.
+  is_unlocked:    boolean
+  unlocked_at:    string | null
+  unlock_order_id: string | null
   version: number
 }
 

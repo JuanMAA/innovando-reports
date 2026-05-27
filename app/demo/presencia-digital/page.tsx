@@ -159,6 +159,9 @@ const DEMO_REPORT: Report = {
     ],
   },
   is_public:   true,
+  is_unlocked: true,         // demo: mostrar como si estuviera desbloqueado
+  unlocked_at: null,
+  unlock_order_id: null,
   version:     1,
 }
 
